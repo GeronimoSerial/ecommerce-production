@@ -4,10 +4,12 @@
         <div class="row text-white g-4">
             <div class="col-12 col-md-6 col-lg-3">
                 <a class="text-decoration-none brand text-white d-block mb-3" href="<?= base_url('/') ?>">
-                    <img src="<?= base_url('public/images/workoutIcon.png') ?>" alt="FitSyn Logo" class="img-fluid me-2" style="max-height: 30px;">
+                    <img src="<?= base_url('public/images/workoutIcon.png') ?>" alt="FitSyn Logo" class="img-fluid me-2"
+                        style="max-height: 30px;">
                     <span class="align-middle">FITSYN</span>
                 </a>
-                <p class="text-white-50 fs-6">Tu tienda de confianza para todos los suplementos deportivos. Calidad premium y resultados garantizados para alcanzar tus objetivos fitness.</p>
+                <p class="text-white-50 fs-6">Tu tienda de confianza para todos los suplementos deportivos. Calidad
+                    premium y resultados garantizados para alcanzar tus objetivos fitness.</p>
             </div>
 
             <div class="col-12 col-md-6 col-lg-3">
@@ -71,8 +73,10 @@
                     <p class="text-white-50 mb-0">&copy; 2025 FitSyn. Todos los derechos reservados.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
-                    <a href="<?= base_url('/terminos') ?>" class="text-white-50 text-decoration-none me-3">Términos y Condiciones</a>
-                    <a href="<?= base_url('/comercializacion') ?>" class="text-white-50 text-decoration-none">Comercialización</a>
+                    <a href="<?= base_url('/terminos') ?>" class="text-white-50 text-decoration-none me-3">Términos y
+                        Condiciones</a>
+                    <a href="<?= base_url('/comercializacion') ?>"
+                        class="text-white-50 text-decoration-none">Comercialización</a>
                 </div>
             </div>
         </div>

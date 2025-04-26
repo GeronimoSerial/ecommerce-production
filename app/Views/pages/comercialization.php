@@ -3,16 +3,17 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-            <h1 class="display-5 fw-bold mb-3">Información de <span class="text-danger">Comercialización</span></h1>
-            <p class="lead">Todo lo que necesitas saber sobre nuestros servicios de entrega y pago</p>
+                <h1 class="display-5 fw-bold mb-3">Información de <span class="text-danger">Comercialización</span></h1>
+                <p class="lead">Todo lo que necesitas saber sobre nuestros servicios de entrega y pago</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('public/images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid" style="max-height: 300px;">
+                <img src="<?= base_url('public/images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid"
+                    style="max-height: 300px;">
             </div>
         </div>
     </div>
 </div>
-     
+
 <!-- Comercialización -->
 <div class="container-fluid py-5 bg-hero">
     <div class="container">
@@ -34,7 +35,8 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h4 class="fs-5 fw-bold">Retiro en Tienda</h4>
-                                        <p class="text-muted mb-0">Retirá tu pedido en nuestra tienda física sin costo adicional. Disponible de lunes a viernes de 9:00 a 18:00 hs.</p>
+                                        <p class="text-muted mb-0">Retirá tu pedido en nuestra tienda física sin costo
+                                            adicional. Disponible de lunes a viernes de 9:00 a 18:00 hs.</p>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +47,8 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h4 class="fs-5 fw-bold">Envío a Domicilio</h4>
-                                        <p class="text-muted mb-0">Recibí tu pedido en la comodidad de tu hogar. Realizamos envíos a todo el país.</p>
+                                        <p class="text-muted mb-0">Recibí tu pedido en la comodidad de tu hogar.
+                                            Realizamos envíos a todo el país.</p>
                                     </div>
                                 </div>
                             </div>
@@ -70,9 +73,14 @@
                                     <div class="card-body p-4">
                                         <h4 class="fs-5 fw-bold mb-3">Envío Express</h4>
                                         <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Entrega en 24-48hs</li>
-                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Seguimiento en tiempo real</li>
-                                            <li><i class="bi bi-check2-circle text-success me-2"></i>Disponible en zonas céntricas</li>
+                                            <li class="mb-2"><i
+                                                    class="bi bi-check2-circle text-success me-2"></i>Entrega en 24-48hs
+                                            </li>
+                                            <li class="mb-2"><i
+                                                    class="bi bi-check2-circle text-success me-2"></i>Seguimiento en
+                                                tiempo real</li>
+                                            <li><i class="bi bi-check2-circle text-success me-2"></i>Disponible en zonas
+                                                céntricas</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -82,9 +90,14 @@
                                     <div class="card-body p-4">
                                         <h4 class="fs-5 fw-bold mb-3">Envío Estándar</h4>
                                         <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Entrega en 3-5 días hábiles</li>
-                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Cobertura nacional</li>
-                                            <li><i class="bi bi-check2-circle text-success me-2"></i>Envío gratis en compras mayores a $100.000</li>
+                                            <li class="mb-2"><i
+                                                    class="bi bi-check2-circle text-success me-2"></i>Entrega en 3-5
+                                                días hábiles</li>
+                                            <li class="mb-2"><i
+                                                    class="bi bi-check2-circle text-success me-2"></i>Cobertura nacional
+                                            </li>
+                                            <li><i class="bi bi-check2-circle text-success me-2"></i>Envío gratis en
+                                                compras mayores a $100.000</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -94,9 +107,13 @@
                                     <div class="card-body p-4">
                                         <h4 class="fs-5 fw-bold mb-3">Envío Internacional</h4>
                                         <ul class="list-unstyled mb-0">
-                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Entrega en 7-15 días hábiles</li>
-                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Envíos a países limítrofes</li>
-                                            <li><i class="bi bi-check2-circle text-success me-2"></i>Seguimiento internacional</li>
+                                            <li class="mb-2"><i
+                                                    class="bi bi-check2-circle text-success me-2"></i>Entrega en 7-15
+                                                días hábiles</li>
+                                            <li class="mb-2"><i class="bi bi-check2-circle text-success me-2"></i>Envíos
+                                                a países limítrofes</li>
+                                            <li><i class="bi bi-check2-circle text-success me-2"></i>Seguimiento
+                                                internacional</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -163,10 +180,12 @@
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <h4 class="fs-5 fw-bold mb-3">Política de Devoluciones</h4>
-                                <p class="text-muted mb-4">Aceptamos devoluciones dentro de los 30 días posteriores a la compra. El producto debe estar sin abrir y en su empaque original.</p>
-                                
+                                <p class="text-muted mb-4">Aceptamos devoluciones dentro de los 30 días posteriores a la
+                                    compra. El producto debe estar sin abrir y en su empaque original.</p>
+
                                 <h4 class="fs-5 fw-bold mb-3">Garantía de Satisfacción</h4>
-                                <p class="text-muted mb-0">Si no estás satisfecho con tu compra, te devolvemos el 100% de tu dinero sin hacer preguntas.</p>
+                                <p class="text-muted mb-0">Si no estás satisfecho con tu compra, te devolvemos el 100%
+                                    de tu dinero sin hacer preguntas.</p>
                             </div>
                             <div class="col-md-6">
                                 <h4 class="fs-5 fw-bold mb-3">Horarios de Atención</h4>
@@ -175,7 +194,7 @@
                                     <li class="mb-2"><strong>Sábados:</strong> 9:00 - 13:00 hs</li>
                                     <li class="mb-4"><strong>Domingos y Feriados:</strong> Cerrado</li>
                                 </ul>
-                                
+
                                 <h4 class="fs-5 fw-bold mb-3">Contacto</h4>
                                 <ul class="list-unstyled text-muted mb-0">
                                     <li class="mb-2"><i class="bi bi-telephone me-2"></i>+54 123 456 789</li>
