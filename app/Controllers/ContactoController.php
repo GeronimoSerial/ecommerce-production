@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-class Contact extends BaseController
+class ContactoController extends BaseController
 {
-    public function index(){
+    public function index()
+    {
         return view('templates/main_layout', [
             'title' => 'Contacto',
             'content' => view('pages/contact')
@@ -19,7 +20,7 @@ class Contact extends BaseController
             'email' => 'required|valid_email',
             'message' => 'required|min_length[10]'
         ];
-        
+
         if (!$this->validate($rules)) {
             // Si la validación falla, mostrar errores
             return view('templates/main_layout', [
@@ -29,15 +30,16 @@ class Contact extends BaseController
                 ])
             ]);
         }
-        
+
         // Procesar el formulario (en una implementación completa, 
         // aquí se enviaría un email)
-        
+
         // Redirigir con mensaje de éxito
-        return redirect()->to('/contact')->with('message', 
-            'Gracias por contactarnos. Te responderemos a la brevedad.');
+        return redirect()->to('/contact')->with(
+            'message',
+            'Gracias por contactarnos. Te responderemos a la brevedad.'
+        );
     }
 }
 
 
-            

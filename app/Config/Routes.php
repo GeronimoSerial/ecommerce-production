@@ -29,20 +29,20 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Pages::index');
-$routes->get('/comercializacion', 'Pages::comercialization');
-$routes->get('/terminos', 'Pages::terms');
-$routes->get('/nosotros', 'Pages::about');
-$routes->get('/contacto', 'Contact::index');
+$routes->get('/', 'HomeController::index');
+$routes->get('/comercializacion', 'ComercializacionController::index');
+$routes->get('/terminos', 'TerminosController::index');
+$routes->get('/nosotros', 'NosotrosController::index');
+$routes->get('/contacto', 'ContactoController::index');
 
 // Rutas del registro de usuarios
-$routes->get('/registro','UsuarioController::create'); 
-$routes->post('/enviar-form','UsuarioController::formValidation');
+$routes->get('/registro', 'UsuarioController::create');
+$routes->post('/enviar-form', 'UsuarioController::formValidation');
 
 // Rutas del Login
 $routes->get('/login', 'LoginController');
-$routes->post('/enviarlogin','LoginController::auth');
-$routes->get('/panel','PanelController::index', ['filter'=> 'auth']);
+$routes->post('/enviarlogin', 'LoginController::auth');
+$routes->get('/panel', 'PanelController::index', ['filter' => 'auth']);
 $routes->get('/logout', 'LoginController::logout');
 
 /*

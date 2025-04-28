@@ -8,10 +8,13 @@ $session = session();
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <h1 class="display-4 fw-bold mb-4">Quiénes <span class="text-danger">Somos</span></h1>
-                <p class="lead mb-4">En FitSyn, nos dedicamos a proporcionar los mejores suplementos deportivos para ayudarte a alcanzar tus objetivos fitness. Nuestra pasión por la salud y el bienestar nos impulsa a ofrecer productos de la más alta calidad.</p>
+                <p class="lead mb-4">En FitSyn, nos dedicamos a proporcionar los mejores suplementos deportivos para
+                    ayudarte a alcanzar tus objetivos fitness. Nuestra pasión por la salud y el bienestar nos impulsa a
+                    ofrecer productos de la más alta calidad.</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('public/images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid big-logo">
+                <img src="<?= base_url('public/images/workoutIconabout.webp') ?>" alt="FitSyn Logo"
+                    class="img-fluid big-logo">
             </div>
         </div>
     </div>
@@ -23,7 +26,10 @@ $session = session();
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
                 <h2 class="fw-bold mb-4">Nuestra <span class="text-danger">Historia</span></h2>
-                <p class="text-muted mb-4">Fundada en 2025, FitSyn nació con la visión de revolucionar la industria de suplementos deportivos en Argentina. Comenzamos como una pequeña tienda en Corrientes y hemos crecido hasta convertirnos en un referente nacional en la comercialización de suplementos deportivos de alta calidad.</p>
+                <p class="text-muted mb-4">Fundada en 2025, FitSyn nació con la visión de revolucionar la industria de
+                    suplementos deportivos en Argentina. Comenzamos como una pequeña tienda en Corrientes y hemos
+                    crecido hasta convertirnos en un referente nacional en la comercialización de suplementos deportivos
+                    de alta calidad.</p>
             </div>
         </div>
     </div>
@@ -37,24 +43,28 @@ $session = session();
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <div class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
+                        <div
+                            class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
                             <i class="bi bi-person-fill text-white fs-1"></i>
                         </div>
                         <h4 class="fw-bold">Alejandro Cintas Gutierrez</h4>
                         <p class="text-danger">CEO</p>
-                        <p class="small text-muted">Con más de 10 años de experiencia en la industria fitness, lidera la visión estratégica de FitSyn.</p>
+                        <p class="small text-muted">Con más de 10 años de experiencia en la industria fitness, lidera la
+                            visión estratégica de FitSyn.</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <div class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
+                        <div
+                            class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
                             <i class="bi bi-person-fill text-white fs-1"></i>
                         </div>
                         <h4 class="fw-bold">Geronimo Serial</h4>
                         <p class="text-danger">Director de Operaciones</p>
-                        <p class="small text-muted">Especialista en logística y operaciones, garantiza la eficiencia en todos nuestros procesos.</p>
+                        <p class="small text-muted">Especialista en logística y operaciones, garantiza la eficiencia en
+                            todos nuestros procesos.</p>
                     </div>
                 </div>
             </div>
@@ -139,4 +149,3 @@ $session = session();
         </div>
     </div>
 </section>
-

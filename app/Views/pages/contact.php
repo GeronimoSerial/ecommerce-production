@@ -6,7 +6,8 @@
                 <div class="text-center mb-5">
                     <span class="badge bg-danger px-3 py-2 mb-3">CONTACTO</span>
                     <h1 class="display-5 fw-bold mb-3">¿Tienes alguna pregunta?</h1>
-                    <p class="lead text-muted">Estamos aquí para ayudarte. Completa el formulario y nos pondremos en contacto contigo lo antes posible.</p>
+                    <p class="lead text-muted">Estamos aquí para ayudarte. Completa el formulario y nos pondremos en
+                        contacto contigo lo antes posible.</p>
                 </div>
 
                 <div class="card border-0 shadow-lg rounded-4 bg-hero">
@@ -20,9 +21,10 @@
                                             <span class="input-group-text bg-danger text-white border-0">
                                                 <i class="bi bi-person"></i>
                                             </span>
-                                            <input type="text" class="form-control" id="nombre" name="name" required placeholder="Tu nombre">
+                                            <input type="text" class="form-control" id="nombre" name="name" required
+                                                placeholder="Tu nombre">
                                         </div>
-                                        <?php if(isset($validation) && $validation->hasError('name')): ?>
+                                        <?php if (isset($validation) && $validation->hasError('name')): ?>
                                             <div class="text-danger mt-2">
                                                 <?= $validation->getError('name') ?>
                                             </div>
@@ -36,9 +38,10 @@
                                             <span class="input-group-text bg-danger text-white border-0">
                                                 <i class="bi bi-envelope"></i>
                                             </span>
-                                            <input type="email" class="form-control" id="email" name="email" required placeholder="tu@email.com">
+                                            <input type="email" class="form-control" id="email" name="email" required
+                                                placeholder="tu@email.com">
                                         </div>
-                                        <?php if(isset($validation) && $validation->hasError('email')): ?>
+                                        <?php if (isset($validation) && $validation->hasError('email')): ?>
                                             <div class="text-danger mt-2">
                                                 <?= $validation->getError('email') ?>
                                             </div>
@@ -52,9 +55,10 @@
                                             <span class="input-group-text bg-danger text-white border-0">
                                                 <i class="bi bi-tag"></i>
                                             </span>
-                                            <input type="text" class="form-control" id="asunto" name="asunto" required placeholder="Asunto de tu mensaje">
+                                            <input type="text" class="form-control" id="asunto" name="asunto" required
+                                                placeholder="Asunto de tu mensaje">
                                         </div>
-                                        <?php if(isset($validation) && $validation->hasError('asunto')): ?>
+                                        <?php if (isset($validation) && $validation->hasError('asunto')): ?>
                                             <div class="text-danger mt-2">
                                                 <?= $validation->getError('asunto') ?>
                                             </div>
@@ -68,9 +72,10 @@
                                             <span class="input-group-text bg-danger text-white border-0">
                                                 <i class="bi bi-chat"></i>
                                             </span>
-                                            <textarea class="form-control" id="mensaje" name="message" rows="5" required placeholder="Escribe tu mensaje aquí..."></textarea>
+                                            <textarea class="form-control" id="mensaje" name="message" rows="5" required
+                                                placeholder="Escribe tu mensaje aquí..."></textarea>
                                         </div>
-                                        <?php if(isset($validation) && $validation->hasError('message')): ?>
+                                        <?php if (isset($validation) && $validation->hasError('message')): ?>
                                             <div class="text-danger mt-2">
                                                 <?= $validation->getError('message') ?>
                                             </div>
@@ -118,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Información Legal de la Empresa -->
                 <div class="card border-0 shadow-lg rounded-4 mt-5">
                     <div class="card-body p-4">
@@ -126,7 +131,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <h5 class="fw-bold"><i class="bi bi-person-badge text-danger me-2"></i>Titulares de la Empresa</h5>
+                                    <h5 class="fw-bold"><i class="bi bi-person-badge text-danger me-2"></i>Titulares de
+                                        la Empresa</h5>
                                     <p class="text-muted">Alejandro Cinta Gutierrez, Geronimo Serial</p>
                                 </div>
                                 <div class="mb-3">
@@ -136,18 +142,23 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <h5 class="fw-bold"><i class="bi bi-geo-alt text-danger me-2"></i>Domicilio Legal</h5>
+                                    <h5 class="fw-bold"><i class="bi bi-geo-alt text-danger me-2"></i>Domicilio Legal
+                                    </h5>
                                     <p class="text-muted">Calle Fitness 88, Corrientes, Argentina</p>
                                 </div>
                                 <div class="mb-3">
-                                    <h5 class="fw-bold"><i class="bi bi-telephone text-danger me-2"></i>Teléfonos Adicionales</h5>
-                                    <p class="text-muted">Oficina Central: +54 379 4123456<br>Atención al Cliente: 0800-123-4567</p>
+                                    <h5 class="fw-bold"><i class="bi bi-telephone text-danger me-2"></i>Teléfonos
+                                        Adicionales</h5>
+                                    <p class="text-muted">Oficina Central: +54 379 4123456<br>Atención al Cliente:
+                                        0800-123-4567</p>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-0">
-                                    <h5 class="fw-bold"><i class="bi bi-info-circle text-danger me-2"></i>Información Adicional</h5>
-                                    <p class="text-muted mb-0">CUIT: 30-71234567-8<br>Horario de Atención: Lunes a Viernes de 9:00 a 18:00 hs</p>
+                                    <h5 class="fw-bold"><i class="bi bi-info-circle text-danger me-2"></i>Información
+                                        Adicional</h5>
+                                    <p class="text-muted mb-0">CUIT: 30-71234567-8<br>Horario de Atención: Lunes a
+                                        Viernes de 9:00 a 18:00 hs</p>
                                 </div>
                             </div>
                         </div>
