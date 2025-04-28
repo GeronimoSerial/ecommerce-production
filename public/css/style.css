@@ -205,6 +205,18 @@ footer a:hover{
     transform: scale(1.1);
 }
 
+.card-img-wrapper {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.card-img-wrapper img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+}
 
 /* Controles del Carousel */
 .carousel-control-prev,
