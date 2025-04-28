@@ -37,13 +37,24 @@ $routes->get('/contacto', 'ContactoController::index');
 
 // Rutas del registro de usuarios
 $routes->get('/registro', 'UsuarioController::create');
-$routes->post('/enviar-form', 'UsuarioController::formValidation');
+//$routes->post('/enviar-form', 'UsuarioController::formValidation');
 
 // Rutas del Login
 $routes->get('/login', 'LoginController');
-$routes->post('/enviarlogin', 'LoginController::auth');
-$routes->get('/panel', 'PanelController::index', ['filter' => 'auth']);
-$routes->get('/logout', 'LoginController::logout');
+
+//$routes->get('/logout', 'LoginController::logout');
+//$routes->post('/enviarlogin', 'LoginController::auth');
+//$routes->get('/panel', 'PanelController::index', ['filter' => 'auth']);
+
+
+
+$routes->set404Override(function () {
+    return view('templates/main_layout', [
+        'title' => 'Página no encontrada',
+        'content' => view('errors/cli/error_404')
+    ]);
+});
+
 
 /*
  * --------------------------------------------------------------------

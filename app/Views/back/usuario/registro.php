@@ -1,10 +1,3 @@
-<?php if (!empty(session()->getFlashdata('fail'))): ?>
-    <div class="alert alert-danger"><?=session()->getFlashdata('fail'); ?></div>
-<?php endif; ?>
-<?php if (!empty(session()->getFlashdata('success'))): ?>
-    <div class="alert alert-success"><?=session()->getFlashdata('success'); ?></div>
-<?php endif; ?>
-
 <div class="login-container py-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -13,47 +6,43 @@
                     <h2 class="text-center mb-4">CREAR CUENTA</h2>
                     <p class="text-center mb-4">¡Únete a nuestra comunidad fitness y comienza tu transformación!</p>
                     
-                    <?php $validation = \Config\Services::validation(); ?>
-                    <form method="post" action="<?php echo base_url('/enviar-form') ?>" class="login-form row g-3 needs-validation" novalidate>
-                        <?= csrf_field();?>
-                        
+                    <form method="post" action="<?php echo base_url('/enviar-form') ?>"
+                        class="login-form row g-3 needs-validation" novalidate>
+                        <?= csrf_field(); ?>
+
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom01" class="form-label">NOMBRE</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input name="nombre" type="text" class="form-control" id="validationCustom01" placeholder="Juan" required>
+                                <input name="nombre" type="text" class="form-control" id="validationCustom01"
+                                    placeholder="Juan" required>
                             </div>
-                            <?php if ($validation->getError('nombre')): ?>
-                                <div class="alert alert-danger mt-2">
-                                    <?= $error = $validation->getError('nombre'); ?>
-                                </div>
-                            <?php endif; ?>
+
+
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom02" class="form-label">APELLIDO</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input name="apellido" type="text" class="form-control" id="validationCustom02" placeholder="Pérez" required>
+                                <input name="apellido" type="text" class="form-control" id="validationCustom02"
+                                    placeholder="Pérez" required>
                             </div>
-                            <?php if ($validation->getError('apellido')): ?>
-                                <div class="alert alert-danger mt-2">
-                                    <?= $error = $validation->getError('apellido'); ?>
-                                </div>
-                            <?php endif; ?>
+
+
+
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="validationCustomUsername" class="form-label">NOMBRE DE USUARIO</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-at"></i></span>
-                                <input name="usuario" type="text" class="form-control" id="validationCustomUsername" required>
+                                <input name="usuario" type="text" class="form-control" id="validationCustomUsername"
+                                    required>
                             </div>
-                            <?php if ($validation->getError('usuario')): ?>
-                                <div class="alert alert-danger mt-2">
-                                    <?= $error = $validation->getError('usuario'); ?>
-                                </div>
-                            <?php endif; ?>
+
+
+
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -62,11 +51,8 @@
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                 <input name="email" type="email" class="form-control" id="validationCustom03" required>
                             </div>
-                            <?php if ($validation->getError('email')): ?>
-                                <div class="alert alert-danger mt-2">
-                                    <?= $error = $validation->getError('email'); ?>
-                                </div>
-                            <?php endif; ?>
+
+
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -106,13 +92,12 @@
                             <label for="validationCustom05" class="form-label">CONTRASEÑA</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input name="pass" type="password" class="form-control" id="validationCustom05" required>
+                                <input name="pass" type="password" class="form-control" id="validationCustom05"
+                                    required>
                             </div>
-                            <?php if ($validation->getError('pass')): ?>
-                                <div class="alert alert-danger mt-2">
-                                    <?= $error = $validation->getError('pass'); ?>
-                                </div>
-                            <?php endif; ?>
+
+
+
                         </div>
 
                         <div class="col-12 mb-3">
