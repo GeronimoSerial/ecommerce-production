@@ -34,6 +34,15 @@ $routes->get('/comercializacion', 'ComercializacionController::index');
 $routes->get('/terminos', 'TerminosController::index');
 $routes->get('/nosotros', 'NosotrosController::index');
 $routes->get('/contacto', 'ContactoController::index');
+$routes->get('/productos/proteinas', 'ProductosController::proteinas');
+$routes->get('/productos/creatinas', 'ProductosController::creatinas');
+$routes->get('/productos/colagenos', 'ProductosController::colagenos');
+$routes->get('/productos/accesorios', 'ProductosController::accesorios');
+$routes->get('/productos', 'ProductosController::index');
+$routes->get('/back/usuario/crear', 'UsuarioController::create');
+$routes->post('/back/usuario/guardar', 'UsuarioController::store');
+$routes->get('/back/usuario/listar', 'UsuarioController::listar');
+$routes->get('test-db', 'TestDB::index');
 
 // Rutas del registro de usuarios
 $routes->get('/registro', 'UsuarioController::create');
@@ -45,7 +54,6 @@ $routes->get('/login', 'LoginController');
 //$routes->get('/logout', 'LoginController::logout');
 //$routes->post('/enviarlogin', 'LoginController::auth');
 //$routes->get('/panel', 'PanelController::index', ['filter' => 'auth']);
-
 
 
 $routes->set404Override(function () {

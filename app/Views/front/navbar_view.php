@@ -57,8 +57,17 @@ $perfil = $session->get('perfil_id');
                 <li class="nav-item px-2 py-2">
                     <a class="nav-link text-dark" href="<?= base_url('/') ?>">INICIO</a>
                 </li>
-                <li class="nav-item px-2 py-2">
-                    <a class="nav-link text-dark" href="<?= base_url('#productos') ?>">PRODUCTOS</a>
+                <li class="nav-item dropdown px-2 py-2">
+                    <a class="nav-link text-dark dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        PRODUCTOS
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="productosDropdown">
+                        <li><a class="dropdown-item" href="<?= base_url('/productos/proteinas') ?>">Proteínas</a></li>
+                        <li><a class="dropdown-item" href="#">Creatinas</a></li>
+                        <li><a class="dropdown-item" href="#">Pre-entrenos</a></li>
+                        <li><a class="dropdown-item" href="#">Vitaminas</a></li>
+                        <li><a class="dropdown-item" href="#">Accesorios</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item px-2 py-2">
                     <a class="nav-link text-dark" href="<?= base_url('/comercializacion') ?>">COMERCIALIZACIÓN</a>

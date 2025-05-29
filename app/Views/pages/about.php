@@ -47,24 +47,12 @@ $session = session();
                             class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
                             <i class="bi bi-person-fill text-white fs-1"></i>
                         </div>
-                        <h4 class="fw-bold">Alejandro Cintas Gutierrez</h4>
-                        <p class="text-danger">CEO</p>
-                        <p class="small text-muted">Con más de 10 años de experiencia en la industria fitness, lidera la
-                            visión estratégica de FitSyn.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center p-4">
-                        <div
-                            class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
-                            <i class="bi bi-person-fill text-white fs-1"></i>
-                        </div>
                         <h4 class="fw-bold">Geronimo Serial</h4>
-                        <p class="text-danger">Director de Operaciones</p>
-                        <p class="small text-muted">Especialista en logística y operaciones, garantiza la eficiencia en
-                            todos nuestros procesos.</p>
+                        <p class="text-danger">CEO y Director de Operaciones</p>
+                        <p class="small text-muted">Con más de 10 años de experiencia en la industria fitness, lidera
+                            la
+                            visión estratégica de FitSyn</p>
+                        <a href="https://www.geroserial.com" class="text-danger"> Conocéme</a>
                     </div>
                 </div>
             </div>

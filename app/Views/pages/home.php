@@ -49,84 +49,111 @@
         <div class="row g-3 g-md-4">
             <!-- Proteínas -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <div class="category-card position-relative overflow-hidden rounded-4 shadow-lg h-100">
-                        <div class="category-img">
-                            <img src="<?= base_url('public/images/proteinas.webp') ?>"
-                                class="img-fluid w-100 category-image" alt="Proteínas">
+                <a href="<?= base_url('/productos/proteinas') ?>" class="text-decoration-none">
+                    <div class="tilt-card h-100">
+                        <div class="tilt-card-inner">
+                            <div class="tilt-card-content">
+                                <div class="card-overlay">
+                                    <div class="overlay-content">
+                                        <h3 class="overlay-title">Proteínas</h3>
+                                        <p class="overlay-text">Maximiza tu recuperación muscular</p>
+                                        <div class="overlay-arrow">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="<?= base_url('public/images/proteinas.webp') ?>" alt="Proteínas"
+                                    class="img-fluid rounded-3">
+                            </div>
                         </div>
-                        <div
-                            class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-3 p-md-4">
-                            <h3 class="text-white h5 h4-md mb-2">Proteínas</h3>
-                            <p class="text-white-50 mb-3 small">Maximiza tu recuperación muscular</p>
-                            <div class="btn btn-light btn-sm px-3 px-md-4 py-2 opacity-0 transform-bottom">
-                                Explorar <i class="fas fa-arrow-right ms-2"></i>
+                    </div>
+                </a>
+            </div>
+            <!-- Creatinas -->
+            <!-- Proteínas -->
+            <div class="col-12 col-sm-6 col-lg-3">
+                <a href="<?= base_url('/productos/creatinas') ?>" class="text-decoration-none">
+                    <div class="tilt-card h-100">
+                        <div class="tilt-card-inner">
+                            <div class="tilt-card-content">
+                                <div class="card-overlay">
+                                    <div class="overlay-content">
+                                        <h3 class="overlay-title">Creatinas</h3>
+                                        <p class="overlay-text">Potencia tu rendimiento físico</p>
+                                        <div class="overlay-arrow">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="<?= base_url('public/images/creatina.png') ?>" alt="Creatinas"
+                                    class="img-fluid rounded-3">
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
 
-            <!-- Creatinas -->
-            <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <div class="category-card position-relative overflow-hidden rounded-4 shadow-lg h-100">
-                        <div class="category-img">
-                            <img src="<?= base_url('public/images/creatina.png') ?>"
-                                class="img-fluid w-100 category-image" alt="Creatinas">
-                        </div>
-                        <div
-                            class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-3 p-md-4">
-                            <h3 class="text-white h5 h4-md mb-2">Creatinas</h3>
-                            <p class="text-white-50 mb-3 small">Potencia tu rendimiento</p>
-                            <div class="btn btn-light btn-sm px-3 px-md-4 py-2 opacity-0 transform-bottom">
-                                Explorar <i class="fas fa-arrow-right ms-2"></i>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
 
             <!-- Colágenos -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <div class="category-card position-relative overflow-hidden rounded-4 shadow-lg h-100">
-                        <div class="category-img">
-                            <img src="<?= base_url('public/images/colageno.webp') ?>"
-                                class="img-fluid w-100 category-image" alt="Colágenos">
-                        </div>
-                        <div
-                            class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-3 p-md-4">
-                            <h3 class="text-white h5 h4-md mb-2">Colágenos</h3>
-                            <p class="text-white-50 mb-3 small">Cuida tu piel y articulaciones</p>
-                            <div class="btn btn-light btn-sm px-3 px-md-4 py-2 opacity-0 transform-bottom">
-                                Explorar <i class="fas fa-arrow-right ms-2"></i>
+                <a href="<?= base_url('/productos/colagenos ') ?>" class="text-decoration-none">
+                    <div class="tilt-card h-100">
+                        <div class="tilt-card-inner">
+                            <div class="tilt-card-content">
+                                <div class="card-overlay">
+                                    <div class="overlay-content">
+                                        <h3 class="overlay-title">Colágenos</h3>
+                                        <p class="overlay-text">Cuida tu piel y articulaciones</p>
+                                        <div class="overlay-arrow">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="<?= base_url('public/images/colageno.webp') ?>" alt="Colágenos"
+                                    class="img-fluid rounded-3">
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
 
+
             <!-- Accesorios -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                    <div class="category-card position-relative overflow-hidden rounded-4 shadow-lg h-100">
-                        <div class="category-img">
-                            <img src="<?= base_url('public/images/accesorios.webp') ?>"
-                                class="img-fluid w-100 category-image" alt="Accesorios">
-                        </div>
-                        <div
-                            class="category-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-3 p-md-4">
-                            <h3 class="text-white h5 h4-md mb-2">Accesorios</h3>
-                            <p class="text-white-50 mb-3 small">Complementa tu entrenamiento</p>
-                            <div class="btn btn-light btn-sm px-3 px-md-4 py-2 opacity-0 transform-bottom">
-                                Explorar <i class="fas fa-arrow-right ms-2"></i>
+                <a href="<?= base_url('/productos/accesorios') ?>" class="text-decoration-none">
+                    <div class="tilt-card h-100">
+                        <div class="tilt-card-inner">
+                            <div class="tilt-card-content">
+                                <div class="card-overlay">
+                                    <div class="overlay-content">
+                                        <h3 class="overlay-title">Accesorios</h3>
+                                        <p class="overlay-text">Complementa tu entrenamiento</p>
+                                        <div class="overlay-arrow">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img src="<?= base_url('public/images/accesorios.webp') ?>" alt="Accesorios"
+                                    class="img-fluid rounded-3">
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
         </div>
+    </div>
     </div>
 </section>
 
@@ -140,7 +167,11 @@
         <div class="row g-5">
             <!-- PROTEINAS -->
             <div class="col-12">
-                <h3 class="fs-4 mb-4 text-primary text-center">Top en Proteínas</h3>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fs-4 text-primary mb-0">Top en Proteínas</h3>
+                    <a href="<?= base_url('/productos/proteinas') ?>" class="btn btn-outline-primary btn-sm">Ver todos
+                        <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
                 <div class="row g-4 mt-3">
                     <!-- Producto -->
                     <div class="col-md-4">
