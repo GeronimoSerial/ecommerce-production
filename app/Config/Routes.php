@@ -39,14 +39,11 @@ $routes->get('/productos/creatinas', 'ProductosController::creatinas');
 $routes->get('/productos/colagenos', 'ProductosController::colagenos');
 $routes->get('/productos/accesorios', 'ProductosController::accesorios');
 $routes->get('/productos', 'ProductosController::index');
-$routes->get('/back/usuario/crear', 'UsuarioController::create');
-$routes->post('/back/usuario/guardar', 'UsuarioController::store');
-$routes->get('/back/usuario/listar', 'UsuarioController::listar');
 $routes->get('test-db', 'TestDB::index');
 
 // Rutas del registro de usuarios
 $routes->get('/registro', 'UsuarioController::create');
-//$routes->post('/enviar-form', 'UsuarioController::formValidation');
+$routes->post('/enviar-form', 'UsuarioController::formValidation');
 
 // Rutas del Login
 $routes->get('/login', 'LoginController');
@@ -54,6 +51,8 @@ $routes->get('/login', 'LoginController');
 //$routes->get('/logout', 'LoginController::logout');
 //$routes->post('/enviarlogin', 'LoginController::auth');
 //$routes->get('/panel', 'PanelController::index', ['filter' => 'auth']);
+
+
 
 
 $routes->set404Override(function () {
@@ -77,6 +76,8 @@ $routes->set404Override(function () {
  * You will have access to the $routes object within that file without
  * needing to reload it.
  */
+
+ 
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }
