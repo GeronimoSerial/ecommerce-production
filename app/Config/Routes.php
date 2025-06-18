@@ -39,11 +39,10 @@ $routes->get('/productos/creatinas', 'ProductosController::creatinas');
 $routes->get('/productos/colagenos', 'ProductosController::colagenos');
 $routes->get('/productos/accesorios', 'ProductosController::accesorios');
 $routes->get('/productos', 'ProductosController::index');
-$routes->get('test-db', 'TestDB::index');
 
 // Rutas del registro de usuarios
-$routes->get('/registro', 'UsuarioController::create');
-$routes->post('/enviar-form', 'UsuarioController::formValidation');
+$routes->get('registro', 'UsuarioController::create');       // Muestra el formulario
+$routes->post('registro', 'UsuarioController::formValidation'); // Procesa el formulario
 
 // Rutas del Login
 $routes->get('/login', 'LoginController');
@@ -77,7 +76,7 @@ $routes->set404Override(function () {
  * needing to reload it.
  */
 
- 
+
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

@@ -1,55 +1,87 @@
 <?php
-namespace App\Controllers;
-use App\Models\UsuarioModel;
-use CodeIgniter\Controller;
 
-class UsuarioController extends Controller {
-    public function __construct() {
+namespace App\Controllers;
+
+use App\Controllers\BaseController;
+use App\Models\DomicilioModel;
+use App\Models\PersonaModel;
+use App\Models\UsuarioModel;
+
+class UsuarioController extends BaseController
+{
+    public function __construct()
+    {
         helper(['form', 'url']);
     }
 
-    public function create() {
+    public function create()
+    {
         return view('templates/main_layout', [
             'title' => 'Registro',
             'content' => view('back/usuario/registro')
-        ]); 
+        ]);
     }
 
-    public function formValidation() {
-        $input = $this->validate([
-            'nombre' => 'required|min_length[3]',
-            'apellido' => 'required|min_length[3]|max_length[25]',
-            'usuario' => 'required|min_length[3]',
-            'email' => 'required|min_length[3]|max_length[100]|valid_email',
-            'pass' => 'required|min_length[3]|max_length[10]'
-        ]);
-    
-        $formModel = new UsuarioModel();
-        $email = $this->request->getVar('email');
-        
-        // Verificar si el email ya está en uso
-        if ($formModel->where('email', $email)->first()) {
-            session()->setFlashdata('fail', 'El email ya está en uso.');
-            return redirect()->to('registro')->withInput();
-        }
+    public function formValidation()
+    {
+        $validationRules = [
+            'nombre' => 'required|min_length[3]|max_length[50]',
+            'apellido' => 'required|min_length[3]|max_length[50]',
+            'dni' => 'required|numeric|min_length[7]|max_length[10]',
+            'telefono' => 'required|min_length[6]|max_length[20]',
+            'email' => 'required|valid_email|is_unique[usuarios.email]',
+            'password' => 'required|min_length[8]|max_length[32]|regex_match[/(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+/]',
+            'calle' => 'required|min_length[3]',
+            'numero' => 'required',
+            'codigo_postal' => 'required',
+            'localidad' => 'required',
+            'provincia' => 'required',
+            'pais' => 'required'
+        ];
 
-        if (!$input) {
-            return view('back/usuario/registro', [
+        if (!$this->validate($validationRules)) {
+            return view('templates/main_layout', [
                 'title' => 'Registro',
-                'validation' => $this->validator
-            ]); 
+                'content' => view('back/usuario/registro', [
+                    'validation' => $this->validator
+                ])
+            ]);
         }
 
-        $formModel->save([
+        $domicilioModel = new DomicilioModel();
+        $personaModel = new PersonaModel();
+        $usuarioModel = new UsuarioModel();
+
+        // 1. Insertar domicilio
+        $idDomicilio = $domicilioModel->insert([
+            'calle' => $this->request->getVar('calle'),
+            'numero' => $this->request->getVar('numero'),
+            'codigo_postal' => $this->request->getVar('codigo_postal'),
+            'localidad' => $this->request->getVar('localidad'),
+            'provincia' => $this->request->getVar('provincia'),
+            'pais' => $this->request->getVar('pais'),
+            'activo' => true
+        ]);
+
+        // 2. Insertar persona con referencia al domicilio
+        $idPersona = $personaModel->insert([
+            'dni' => $this->request->getVar('dni'),
             'nombre' => $this->request->getVar('nombre'),
             'apellido' => $this->request->getVar('apellido'),
-            'usuario' => $this->request->getVar('usuario'),
-            'email' => $this->request->getVar('email'),
-            'pass' => password_hash($this->request->getVar('pass'), PASSWORD_DEFAULT)
+            'id_domicilio' => $idDomicilio,
+            'telefono' => $this->request->getVar('telefono'),
         ]);
 
-        // flashData funciona solo en redirigir la funcion en el controlador en la vista de carga.
-        session()->setFlashdata('success', 'Usuario registrado con exito');
-        return redirect()->to('registro');
+        // 3. Insertar usuario con referencia a la persona
+        $usuarioModel->insert([
+            'id_persona' => $idPersona,
+            'id_rol' => 2, // Por ejemplo: 2 = cliente (podés cambiar esto)
+            'email' => $this->request->getVar('email'),
+            'password_hash' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+            'activo' => true
+        ]);
+
+        session()->setFlashdata('success', 'Usuario registrado con éxito.');
+        return redirect()->to('/registro');
     }
 }

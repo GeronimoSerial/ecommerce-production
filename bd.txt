@@ -1,0 +1,77 @@
+CREATE TABLE domicilios (
+  id_domicilio BIGINT AUTO_INCREMENT PRIMARY KEY,
+  calle VARCHAR(255),
+  numero VARCHAR(255),
+  codigo_postal VARCHAR(255),
+  localidad VARCHAR(255),
+  provincia VARCHAR(255),
+  pais VARCHAR(255),
+  activo TINYINT(1)
+) ENGINE=InnoDB;
+
+CREATE TABLE personas (
+  id_persona BIGINT AUTO_INCREMENT PRIMARY KEY,
+  dni VARCHAR(255),
+  nombre VARCHAR(255),
+  apellido VARCHAR(255),
+  id_domicilio BIGINT,
+  telefono VARCHAR(255),
+  FOREIGN KEY (id_domicilio) REFERENCES domicilios(id_domicilio)
+) ENGINE=InnoDB;
+
+CREATE TABLE roles (
+  id_rol BIGINT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(255),
+  descripcion VARCHAR(255),
+  activo TINYINT(1)
+) ENGINE=InnoDB;
+
+CREATE TABLE usuarios (
+  id_usuario BIGINT AUTO_INCREMENT PRIMARY KEY,
+  id_persona BIGINT,
+  id_rol BIGINT,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  activo TINYINT(1),
+  FOREIGN KEY (id_persona) REFERENCES personas(id_persona),
+  FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
+) ENGINE=InnoDB;
+
+CREATE TABLE facturas (
+  id_factura BIGINT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario BIGINT,
+  importe_total DECIMAL(10,2),
+  descuento DECIMAL(10,2),
+  activo TINYINT(1),
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) ENGINE=InnoDB;
+
+CREATE TABLE categorias (
+  id_categoria BIGINT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(255),
+  descripcion VARCHAR(255),
+  activo TINYINT(1)
+) ENGINE=InnoDB;
+
+CREATE TABLE productos (
+  id_producto BIGINT AUTO_INCREMENT PRIMARY KEY,
+  id_categoria BIGINT,
+  nombre VARCHAR(255),
+  descripcion VARCHAR(255),
+  precio DECIMAL(10,2),
+  cantidad INT,
+  url_imagen VARCHAR(255),
+  activo TINYINT(1),
+  FOREIGN KEY (id_categoria) REFERENCES categorias(id_categoria)
+) ENGINE=InnoDB;
+
+CREATE TABLE detallesfactura (
+  id_detalle_factura BIGINT AUTO_INCREMENT PRIMARY KEY,
+  id_factura BIGINT,
+  id_producto BIGINT,
+  cantidad INT,
+  descuento DECIMAL(10,2),
+  subtotal DECIMAL(10,2),
+  FOREIGN KEY (id_factura) REFERENCES facturas(id_factura),
+  FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+) ENGINE=InnoDB;
