@@ -5,6 +5,8 @@ $perfil = $session->get('id_rol');
 $apellido = $session->get('apellido');
 ?>
 
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 py-lg-3 fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
@@ -106,12 +108,8 @@ $apellido = $session->get('apellido');
 $request = service('request');
 $currentPath = $request->getPath();
 
-// Determinar la URL base según la ruta actual
-if (strpos($currentPath, 'productos') !== false) {
-    $buscarBase = site_url('buscar');
-} else {
-    $buscarBase = site_url('productos/buscar');
-}
+// Usar site_url() con ruta que comience con / para evitar concatenación
+$buscarBase = site_url('/productos/buscar');
 ?>
 
 <div class="search-overlay" id="searchOverlay" style="display: none;">
@@ -136,16 +134,16 @@ if (strpos($currentPath, 'productos') !== false) {
                 <div class="search-suggestions mt-3">
                     <h6 class="text-white mb-2">Búsquedas populares:</h6>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="<?= $buscarBase . '?q=whey' ?>"
-                            class="badge bg-light text-dark text-decoration-none">Whey Protein</a>
-                        <a href="<?= $buscarBase . '?q=creatina' ?>"
-                            class="badge bg-light text-dark text-decoration-none">Creatina</a>
-                        <a href="<?= $buscarBase . '?q=colageno' ?>"
-                            class="badge bg-light text-dark text-decoration-none">Colágeno</a>
-                        <a href="<?= $buscarBase . '?q=shaker' ?>"
-                            class="badge bg-light text-dark text-decoration-none">Shaker</a>
-                        <a href="<?= $buscarBase . '?q=proteina+vegana' ?>"
-                            class="badge bg-light text-dark text-decoration-none">Proteína Vegana</a>
+                        <button type="button" onclick="setSearchTerm('whey')"
+                            class="badge bg-light text-dark text-decoration-none border-0">Whey Protein</button>
+                        <button type="button" onclick="setSearchTerm('creatina')"
+                            class="badge bg-light text-dark text-decoration-none border-0">Creatina</button>
+                        <button type="button" onclick="setSearchTerm('colageno')"
+                            class="badge bg-light text-dark text-decoration-none border-0">Colágeno</button>
+                        <button type="button" onclick="setSearchTerm('shaker')"
+                            class="badge bg-light text-dark text-decoration-none border-0">Shaker</button>
+                        <button type="button" onclick="setSearchTerm('proteina vegana')"
+                            class="badge bg-light text-dark text-decoration-none border-0">Proteína Vegana</button>
                     </div>
                 </div>
 
@@ -153,179 +151,3 @@ if (strpos($currentPath, 'productos') !== false) {
         </div>
     </div>
 </div>
-
-<style>
-    .search-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: linear-gradient(135deg, rgba(229, 52, 91, 0.95), rgba(0, 0, 0, 0.9));
-        z-index: 1050;
-        display: flex;
-        align-items: center;
-        animation: slideDown 0.3s ease-out;
-    }
-
-    .search-form .form-control {
-        border: none;
-        border-radius: 50px 0 0 50px;
-        padding: 1rem 1.5rem;
-        font-size: 1.1rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-form .btn {
-        border-radius: 0;
-        padding: 1rem 1.5rem;
-        border: none;
-    }
-
-    .search-form .btn:last-child {
-        border-radius: 0 50px 50px 0;
-    }
-
-    .search-suggestions {
-        opacity: 0;
-        animation: fadeInUp 0.5s ease-out 0.2s forwards;
-    }
-
-    @keyframes slideDown {
-        from {
-            transform: translateY(-100%);
-            opacity: 0;
-        }
-
-        to {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .dropdown-menu {
-        border: none;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        border-radius: 0.5rem;
-    }
-
-    .dropdown-item {
-        padding: 0.75rem 1.5rem;
-        transition: all 0.2s ease;
-    }
-
-    .dropdown-item:hover {
-        background-color: rgba(229, 52, 91, 0.1);
-        color: var(--pink);
-        transform: translateX(5px);
-    }
-
-    .dropdown-item i {
-        transition: transform 0.2s ease;
-    }
-
-    .dropdown-item:hover i {
-        transform: scale(1.2);
-    }
-
-    @media (max-width: 768px) {
-        .search-overlay {
-            padding: 1rem;
-        }
-
-        .search-form .form-control {
-            font-size: 1rem;
-            padding: 0.75rem 1rem;
-        }
-
-        .search-suggestions .badge {
-            font-size: 0.8rem;
-        }
-    }
-</style>
-
-<script>
-    function toggleSearch() {
-        const overlay = document.getElementById('searchOverlay');
-        const searchInput = document.getElementById('searchInput');
-
-        if (overlay.style.display === 'none') {
-            overlay.style.display = 'flex';
-            setTimeout(() => {
-                searchInput.focus();
-            }, 300);
-            document.body.style.overflow = 'hidden';
-        } else {
-            overlay.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-    }
-
-    function abrirCarrito() {
-        console.log('Abriendo carrito...');
-        mostrarNotificacion('Carrito en desarrollo', 'info');
-    }
-
-    function mostrarNotificacion(mensaje, tipo) {
-        const toast = document.createElement('div');
-        toast.className = 'position-fixed top-0 end-0 p-3';
-        toast.style.zIndex = '1060';
-
-        const bgClass = tipo === 'success' ? 'bg-success' : tipo === 'info' ? 'bg-info' : 'bg-warning';
-
-        toast.innerHTML = `
-        <div class="toast show" role="alert">
-            <div class="toast-header ${bgClass} text-white">
-                <strong class="me-auto">Notificación</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body">
-                ${mensaje}
-            </div>
-        </div>
-    `;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            if (document.body.contains(toast)) {
-                document.body.removeChild(toast);
-            }
-        }, 3000);
-    }
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-            const overlay = document.getElementById('searchOverlay');
-            if (overlay.style.display !== 'none') {
-                toggleSearch();
-            }
-        }
-    });
-
-    function actualizarContadorCarrito(cantidad) {
-        const contador = document.getElementById('cart-count');
-        contador.textContent = cantidad;
-
-        if (cantidad > 0) {
-            contador.style.display = 'block';
-        } else {
-            contador.style.display = 'none';
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        actualizarContadorCarrito(0);
-    });
-</script>

@@ -65,7 +65,7 @@
                         </p>
                     </div>
                     <div class="d-flex gap-2">
-                        <?= generate_sort_links($filtros, site_url(uri_string())) ?>
+                        <?= generate_sort_links($filtros, current_url()) ?>
                     </div>
                 </div>
 

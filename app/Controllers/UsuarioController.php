@@ -21,29 +21,31 @@ class UsuarioController extends BaseController
         if (!$session->get('logueado')) {
             return redirect()->to('/login');
         }
-        $usuarioModel = new UsuarioModel();
-        $personaModel = new PersonaModel();
-        $domicilioModel = new DomicilioModel();
-        $usuario = $usuarioModel->find($session->get('usuario_id'));
-        $persona = $personaModel->find($usuario['id_persona']);
-        $domicilio = $domicilioModel->find($persona['id_domicilio']);
+
+        $userData = $this->usuarioModel->getUserWithAllData($session->get('id_usuario'));
+
+        if (!$userData) {
+            return redirect()->to('/login');
+        }
+
         return view('templates/main_layout', [
             'title' => 'Actualizar mis datos',
             'content' => view('back/usuario/actualizarDatos', [
-                'dni' => $persona['dni'] ?? '',
-                'nombre' => $persona['nombre'] ?? '',
-                'apellido' => $persona['apellido'] ?? '',
-                'email' => $usuario['email'] ?? '',
-                'telefono' => $persona['telefono'] ?? '',
-                'calle' => $domicilio['calle'] ?? '',
-                'numero' => $domicilio['numero'] ?? '',
-                'codigo_postal' => $domicilio['codigo_postal'] ?? '',
-                'localidad' => $domicilio['localidad'] ?? '',
-                'provincia' => $domicilio['provincia'] ?? '',
-                'pais' => $domicilio['pais'] ?? ''
+                'dni' => $userData['dni'] ?? '',
+                'nombre' => $userData['nombre'] ?? '',
+                'apellido' => $userData['apellido'] ?? '',
+                'email' => $userData['email'] ?? '',
+                'telefono' => $userData['telefono'] ?? '',
+                'calle' => $userData['calle'] ?? '',
+                'numero' => $userData['numero'] ?? '',
+                'codigo_postal' => $userData['codigo_postal'] ?? '',
+                'localidad' => $userData['localidad'] ?? '',
+                'provincia' => $userData['provincia'] ?? '',
+                'pais' => $userData['pais'] ?? ''
             ])
         ]);
     }
+
     public function Create()
     {
         $validationRules = [
@@ -70,15 +72,9 @@ class UsuarioController extends BaseController
             ]);
         }
 
-        $domicilioModel = new DomicilioModel();
-        $personaModel = new PersonaModel();
-        $usuarioModel = new UsuarioModel();
-
-        //
         $input = $this->request->getPost();
 
-        // 1. Insertar domicilio
-        $idDomicilio = $domicilioModel->insert([
+        $domicilioData = [
             'calle' => $input['calle'],
             'numero' => $input['numero'],
             'codigo_postal' => $input['codigo_postal'],
@@ -86,70 +82,77 @@ class UsuarioController extends BaseController
             'provincia' => $input['provincia'],
             'pais' => $input['pais'],
             'activo' => true
-        ]);
+        ];
 
-        // 2. Insertar persona con referencia al domicilio
-        $idPersona = $personaModel->insert([
+        $personaData = [
             'dni' => $input['dni'],
             'nombre' => $input['nombre'],
             'apellido' => $input['apellido'],
-            'id_domicilio' => $idDomicilio,
-            'telefono' => $input['telefono'],
-        ]);
+            'telefono' => $input['telefono']
+        ];
 
-        // 3. Insertar usuario con referencia a la persona
-        $usuarioModel->insert([
-            'id_persona' => $idPersona,
-            'id_rol' => 2, // Por ejemplo: 2 = cliente (podés cambiar esto)
+        $userData = [
+            'id_rol' => 2, // Cliente
             'email' => $input['email'],
             'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
             'activo' => true
-        ]);
+        ];
 
-        session()->setFlashdata('success', 'Usuario registrado con éxito.');
+        if ($this->usuarioModel->createUserWithRelations($userData, $personaData, $domicilioData)) {
+            session()->setFlashdata('success', 'Usuario registrado con éxito.');
+        } else {
+            session()->setFlashdata('error', 'Error al registrar el usuario.');
+        }
+
         return redirect()->to('/registro');
     }
+
     public function Update()
     {
         $session = session();
         if (!$session->get('logueado')) {
             return redirect()->to('/login');
         }
-        $usuarioModel = new UsuarioModel();
-        $personaModel = new PersonaModel();
-        $domicilioModel = new DomicilioModel();
-        $usuario = $usuarioModel->find($session->get('usuario_id'));
-        $persona = $personaModel->find($usuario['id_persona']);
-        $domicilio = $domicilioModel->find($persona['id_domicilio']);
+
         $input = $this->request->getPost();
+
         // Validación simple
-        if (empty($input['nombre']) || empty($input['apellido']) || empty($input['email']) || empty($input['calle']) || empty($input['numero']) || empty($input['codigo_postal']) || empty($input['localidad']) || empty($input['provincia']) || empty($input['pais'])) {
+        if (
+            empty($input['nombre']) || empty($input['apellido']) || empty($input['email']) ||
+            empty($input['calle']) || empty($input['numero']) || empty($input['codigo_postal']) ||
+            empty($input['localidad']) || empty($input['provincia']) || empty($input['pais'])
+        ) {
             return redirect()->to('/actualizar')->with('msg', 'Todos los campos obligatorios deben estar completos.');
         }
-        // Actualizar domicilio
-        $domicilioModel->update($domicilio['id_domicilio'], [
+
+        $domicilioData = [
             'calle' => $input['calle'],
             'numero' => $input['numero'],
             'codigo_postal' => $input['codigo_postal'],
             'localidad' => $input['localidad'],
             'provincia' => $input['provincia'],
             'pais' => $input['pais']
-        ]);
-        // Actualizar persona
-        $personaModel->update($persona['id_persona'], [
+        ];
+
+        $personaData = [
             'dni' => $input['dni'],
             'nombre' => $input['nombre'],
             'apellido' => $input['apellido'],
             'telefono' => $input['telefono']
-        ]);
-        // Actualizar usuario (email)
-        $usuarioModel->update($usuario['id_usuario'], [
+        ];
+
+        $userData = [
             'email' => $input['email']
-        ]);
-        // Actualizar sesión
-        $session->set('nombre', $input['nombre']);
-        $session->set('apellido', $input['apellido']);
-        return redirect()->to('/actualizar')->with('msg', 'Datos personales actualizados correctamente.');
+        ];
+
+        if ($this->usuarioModel->updateUserWithRelations($session->get('usuario_id'), $userData, $personaData, $domicilioData)) {
+            // Actualizar sesión
+            $session->set('nombre', $input['nombre']);
+            $session->set('apellido', $input['apellido']);
+            return redirect()->to('/actualizar')->with('msg', 'Datos personales actualizados correctamente.');
+        } else {
+            return redirect()->to('/actualizar')->with('msg', 'Error al actualizar los datos personales.');
+        }
     }
 
     // ==================== MÉTODOS PARA PANEL DE ADMINISTRACIÓN ====================
@@ -164,8 +167,7 @@ class UsuarioController extends BaseController
             return redirect()->to('/login');
         }
 
-        $usuarioModel = new UsuarioModel();
-        $usuarios = $usuarioModel->getAllUsersWithPersonas();
+        $usuarios = $this->usuarioModel->getAllUsersWithPersonas();
 
         return view('templates/main_layout', [
             'title' => 'Gestión de Usuarios',
@@ -195,12 +197,9 @@ class UsuarioController extends BaseController
             ];
 
             if ($this->validate($rules)) {
-                $domicilioModel = new DomicilioModel();
-                $personaModel = new PersonaModel();
-                $usuarioModel = new UsuarioModel();
+                $input = $this->request->getPost();
 
-                // 1. Insertar domicilio por defecto
-                $idDomicilio = $domicilioModel->insert([
+                $domicilioData = [
                     'calle' => 'Por definir',
                     'numero' => '0',
                     'codigo_postal' => '0000',
@@ -208,28 +207,28 @@ class UsuarioController extends BaseController
                     'provincia' => 'Por definir',
                     'pais' => 'Por definir',
                     'activo' => true
-                ]);
+                ];
 
-                // 2. Insertar persona
-                $idPersona = $personaModel->insert([
-                    'dni' => $this->request->getPost('dni'),
-                    'nombre' => $this->request->getPost('nombre'),
-                    'apellido' => $this->request->getPost('apellido'),
-                    'id_domicilio' => $idDomicilio,
-                    'telefono' => $this->request->getPost('telefono', FILTER_SANITIZE_STRING)
-                ]);
+                $personaData = [
+                    'dni' => $input['dni'],
+                    'nombre' => $input['nombre'],
+                    'apellido' => $input['apellido'],
+                    'telefono' => $input['telefono']
+                ];
 
-                // 3. Insertar usuario
-                $usuarioModel->insert([
-                    'id_persona' => $idPersona,
-                    'id_rol' => $this->request->getPost('id_rol'),
-                    'email' => $this->request->getPost('email'),
-                    'password_hash' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+                $userData = [
+                    'id_rol' => $input['id_rol'],
+                    'email' => $input['email'],
+                    'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
                     'activo' => 1
-                ]);
+                ];
 
-                $session->setFlashdata('msg', 'Usuario creado exitosamente');
-                return redirect()->to('/admin/usuarios');
+                if ($this->usuarioModel->createUserWithRelations($userData, $personaData, $domicilioData)) {
+                    $session->setFlashdata('msg', 'Usuario creado exitosamente');
+                    return redirect()->to('/admin/usuarios');
+                } else {
+                    $session->setFlashdata('error', 'Error al crear el usuario');
+                }
             } else {
                 $session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
             }
@@ -253,15 +252,10 @@ class UsuarioController extends BaseController
             return redirect()->to('/login');
         }
 
-        $usuarioModel = new UsuarioModel();
-        $personaModel = new PersonaModel();
-
-        $usuario = $usuarioModel->find($id);
-        if (!$usuario) {
+        $userData = $this->usuarioModel->getUserWithAllData($id);
+        if (!$userData) {
             return redirect()->to('/admin/usuarios');
         }
-
-        $persona = $personaModel->find($usuario['id_persona']);
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
@@ -273,27 +267,29 @@ class UsuarioController extends BaseController
             ];
 
             if ($this->validate($rules)) {
-                $data = [
-                    'id_rol' => $this->request->getPost('id_rol'),
-                    'activo' => $this->request->getPost('activo')
+                $input = $this->request->getPost();
+
+                $userData = [
+                    'id_rol' => $input['id_rol'],
+                    'activo' => $input['activo']
                 ];
 
                 // Solo actualizar password si se proporciona uno nuevo
-                if ($this->request->getPost('password')) {
-                    $data['password_hash'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+                if ($input['password']) {
+                    $userData['password_hash'] = password_hash($input['password'], PASSWORD_DEFAULT);
                 }
 
-                // Actualizar usuario
-                $usuarioModel->update($id, $data);
+                $personaData = [
+                    'nombre' => $input['nombre'],
+                    'apellido' => $input['apellido']
+                ];
 
-                // Actualizar persona
-                $personaModel->update($usuario['id_persona'], [
-                    'nombre' => $this->request->getPost('nombre'),
-                    'apellido' => $this->request->getPost('apellido')
-                ]);
-
-                $session->setFlashdata('msg', 'Usuario actualizado exitosamente');
-                return redirect()->to('/admin/usuarios');
+                if ($this->usuarioModel->updateUserWithRelations($id, $userData, $personaData, null)) {
+                    $session->setFlashdata('msg', 'Usuario actualizado exitosamente');
+                    return redirect()->to('/admin/usuarios');
+                } else {
+                    $session->setFlashdata('error', 'Error al actualizar el usuario');
+                }
             } else {
                 $session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
             }
@@ -302,7 +298,7 @@ class UsuarioController extends BaseController
         return view('templates/main_layout', [
             'title' => 'Editar Usuario',
             'content' => view('back/admin/usuarios/editar', [
-                'usuario' => array_merge($usuario, $persona),
+                'usuario' => $userData,
                 'validation' => \Config\Services::validation()
             ])
         ]);

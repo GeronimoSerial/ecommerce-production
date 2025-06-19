@@ -101,7 +101,7 @@ $cantActivos = $cantActivos ?? 0
                                         </td>
                                         <td>
                                             <span
-                                                class="badge bg-info"><?= $producto['categoria_nombre'] ?? 'Sin categoría' ?></span>
+                                                class="badge bg-info"><?= $producto['categoria'] ?? 'Sin categoría' ?></span>
                                         </td>
                                         <td>
                                             <strong class="text-success">$<?= number_format($producto['precio'], 2) ?></strong>
@@ -203,12 +203,14 @@ $cantActivos = $cantActivos ?? 0
                             </button>
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownVendidosCategoria">
                                 <?php foreach (($vendidosPorCategoria ?? []) as $cat): ?>
+                                    <?php if (isset($cat['nombre'])): ?>
                                     <li>
                                         <span class="dropdown-item d-flex justify-content-between align-items-center">
                                             <?= htmlspecialchars($cat['nombre']) ?>
                                             <span class="badge bg-info ms-2"><?= $cat['vendidos_categoria'] ?? 0 ?></span>
                                         </span>
                                     </li>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                                 <?php if (empty($vendidosPorCategoria)): ?>
                                     <li><span class="dropdown-item text-muted">Sin datos</span></li>

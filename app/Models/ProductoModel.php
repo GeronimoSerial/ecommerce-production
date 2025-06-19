@@ -18,35 +18,48 @@ class ProductoModel extends Model
         "cantidad_vendidos"
     ];
 
-    public function getAllProductsWithCategories($orden = 'nombre', $direccion = 'ASC', $limit = 20, $offset = 0)
+    public function getAllProductsWithCategories($orden = 'nombre', $direccion = 'ASC', $limite = 20, $offset = 0)
     {
         $db = \Config\Database::connect();
-        $allowedOrder = ['nombre', 'precio', 'cantidad', 'categoria_nombre', 'activo', 'id_producto', 'cantidad_vendidos'];
-        $allowedDir = ['ASC', 'DESC'];
-        if (!in_array($orden, $allowedOrder))
-            $orden = 'nombre';
-        if (!in_array($direccion, $allowedDir))
-            $direccion = 'ASC';
-
-        $builder = $db->table('productos p')
-            ->select('p.*, c.nombre as categoria_nombre')
-            ->join('categorias c', 'c.id_categoria = p.id_categoria', 'left')
-            ->orderBy(($orden == 'categoria_nombre' ? 'c.nombre' : 'p.' . $orden), $direccion)
-            ->limit($limit, $offset);
-        return $builder->get()->getResultArray();
+        // Mapeo de nombres de ordenamiento
+        $columnasOrdenamiento = [
+            'categoria' => 'c.nombre',
+            'nombre' => 'p.nombre',
+            'precio' => 'p.precio',
+            'cantidad' => 'p.cantidad',
+            'id_producto' => 'p.id_producto'
+        ];
+        
+        $columnaOrden = $columnasOrdenamiento[$orden] ?? 'p.nombre';
+        
+        $query = $db->table($this->table . ' p')
+                 ->select('p.*, c.nombre as categoria')
+                 ->join('categorias c', 'c.id_categoria = p.id_categoria');
+                 
+        // Aplicar ordenamiento
+        $query->orderBy($columnaOrden, $direccion);
+                 
+        return $query->limit($limite, $offset)
+                   ->get()
+                   ->getResultArray();
     }
 
     public function getAllProductsValue()
     {
         $db = \Config\Database::connect();
-        return $db->table('productos')
-            ->select('SUM(precio * cantidad) as total')
-            ->get()->getRow()->total ?? 0;
+        $result = $db->table($this->table)
+                    ->select('SUM(precio * cantidad) as valor_total')
+                    ->get()
+                    ->getRow();
+        return $result ? $result->valor_total : 0;
     }
+
     public function countAllProductsWithCategories()
     {
         $db = \Config\Database::connect();
-        return $db->table('productos')->countAllResults();
+        return $db->table($this->table . ' p')
+                 ->join('categorias c', 'c.id_categoria = p.id_categoria')
+                 ->countAllResults();
     }
 
     public function getProductsByCategory($categoryId)
@@ -54,17 +67,16 @@ class ProductoModel extends Model
         return $this->where('id_categoria', $categoryId)->findAll();
     }
 
-    public function getLowCantidadProducts($threshold = 10)
+    public function getLowCantidadProducts($limite = 10)
     {
-        return $this->where('cantidad <', $threshold)->findAll();
+        return $this->where('cantidad <', $limite)
+                   ->findAll();
     }
 
     public function countActiveProducts()
     {
-        $db = \Config\Database::connect();
-        return $db->table('productos')
-            ->where('activo', 1)
-            ->countAllResults();
+        return $this->where('activo', 1)
+                   ->countAllResults();
     }
 
     /**
@@ -110,5 +122,108 @@ class ProductoModel extends Model
         }
 
         return $resultado;
+    }
+
+    /**
+     * Obtiene productos filtrados y paginados por categoría
+     * @param int $categoriaId ID de la categoría
+     * @param array $filtros Array con filtros (busqueda, precio_min, precio_max, orden, direccion)
+     * @param array $paginacion Array con datos de paginación (pagina, limite)
+     * @return array Array con productos y total
+     */
+    public function getProductosFiltrados($categoriaId = null, array $filtros = [], array $paginacion = [])
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table($this->table);
+        
+        // Aplicar filtros base
+        $builder->where('activo', 1);
+        if ($categoriaId !== null) {
+            $builder->where('id_categoria', $categoriaId);
+        }
+
+        // Aplicar filtros de búsqueda
+        if (!empty($filtros['busqueda'])) {
+            $builder->groupStart()
+                   ->like('nombre', $filtros['busqueda'])
+                   ->orLike('descripcion', $filtros['busqueda'])
+                   ->groupEnd();
+        }
+
+        // Filtros de precio
+        if (!empty($filtros['precio_min'])) {
+            $builder->where('precio >=', $filtros['precio_min']);
+        }
+        if (!empty($filtros['precio_max'])) {
+            $builder->where('precio <=', $filtros['precio_max']);
+        }
+
+        // Obtener total antes de aplicar límites
+        $total = $builder->countAllResults(false);
+
+        // Aplicar ordenamiento
+        $ordenesPermitidos = ['nombre', 'precio', 'cantidad'];
+        $direccionesPermitidas = ['ASC', 'DESC'];
+        
+        $orden = $filtros['orden'] ?? 'nombre';
+        $direccion = $filtros['direccion'] ?? 'ASC';
+        
+        if (in_array($orden, $ordenesPermitidos)) {
+            $builder->orderBy($orden, in_array($direccion, $direccionesPermitidas) ? $direccion : 'ASC');
+        } else {
+            $builder->orderBy('nombre', 'ASC');
+        }
+
+        // Aplicar paginación
+        if (!empty($paginacion['limite'])) {
+            $pagina = $paginacion['pagina'] ?? 1;
+            $limite = $paginacion['limite'];
+            $offset = ($pagina - 1) * $limite;
+            $builder->limit($limite, $offset);
+        }
+
+        return [
+            'productos' => $builder->get()->getResultArray(),
+            'total' => $total
+        ];
+    }
+
+    /**
+     * Obtiene estadísticas de precios de productos
+     * @param int|null $categoriaId ID de la categoría (opcional)
+     * @return array Array con precio mínimo y máximo
+     */
+    public function getEstadisticasPrecios($categoriaId = null)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table($this->table)->where('activo', 1);
+        
+        if ($categoriaId !== null) {
+            $builder->where('id_categoria', $categoriaId);
+        }
+
+        $precioMinimo = $builder->selectMin('precio')->get()->getRowArray();
+        $precioMaximo = $builder->selectMax('precio')->get()->getRowArray();
+
+        return [
+            'minimo' => $precioMinimo['precio'] ?? 0,
+            'maximo' => $precioMaximo['precio'] ?? 0
+        ];
+    }
+
+    /**
+     * Obtiene productos relacionados por categoría
+     * @param int $productoId ID del producto actual
+     * @param int $categoriaId ID de la categoría
+     * @param int $limite Cantidad de productos a retornar
+     * @return array
+     */
+    public function getProductosRelacionados($productoId, $categoriaId, $limite = 3)
+    {
+        return $this->where('id_categoria', $categoriaId)
+                   ->where('id_producto !=', $productoId)
+                   ->where('activo', 1)
+                   ->limit($limite)
+                   ->findAll();
     }
 }

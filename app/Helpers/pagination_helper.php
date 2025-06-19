@@ -22,6 +22,9 @@ if (!function_exists('generate_pagination')) {
             return '';
         }
 
+        // Limpiar la URL base para evitar problemas de concatenación
+        $baseUrl = clean_url_for_params($baseUrl);
+
         // Construir parámetros de filtros para URLs
         $queryParams = [];
         foreach ($filtros as $key => $value) {
@@ -122,6 +125,37 @@ if (!function_exists('generate_pagination')) {
     }
 }
 
+if (!function_exists('clean_url_for_params')) {
+    /**
+     * Limpia una URL para evitar problemas de concatenación de parámetros
+     * 
+     * @param string $url URL a limpiar
+     * @return string URL limpia sin parámetros
+     */
+    function clean_url_for_params($url)
+    {
+        // Si la URL está vacía, usar la URL actual
+        if (empty($url)) {
+            $url = current_url();
+        }
+        
+        // Si la URL ya tiene parámetros, extraer solo la ruta
+        if (strpos($url, '?') !== false) {
+            $url = explode('?', $url)[0];
+        }
+        
+        // Si la URL no es válida, usar la URL actual
+        if (!filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($url, '/')) {
+            $url = current_url();
+            if (strpos($url, '?') !== false) {
+                $url = explode('?', $url)[0];
+            }
+        }
+        
+        return $url;
+    }
+}
+
 if (!function_exists('generate_sort_links')) {
     /**
      * Genera enlaces de ordenamiento
@@ -143,10 +177,10 @@ if (!function_exists('generate_sort_links')) {
         ];
 
         $html = '<div class="dropdown">';
-        $html .= '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">';
+        $html .= '<button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">';
         $html .= 'Ordenar por: ' . ($opciones[$ordenActual] ?? 'Nombre');
         $html .= '</button>';
-        $html .= '<ul class="dropdown-menu">';
+        $html .= '<ul class="dropdown-menu" aria-labelledby="sortDropdown">';
 
         foreach ($opciones as $campo => $etiqueta) {
             $params = $filtros;
@@ -160,14 +194,12 @@ if (!function_exists('generate_sort_links')) {
 
             unset($params['page']);
 
-            // ===== SOLUCIÓN SIMPLE =====
-            // Usar solo la ruta base sin parámetros
-            $urlParts = parse_url($baseUrl);
-            $cleanUrl = $urlParts['path'] ?? $baseUrl;
-            if (strpos($cleanUrl, '?') !== false) {
-                $cleanUrl = explode('?', $cleanUrl)[0];
-            }
-            $url = site_url($cleanUrl) . '?' . http_build_query($params);
+            // ===== SOLUCIÓN MEJORADA =====
+            // Usar la función helper para limpiar la URL
+            $cleanUrl = clean_url_for_params($baseUrl);
+            
+            // Construir la URL final con los parámetros
+            $url = $cleanUrl . '?' . http_build_query($params);
             // ===========================
 
             $icono = '';

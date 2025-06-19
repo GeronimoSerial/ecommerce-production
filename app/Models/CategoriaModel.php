@@ -8,15 +8,34 @@ class CategoriaModel extends Model
     protected $primaryKey = 'id_categoria';
     protected $allowedFields = ['nombre', 'descripcion', 'activo'];
 
+    /**
+     * Obtiene el conteo de productos por categoría
+     * @return array
+     */
+    public function getProductosPorCategoria()
+    {
+        $db = \Config\Database::connect();
+        return $db->table('productos p')
+                 ->select('c.nombre as categoria, COUNT(*) as total')
+                 ->join('categorias c', 'c.id_categoria = p.id_categoria')
+                 ->groupBy('p.id_categoria')
+                 ->get()
+                 ->getResultArray();
+    }
+
+    /**
+     * Obtiene el total de productos vendidos por categoría
+     * @return array
+     */
     public function getVendidosPorCategoria()
     {
         $db = \Config\Database::connect();
-        return $db->table('categorias c')
-            ->select('c.id_categoria, c.nombre, SUM(p.cantidad_vendidos) as vendidos_categoria')
-            ->join('productos p', 'p.id_categoria = c.id_categoria', 'left')
-            ->groupBy('c.id_categoria, c.nombre')
-            ->get()
-            ->getResultArray();
+        return $db->table('productos p')
+                 ->select('c.nombre as categoria, SUM(p.cantidad_vendidos) as total_vendidos')
+                 ->join('categorias c', 'c.id_categoria = p.id_categoria')
+                 ->groupBy('p.id_categoria')
+                 ->get()
+                 ->getResultArray();
     }
 
     // public function getCategorySales()

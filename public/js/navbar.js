@@ -2,243 +2,278 @@
  * Funcionalidades del Navbar
  * Maneja la búsqueda, carrito y navegación
  */
+console.log('Navbar script loaded');
 
 class NavbarManager {
-    constructor() {
-        this.searchOverlay = document.getElementById('searchOverlay');
-        this.searchInput = document.getElementById('searchInput');
-        this.cartCount = document.getElementById('cart-count');
-        this.init();
+  constructor() {
+    this.searchOverlay = document.getElementById("searchOverlay");
+    this.searchInput = document.getElementById("searchInput");
+    this.cartCount = document.getElementById("cart-count");
+    this.init();
+  }
+
+  init() {
+    console.log('Initializing NavbarManager');
+    console.log('Search overlay element:', this.searchOverlay);
+    console.log('Search input element:', this.searchInput);
+    console.log('Cart count element:', this.cartCount);
+    
+    // Asegurarse de que el overlay esté oculto inicialmente
+    if (this.searchOverlay) {
+      console.log('Hiding search overlay');
+      this.searchOverlay.style.display = 'none';
+    } else {
+      console.error('Search overlay element not found!');
     }
+    
+    this.setupEventListeners();
+    this.loadCartCount();
+    this.setupSearchSuggestions();
+    
+    console.log('NavbarManager initialization complete');
+  }
 
-    init() {
-        this.setupEventListeners();
-        this.loadCartCount();
-        this.setupSearchSuggestions();
-    }
+  setupEventListeners() {
+    // Cerrar búsqueda con ESC
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && this.searchOverlay && this.searchOverlay.style.display === "flex") {
+        this.toggleSearch();
+      }
+    });
 
-    setupEventListeners() {
-        // Cerrar búsqueda con ESC
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                this.closeSearch();
-            }
-        });
-
-        // Cerrar búsqueda al hacer clic fuera
-        if (this.searchOverlay) {
-            this.searchOverlay.addEventListener('click', (event) => {
-                if (event.target === this.searchOverlay) {
-                    this.closeSearch();
-                }
-            });
+    // Cerrar búsqueda al hacer clic fuera
+    if (this.searchOverlay) {
+      this.searchOverlay.addEventListener("click", (event) => {
+        if (event.target === this.searchOverlay) {
+          this.toggleSearch();
         }
+      });
+    }
 
-        // Auto-completado de búsqueda
+    // Auto-completado de búsqueda
+    if (this.searchInput) {
+      this.searchInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          this.handleSearchSubmit(event);
+        }
+      });
+    }
+  }
+
+  toggleSearch() {
+    console.log('toggleSearch called');
+    if (!this.searchOverlay) {
+      console.error('Search overlay element not found!');
+      return;
+    }
+
+    if (this.searchOverlay.style.display === "none" || !this.searchOverlay.style.display) {
+      this.openSearch();
+    } else {
+      this.closeSearch();
+    }
+  }
+
+  openSearch() {
+    console.log('Opening search overlay');
+    if (this.searchOverlay) {
+      this.searchOverlay.style.display = "flex";
+      document.body.classList.add('search-active');
+      
+      setTimeout(() => {
         if (this.searchInput) {
-            this.searchInput.addEventListener('input', (event) => {
-                this.handleSearchInput(event.target.value);
-            });
-        }
-    }
-
-    toggleSearch() {
-        if (!this.searchOverlay) return;
-
-        if (this.searchOverlay.style.display === 'none') {
-            this.openSearch();
+          this.searchInput.focus();
         } else {
-            this.closeSearch();
+          console.error('Search input element not found!');
         }
+      }, 100);
+      
+      document.body.style.overflow = "hidden";
+    } else {
+      console.error('Search overlay element not found!');
     }
+  }
 
-    openSearch() {
-        this.searchOverlay.style.display = 'flex';
-        setTimeout(() => {
-            if (this.searchInput) {
-                this.searchInput.focus();
-            }
-        }, 300);
-        document.body.style.overflow = 'hidden';
+  closeSearch() {
+    console.log('Closing search overlay');
+    if (this.searchOverlay) {
+      this.searchOverlay.style.display = "none";
+      document.body.classList.remove('search-active');
+    } else {
+      console.error('Search overlay element not found!');
     }
+    document.body.style.overflow = "auto";
+  }
 
-    closeSearch() {
-        if (this.searchOverlay) {
-            this.searchOverlay.style.display = 'none';
+  handleSearchSubmit() {
+    if (!this.searchInput) return;
+    
+    const searchTerm = this.searchInput.value.trim();
+    if (searchTerm) {
+      const searchUrl = `${window.location.origin}/productos/buscar?q=${encodeURIComponent(searchTerm)}`;
+      window.location.href = searchUrl;
+    }
+  }
+
+  setSearchTerm(term) {
+    if (this.searchInput) {
+      this.searchInput.value = term;
+      this.searchInput.focus();
+    }
+  }
+
+  showSearchSuggestions(query) {
+    // Implementar sugerencias dinámicas basadas en la consulta
+    console.log("Buscando:", query);
+  }
+
+  async loadCartCount() {
+    try {
+      // Aquí se haría una petición AJAX para obtener el conteo del carrito
+      const count = await this.getCartCount();
+      this.updateCartCount(count);
+    } catch (error) {
+      console.error("Error cargando carrito:", error);
+      this.updateCartCount(0);
+    }
+  }
+
+  async getCartCount() {
+    // Simular petición al servidor
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Aquí se obtendría el valor real del carrito
+        resolve(0);
+      }, 100);
+    });
+  }
+
+  updateCartCount(count) {
+    if (this.cartCount) {
+      this.cartCount.textContent = count;
+      this.cartCount.style.display = count > 0 ? "block" : "none";
+    }
+  }
+
+  setupSearchSuggestions() {
+    // Hacer las sugerencias clickeables
+    const suggestions = document.querySelectorAll('[onclick^="setSearchTerm"]');
+    suggestions.forEach(button => {
+      button.addEventListener('click', (e) => {
+        const match = button.getAttribute('onclick').match(/'([^']+)'/);
+        if (match && match[1]) {
+          this.setSearchTerm(match[1]);
         }
-        document.body.style.overflow = 'auto';
-    }
+      });
+    });
+  }
 
-    handleSearchInput(query) {
-        // Aquí se podría implementar búsqueda en tiempo real
-        if (query.length > 2) {
-            // Mostrar sugerencias dinámicas
-            this.showSearchSuggestions(query);
-        }
-    }
+  showNotification(message, type = "info") {
+    const toast = document.createElement("div");
+    toast.className = "position-fixed top-0 end-0 p-3";
+    toast.style.zIndex = "1060";
+    toast.style.minWidth = "300px";
 
-    showSearchSuggestions(query) {
-        // Implementar sugerencias dinámicas basadas en la consulta
-        console.log('Buscando:', query);
-    }
+    const bgClass = this.getNotificationClass(type);
 
-    async loadCartCount() {
-        try {
-            // Aquí se haría una petición AJAX para obtener el conteo del carrito
-            // Por ahora usamos un valor de ejemplo
-            const count = await this.getCartCount();
-            this.updateCartCount(count);
-        } catch (error) {
-            console.error('Error cargando carrito:', error);
-            this.updateCartCount(0);
-        }
-    }
+    toast.innerHTML = `
+      <div class="toast show" role="alert">
+        <div class="toast-header ${bgClass} text-white">
+          <strong class="me-auto">Notificación</strong>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+          ${message}
+        </div>
+      </div>
+    `;
 
-    async getCartCount() {
-        // Simular petición al servidor
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Aquí se obtendría el valor real del carrito
-                resolve(0);
-            }, 100);
-        });
-    }
+    document.body.appendChild(toast);
 
-    updateCartCount(count) {
-        if (this.cartCount) {
-            this.cartCount.textContent = count;
-            this.cartCount.style.display = count > 0 ? 'block' : 'none';
-        }
-    }
+    setTimeout(() => {
+      if (document.body.contains(toast)) {
+        document.body.removeChild(toast);
+      }
+    }, 3000);
+  }
 
-    setupSearchSuggestions() {
-        // Configurar sugerencias de búsqueda populares
-        const suggestions = [
-            { text: 'Whey Protein', url: 'productos/buscar?q=whey' },
-            { text: 'Creatina', url: 'productos/buscar?q=creatina' },
-            { text: 'Colágeno', url: 'productos/buscar?q=colageno' },
-            { text: 'Shaker', url: 'productos/buscar?q=shaker' },
-            { text: 'Proteína Vegana', url: 'productos/buscar?q=proteina+vegana' }
-        ];
-
-        // Hacer las sugerencias clickeables
-        suggestions.forEach(suggestion => {
-            const element = document.querySelector(`[href*="${suggestion.url}"]`);
-            if (element) {
-                element.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.location.href = baseUrl + suggestion.url;
-                });
-            }
-        });
+  getNotificationClass(type) {
+    switch (type) {
+      case "success":
+        return "bg-success";
+      case "error":
+        return "bg-danger";
+      case "warning":
+        return "bg-warning";
+      default:
+        return "bg-info";
     }
+  }
 
-    showNotification(message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.className = 'position-fixed top-0 end-0 p-3';
-        toast.style.zIndex = '1060';
-        
-        const bgClass = this.getNotificationClass(type);
-        
-        toast.innerHTML = `
-            <div class="toast show" role="alert">
-                <div class="toast-header ${bgClass} text-white">
-                    <strong class="me-auto">Notificación</strong>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-                </div>
-                <div class="toast-body">
-                    ${message}
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-            if (document.body.contains(toast)) {
-                document.body.removeChild(toast);
-            }
-        }, 3000);
-    }
-
-    getNotificationClass(type) {
-        switch (type) {
-            case 'success': return 'bg-success';
-            case 'error': return 'bg-danger';
-            case 'warning': return 'bg-warning';
-            default: return 'bg-info';
-        }
-    }
-
-    openCart() {
-        // Implementar apertura del carrito
-        this.showNotification('Carrito en desarrollo', 'info');
-    }
-}
-
-// Funciones globales para compatibilidad
-function toggleSearch() {
-    if (window.navbarManager) {
-        window.navbarManager.toggleSearch();
-    }
-}
-
-function abrirCarrito() {
-    if (window.navbarManager) {
-        window.navbarManager.openCart();
-    }
-}
-
-function mostrarNotificacion(mensaje, tipo) {
-    if (window.navbarManager) {
-        window.navbarManager.showNotification(mensaje, tipo);
-    }
+  openCart() {
+    this.showNotification("Carrito en desarrollo", "info");
+  }
 }
 
 // Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
+console.log('DOMContentLoaded event fired');
+
+document.addEventListener("DOMContentLoaded", function () {
+  console.log('Initializing navbar...');
+  
+  try {
+    // Hacer las funciones disponibles globalmente
     window.navbarManager = new NavbarManager();
     
-    // Variable global para baseUrl
-    window.baseUrl = document.querySelector('base')?.href || '';
-});
-
-// Mejoras para el dropdown de productos
-document.addEventListener('DOMContentLoaded', function() {
-    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    // Funciones globales para compatibilidad con HTML antiguo
+    window.toggleSearch = () => {
+      console.log('toggleSearch called');
+      window.navbarManager.toggleSearch();
+    };
     
-    dropdownItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            const icon = this.querySelector('i');
-            if (icon) {
-                icon.style.transform = 'scale(1.2)';
-            }
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            const icon = this.querySelector('i');
-            if (icon) {
-                icon.style.transform = 'scale(1)';
-            }
-        });
-    });
-});
-
-// Mejoras para la navegación móvil
-document.addEventListener('DOMContentLoaded', function() {
-    const navbarToggler = document.querySelector('.navbar-toggler');
-    const navbarCollapse = document.querySelector('.navbar-collapse');
+    window.abrirCarrito = () => {
+      console.log('abrirCarrito called');
+      window.navbarManager.openCart();
+    };
     
-    if (navbarToggler && navbarCollapse) {
-        // Cerrar menú móvil al hacer clic en un enlace
-        const navLinks = navbarCollapse.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 992) {
-                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
-                    bsCollapse.hide();
-                }
-            });
-        });
+    window.mostrarNotificacion = (mensaje, tipo) => {
+      console.log('mostrarNotificacion called with:', { mensaje, tipo });
+      window.navbarManager.showNotification(mensaje, tipo);
+    };
+    
+    window.setSearchTerm = (term) => {
+      console.log('setSearchTerm called with:', term);
+      window.navbarManager.setSearchTerm(term);
+    };
+    
+    console.log('Global functions registered');
+    
+    // Inicializar tooltips de Bootstrap
+    try {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      console.log('Found', tooltipTriggerList.length, 'tooltips to initialize');
+      
+      tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        try {
+          new bootstrap.Tooltip(tooltipTriggerEl);
+        } catch (err) {
+          console.error('Error initializing tooltip:', err);
+        }
+      });
+    } catch (err) {
+      console.error('Error initializing tooltips:', err);
     }
-}); 
+    
+    console.log('Navbar initialization complete');
+  } catch (error) {
+    console.error('Error initializing NavbarManager:', error);
+  }
+});
+
+// Also try to initialize if the script is loaded after DOMContentLoaded
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  console.log('Document already loaded, initializing navbar directly');
+  const event = new Event('DOMContentLoaded');
+  document.dispatchEvent(event);
+}

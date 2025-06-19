@@ -92,24 +92,22 @@ class AdminController extends BaseController
         $limit = 20;
         $offset = ($page - 1) * $limit;
 
+        // Obtener productos usando los métodos del modelo
         $productos = $this->productoModel->getAllProductsWithCategories($orden, $direccion, $limit, $offset);
         $totalProductos = $this->productoModel->countAllProductsWithCategories();
-        $totalPaginas = (int) ceil($totalProductos / $limit);
         $stockBajo = count($this->productoModel->getLowCantidadProducts());
         $cantActivos = $this->productoModel->countActiveProducts();
-
-
-        // Calcular el valor total de todos los productos (precio * cantidad)
-
         $valorTotal = $this->productoModel->getAllProductsValue();
-
         $vendidosPorCategoria = $this->categoriaModel->getVendidosPorCategoria();
+
+        $totalPaginas = (int) ceil($totalProductos / $limit);
 
         $filtros = [
             'orden' => $orden,
             'direccion' => $direccion,
             'page' => $page
         ];
+        
         $paginacion = [
             'paginaActual' => $page,
             'totalPaginas' => $totalPaginas,
@@ -285,16 +283,14 @@ class AdminController extends BaseController
     // ==================== MÉTODOS PRIVADOS ====================
     private function getDashboardStats()
     {
-        $db = \Config\Database::connect();
-
         // Total de usuarios
-        $totalUsuarios = $db->table('usuarios')->countAllResults();
+        $totalUsuarios = $this->usuarioModel->countAll();
 
         // Total de productos
-        $totalProductos = $db->table('productos')->countAllResults();
+        $totalProductos = $this->productoModel->countAll();
 
         // Productos con cantidad bajo (menos de 10)
-        $cantidadBajo = $db->table('productos')->where('cantidad <', 10)->countAllResults();
+        $cantidadBajo = count($this->productoModel->getLowCantidadProducts());
 
         // Usuarios registrados este mes (si no hay fecha_creacion, mostrar 0)
         $usuariosEsteMes = 0;
@@ -309,14 +305,7 @@ class AdminController extends BaseController
 
     private function getProductosPorCategoria()
     {
-        $db = \Config\Database::connect();
-
-        return $db->table('productos p')
-            ->select('c.nombre as categoria, COUNT(*) as total')
-            ->join('categorias c', 'c.id_categoria = p.id_categoria')
-            ->groupBy('p.id_categoria')
-            ->get()
-            ->getResultArray();
+        return $this->categoriaModel->getProductosPorCategoria();
     }
 
     private function getUsuariosPorMes()

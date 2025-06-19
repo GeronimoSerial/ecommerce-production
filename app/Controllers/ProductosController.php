@@ -15,17 +15,21 @@ class ProductosController extends BaseController
         $productoModel = new ProductoModel();
 
         // Obtener parámetros de filtrado y paginado
-        $pagina = $this->request->getGet('page') ?? 1;
-        $orden = $this->request->getGet('orden') ?? 'nombre';
-        $direccion = $this->request->getGet('direccion') ?? 'ASC';
-        $precioMin = $this->request->getGet('precio_min');
-        $precioMax = $this->request->getGet('precio_max');
-        $busqueda = $this->request->getGet('busqueda');
+        $filtros = [
+            'busqueda' => $this->request->getGet('busqueda'),
+            'precio_min' => $this->request->getGet('precio_min'),
+            'precio_max' => $this->request->getGet('precio_max'),
+            'orden' => $this->request->getGet('orden') ?? 'nombre',
+            'direccion' => $this->request->getGet('direccion') ?? 'ASC'
+        ];
+
+        $paginacion = [
+            'pagina' => $this->request->getGet('page') ?? 1,
+            'limite' => $this->productosPorPagina
+        ];
 
         // Buscar la categoria por slug
-        $categoria = $categoriaModel
-            ->where("LOWER(nombre)", strtolower($slug))
-            ->first();
+        $categoria = $categoriaModel->where("LOWER(nombre)", strtolower($slug))->first();
 
         // Si no se encuentra la categoría, mostrar error 404
         if (!$categoria) {
@@ -35,103 +39,48 @@ class ProductosController extends BaseController
             ]);
         }
 
-        // Builder para conteo
-        $countBuilder = $productoModel->builder();
-        $countBuilder->where("id_categoria", $categoria["id_categoria"]);
-        $countBuilder->where("activo", 1);
-        if ($busqueda) {
-            $countBuilder->groupStart()
-                ->like("nombre", $busqueda)
-                ->orLike("descripcion", $busqueda)
-                ->groupEnd();
-        }
-        if ($precioMin !== null && $precioMin !== '') {
-            $countBuilder->where("precio >=", $precioMin);
-        }
-        if ($precioMax !== null && $precioMax !== '') {
-            $countBuilder->where("precio <=", $precioMax);
-        }
-        $totalProductos = $countBuilder->countAllResults();
+        // Obtener productos filtrados y total
+        $resultado = $productoModel->getProductosFiltrados(
+            $categoria['id_categoria'],
+            $filtros,
+            $paginacion
+        );
 
-        // Builder puro para productos paginados
-        $productosBuilder = $productoModel->builder();
-        $productosBuilder->where("id_categoria", $categoria["id_categoria"]);
-        $productosBuilder->where("activo", 1);
-        if ($busqueda) {
-            $productosBuilder->groupStart()
-                ->like("nombre", $busqueda)
-                ->orLike("descripcion", $busqueda)
-                ->groupEnd();
-        }
-        if ($precioMin !== null && $precioMin !== '') {
-            $productosBuilder->where("precio >=", $precioMin);
-        }
-        if ($precioMax !== null && $precioMax !== '') {
-            $productosBuilder->where("precio <=", $precioMax);
-        }
-        $ordenesPermitidos = ['nombre', 'precio', 'cantidad'];
-        $direccionesPermitidas = ['ASC', 'DESC'];
-        if (in_array($orden, $ordenesPermitidos)) {
-            $productosBuilder->orderBy($orden, in_array($direccion, $direccionesPermitidas) ? $direccion : 'ASC');
-        } else {
-            $productosBuilder->orderBy('nombre', 'ASC');
-        }
-        $offset = ($pagina - 1) * $this->productosPorPagina;
-        $productosBuilder->limit($this->productosPorPagina, $offset);
-        $query = $productosBuilder->get();
-        $productos = $query->getResultArray();
+        // Obtener estadísticas de precios
+        $precios = $productoModel->getEstadisticasPrecios($categoria['id_categoria']);
 
         // Calcular información de paginación
-        $totalPaginas = ceil($totalProductos / $this->productosPorPagina);
-        $paginaActual = max(1, min($pagina, $totalPaginas));
-
-        // Obtener estadísticas de la categoría (sin filtros)
-        $statsQuery = $productoModel
-            ->where("id_categoria", $categoria["id_categoria"])
-            ->where("activo", 1);
-        $precioMinimo = $statsQuery->selectMin("precio")->first();
-        $precioMaximo = $statsQuery->selectMax("precio")->first();
+        $totalPaginas = ceil($resultado['total'] / $this->productosPorPagina);
+        $paginaActual = max(1, min($paginacion['pagina'], $totalPaginas));
 
         // Preparar datos para la vista
         $data = [
             "title" => $categoria["nombre"] . " - Suplementos Fitness",
             "categoria" => $categoria,
-            "productos" => $productos,
-            "totalProductos" => $totalProductos,
-            "precioMinimo" => $precioMinimo ? $precioMinimo['precio'] : 0,
-            "precioMaximo" => $precioMaximo ? $precioMaximo['precio'] : 0,
+            "productos" => $resultado['productos'],
+            "totalProductos" => $resultado['total'],
+            "precioMinimo" => $precios['minimo'],
+            "precioMaximo" => $precios['maximo'],
             "paginacion" => [
                 "paginaActual" => $paginaActual,
                 "totalPaginas" => $totalPaginas,
                 "productosPorPagina" => $this->productosPorPagina,
-                "totalProductos" => $totalProductos
+                "totalProductos" => $resultado['total']
             ],
-            "filtros" => [
-                "busqueda" => $busqueda,
-                "precioMin" => $precioMin,
-                "precioMax" => $precioMax,
-                "orden" => $orden,
-                "direccion" => $direccion
-            ],
+            "filtros" => $filtros,
             "content" => view("pages/productos/categoria", [
                 "categoria" => $categoria,
-                "productos" => $productos,
-                "totalProductos" => $totalProductos,
-                "precioMinimo" => $precioMinimo ? $precioMinimo['precio'] : 0,
-                "precioMaximo" => $precioMaximo ? $precioMaximo['precio'] : 0,
+                "productos" => $resultado['productos'],
+                "totalProductos" => $resultado['total'],
+                "precioMinimo" => $precios['minimo'],
+                "precioMaximo" => $precios['maximo'],
                 "paginacion" => [
                     "paginaActual" => $paginaActual,
                     "totalPaginas" => $totalPaginas,
                     "productosPorPagina" => $this->productosPorPagina,
-                    "totalProductos" => $totalProductos
+                    "totalProductos" => $resultado['total']
                 ],
-                "filtros" => [
-                    "busqueda" => $busqueda,
-                    "precioMin" => $precioMin,
-                    "precioMax" => $precioMax,
-                    "orden" => $orden,
-                    "direccion" => $direccion
-                ]
+                "filtros" => $filtros
             ]),
         ];
         return view("templates/main_layout", $data);
@@ -155,13 +104,11 @@ class ProductosController extends BaseController
         // Obtener la categoría del producto
         $categoria = $categoriaModel->find($producto['id_categoria']);
 
-        // Obtener productos relacionados de la misma categoría
-        $productosRelacionados = $productoModel
-            ->where("id_categoria", $producto['id_categoria'])
-            ->where("id_producto !=", $producto['id_producto'])
-            ->where("activo", 1)
-            ->limit(3)
-            ->findAll();
+        // Obtener productos relacionados
+        $productosRelacionados = $productoModel->getProductosRelacionados(
+            $producto['id_producto'],
+            $producto['id_categoria']
+        );
 
         $data = [
             "title" => $producto["nombre"] . " - " . $categoria["nombre"],
@@ -183,119 +130,62 @@ class ProductosController extends BaseController
         $categoriaModel = new CategoriaModel();
 
         // Obtener parámetros de búsqueda y filtrado
-        $busqueda = $this->request->getGet('q');
+        $filtros = [
+            'busqueda' => $this->request->getGet('q'),
+            'precio_min' => $this->request->getGet('precio_min'),
+            'precio_max' => $this->request->getGet('precio_max'),
+            'orden' => $this->request->getGet('orden') ?? 'nombre',
+            'direccion' => $this->request->getGet('direccion') ?? 'ASC'
+        ];
+
+        $paginacion = [
+            'pagina' => $this->request->getGet('page') ?? 1,
+            'limite' => $this->productosPorPagina
+        ];
+
+        // Obtener productos filtrados
         $categoriaId = $this->request->getGet('categoria');
-        $precioMin = $this->request->getGet('precio_min');
-        $precioMax = $this->request->getGet('precio_max');
-        $orden = $this->request->getGet('orden') ?? 'nombre';
-        $direccion = $this->request->getGet('direccion') ?? 'ASC';
-        $pagina = $this->request->getGet('page') ?? 1;
+        $resultado = $productoModel->getProductosFiltrados($categoriaId, $filtros, $paginacion);
 
-        // Builder para conteo
-        $countBuilder = $productoModel->builder();
-        $countBuilder->where("activo", 1);
-        if ($busqueda) {
-            $countBuilder->groupStart()
-                ->like("nombre", $busqueda)
-                ->orLike("descripcion", $busqueda)
-                ->groupEnd();
-        }
-        if ($categoriaId) {
-            $countBuilder->where("id_categoria", $categoriaId);
-        }
-        if ($precioMin !== null && $precioMin !== '') {
-            $countBuilder->where("precio >=", $precioMin);
-        }
-        if ($precioMax !== null && $precioMax !== '') {
-            $countBuilder->where("precio <=", $precioMax);
-        }
-        $totalProductos = $countBuilder->countAllResults();
-
-        // Builder puro para productos paginados
-        $productosBuilder = $productoModel->builder();
-        $productosBuilder->where("activo", 1);
-        if ($busqueda) {
-            $productosBuilder->groupStart()
-                ->like("nombre", $busqueda)
-                ->orLike("descripcion", $busqueda)
-                ->groupEnd();
-        }
-        if ($categoriaId) {
-            $productosBuilder->where("id_categoria", $categoriaId);
-        }
-        if ($precioMin !== null && $precioMin !== '') {
-            $productosBuilder->where("precio >=", $precioMin);
-        }
-        if ($precioMax !== null && $precioMax !== '') {
-            $productosBuilder->where("precio <=", $precioMax);
-        }
-        $ordenesPermitidos = ['nombre', 'precio', 'cantidad'];
-        $direccionesPermitidas = ['ASC', 'DESC'];
-        if (in_array($orden, $ordenesPermitidos)) {
-            $productosBuilder->orderBy($orden, in_array($direccion, $direccionesPermitidas) ? $direccion : 'ASC');
-        } else {
-            $productosBuilder->orderBy('nombre', 'ASC');
-        }
-        $offset = ($pagina - 1) * $this->productosPorPagina;
-        $productosBuilder->limit($this->productosPorPagina, $offset);
-        $query = $productosBuilder->get();
-        $productos = $query->getResultArray();
+        // Obtener estadísticas de precios
+        $precios = $productoModel->getEstadisticasPrecios($categoriaId);
 
         // Calcular información de paginación
-        $totalPaginas = ceil($totalProductos / $this->productosPorPagina);
-        $paginaActual = max(1, min($pagina, $totalPaginas));
+        $totalPaginas = ceil($resultado['total'] / $this->productosPorPagina);
+        $paginaActual = max(1, min($paginacion['pagina'], $totalPaginas));
 
         // Obtener categorías para filtros
         $categorias = $categoriaModel->findAll();
 
-        // Obtener estadísticas de precios (sin filtros de categoría)
-        $statsQuery = $productoModel->where("activo", 1);
-        $precioMinimo = $statsQuery->selectMin("precio")->first();
-        $precioMaximo = $statsQuery->selectMax("precio")->first();
-
         $data = [
             "title" => "Resultados de búsqueda",
-            "productos" => $productos,
+            "productos" => $resultado['productos'],
             "categorias" => $categorias,
-            "busqueda" => $busqueda,
-            "totalProductos" => $totalProductos,
-            "precioMinimo" => $precioMinimo ? $precioMinimo['precio'] : 0,
-            "precioMaximo" => $precioMaximo ? $precioMaximo['precio'] : 0,
+            "busqueda" => $filtros['busqueda'],
+            "totalProductos" => $resultado['total'],
+            "precioMinimo" => $precios['minimo'],
+            "precioMaximo" => $precios['maximo'],
             "paginacion" => [
                 "paginaActual" => $paginaActual,
                 "totalPaginas" => $totalPaginas,
                 "productosPorPagina" => $this->productosPorPagina,
-                "totalProductos" => $totalProductos
+                "totalProductos" => $resultado['total']
             ],
-            "filtros" => [
-                "busqueda" => $busqueda,
-                "categoriaId" => $categoriaId,
-                "precioMin" => $precioMin,
-                "precioMax" => $precioMax,
-                "orden" => $orden,
-                "direccion" => $direccion
-            ],
+            "filtros" => array_merge($filtros, ['categoriaId' => $categoriaId]),
             "content" => view("pages/productos/busqueda", [
-                "productos" => $productos,
+                "productos" => $resultado['productos'],
                 "categorias" => $categorias,
-                "busqueda" => $busqueda,
-                "totalProductos" => $totalProductos,
-                "precioMinimo" => $precioMinimo ? $precioMinimo['precio'] : 0,
-                "precioMaximo" => $precioMaximo ? $precioMaximo['precio'] : 0,
+                "busqueda" => $filtros['busqueda'],
+                "totalProductos" => $resultado['total'],
+                "precioMinimo" => $precios['minimo'],
+                "precioMaximo" => $precios['maximo'],
                 "paginacion" => [
                     "paginaActual" => $paginaActual,
                     "totalPaginas" => $totalPaginas,
                     "productosPorPagina" => $this->productosPorPagina,
-                    "totalProductos" => $totalProductos
+                    "totalProductos" => $resultado['total']
                 ],
-                "filtros" => [
-                    "busqueda" => $busqueda,
-                    "categoriaId" => $categoriaId,
-                    "precioMin" => $precioMin,
-                    "precioMax" => $precioMax,
-                    "orden" => $orden,
-                    "direccion" => $direccion
-                ]
+                "filtros" => array_merge($filtros, ['categoriaId' => $categoriaId])
             ]),
         ];
         return view("templates/main_layout", $data);

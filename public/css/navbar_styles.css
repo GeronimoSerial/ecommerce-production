@@ -1,0 +1,134 @@
+/* Search Overlay */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(229, 52, 91, 0.95),
+    rgba(0, 0, 0, 0.9)
+  );
+  z-index: 1050;
+  display: none; /* Start hidden, will be shown by JS */
+  align-items: center;
+  justify-content: center;
+  animation: slideDown 0.3s ease-out;
+  padding: 1rem;
+}
+
+/* When search is active */
+body.search-active {
+  overflow: hidden;
+}
+
+/* Ensure the search overlay takes full viewport */
+.search-overlay .container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.search-form .form-control {
+  border: none;
+  border-radius: 50px 0 0 50px;
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-form .btn {
+  border-radius: 0;
+  padding: 1rem 1.5rem;
+  border: none;
+}
+
+.search-form .btn:last-child {
+  border-radius: 0 50px 50px 0;
+}
+
+.search-suggestions {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out 0.2s forwards;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-menu {
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(229, 52, 91, 0.1);
+  color: var(--pink);
+  transform: translateX(5px);
+}
+
+.dropdown-item i {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-item:hover i {
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .search-overlay {
+    padding: 1rem;
+  }
+
+  .search-form .form-control {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .search-suggestions .badge {
+    font-size: 0.8rem;
+  }
+}
+
+.search-suggestions .badge {
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-suggestions .badge:hover {
+  background-color: #e9ecef !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-suggestions .badge:active {
+  transform: translateY(0);
+}
