@@ -103,6 +103,8 @@ class AdminController extends BaseController
 
         $valorTotal = $this->productoModel->getAllProductsValue();
 
+        $vendidosPorCategoria = $this->categoriaModel->getVendidosPorCategoria();
+
         $filtros = [
             'orden' => $orden,
             'direccion' => $direccion,
@@ -124,7 +126,8 @@ class AdminController extends BaseController
                 'valorTotal' => $valorTotal,
                 'totalProductos' => $totalProductos,
                 'stockBajo' => $stockBajo,
-                'cantActivos' => $cantActivos
+                'cantActivos' => $cantActivos,
+                'vendidosPorCategoria' => $vendidosPorCategoria
             ])
         ]);
     }

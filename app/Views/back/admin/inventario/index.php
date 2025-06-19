@@ -62,6 +62,7 @@ $cantActivos = $cantActivos ?? 0
                                 <th><a
                                         href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'activo', 'direccion' => ($filtros['orden'] == 'activo' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Estado<?= $filtros['orden'] == 'activo' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
                                 </th>
+                                <th>Vendidos</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -119,6 +120,9 @@ $cantActivos = $cantActivos ?? 0
                                             <?php else: ?>
                                                 <span class="badge bg-secondary">Inactivo</span>
                                             <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-dark"><?= $producto['cantidad_vendidos'] ?? 0 ?></span>
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
@@ -184,6 +188,32 @@ $cantActivos = $cantActivos ?? 0
                         </h4>
                         <p class="text-muted mb-0">Valor Total del Inventario</p>
                         <small class="text-muted">(precio × cantidad de todos los productos)</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-bar-chart-line text-info" style="font-size: 2rem;"></i>
+                        <div class="dropdown mt-2">
+                            <button class="btn btn-outline-info dropdown-toggle w-100" type="button"
+                                id="dropdownVendidosCategoria" data-bs-toggle="dropdown" aria-expanded="false">
+                                Vendidos por Categoría
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownVendidosCategoria">
+                                <?php foreach (($vendidosPorCategoria ?? []) as $cat): ?>
+                                    <li>
+                                        <span class="dropdown-item d-flex justify-content-between align-items-center">
+                                            <?= htmlspecialchars($cat['nombre']) ?>
+                                            <span class="badge bg-info ms-2"><?= $cat['vendidos_categoria'] ?? 0 ?></span>
+                                        </span>
+                                    </li>
+                                <?php endforeach; ?>
+                                <?php if (empty($vendidosPorCategoria)): ?>
+                                    <li><span class="dropdown-item text-muted">Sin datos</span></li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
