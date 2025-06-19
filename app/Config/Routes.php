@@ -34,25 +34,33 @@ $routes->get('/comercializacion', 'ComercializacionController::index');
 $routes->get('/terminos', 'TerminosController::index');
 $routes->get('/nosotros', 'NosotrosController::index');
 $routes->get('/contacto', 'ContactoController::index');
-$routes->get('/productos/proteinas', 'ProductosController::proteinas');
-$routes->get('/productos/creatinas', 'ProductosController::creatinas');
-$routes->get('/productos/colagenos', 'ProductosController::colagenos');
-$routes->get('/productos/accesorios', 'ProductosController::accesorios');
-$routes->get('/productos', 'ProductosController::index');
 
 // Rutas del registro de usuarios
-$routes->get('registro', 'UsuarioController::create');       // Muestra el formulario
-$routes->post('registro', 'UsuarioController::formValidation'); // Procesa el formulario
+$routes->get('registro', 'LoginController::registro');       // Muestra el formulario
+$routes->post('registro', 'UsuarioController::Create'); // Procesa el formulario
 
 // Rutas del Login
 $routes->get('/login', 'LoginController');
+$routes->post('/login', 'LoginController::auth');
+$routes->get('/panel', 'PanelController::index');
 
-//$routes->get('/logout', 'LoginController::logout');
-//$routes->post('/enviarlogin', 'LoginController::auth');
-//$routes->get('/panel', 'PanelController::index', ['filter' => 'auth']);
+$routes->get('/logout', 'LoginController::logout');
 
+$routes->get('/recuperar', function () {
+    return view('templates/main_layout', [
+        'title' => 'Recuperar contraseña',
+        'content' => '<div class="container py-5"><h2>Página de recuperación de contraseña (en construcción)</h2></div>'
+    ]);
+});
 
+// Rutas de productos unificadas
+$routes->get('categoria/(:segment)', 'ProductosController::porCategoria/$1');
+$routes->get('producto/(:num)', 'ProductosController::detalle/$1');
+$routes->get('productos/buscar', 'ProductosController::buscar');
+$routes->post('productos/buscar', 'ProductosController::buscar');
 
+// Ruta legacy para compatibilidad (redirige a la nueva estructura)
+$routes->get('productos/(:segment)', 'ProductosController::porCategoria/$1');
 
 $routes->set404Override(function () {
     return view('templates/main_layout', [
@@ -61,6 +69,50 @@ $routes->set404Override(function () {
     ]);
 });
 
+$routes->get('actualizar', 'UsuarioController::Read');
+$routes->post('actualizar', 'UsuarioController::Update');
+
+// ==================== RUTAS DEL PANEL DE ADMINISTRACIÓN ====================
+// Dashboard principal
+$routes->get('admin', 'AdminController::index');
+
+// Ruta temporal para debug
+$routes->get('debug-session', function() {
+    $session = session();
+    echo "<h2>Debug de Sesión</h2>";
+    echo "<pre>";
+    echo "logueado: " . ($session->get('logueado') ? 'true' : 'false') . "\n";
+    echo "usuario_id: " . $session->get('usuario_id') . "\n";
+    echo "usuario_email: " . $session->get('usuario_email') . "\n";
+    echo "nombre: " . $session->get('nombre') . "\n";
+    echo "apellido: " . $session->get('apellido') . "\n";
+    echo "id_rol: " . $session->get('id_rol') . "\n";
+    echo "\n=== TODOS LOS DATOS DE SESIÓN ===\n";
+    print_r($session->get());
+    echo "\n=== VERIFICACIÓN DE ADMIN ===\n";
+    $esAdmin = $session->get('logueado') && $session->get('id_rol') == 1;
+    echo "¿Es administrador? " . ($esAdmin ? 'SÍ' : 'NO') . "\n";
+    echo "</pre>";
+});
+
+// Gestión de Usuarios
+$routes->get('admin/usuarios', 'UsuarioController::adminIndex');
+$routes->get('admin/usuarios/crear', 'UsuarioController::adminCreate');
+$routes->post('admin/usuarios/crear', 'UsuarioController::adminCreate');
+$routes->get('admin/usuarios/editar/(:num)', 'UsuarioController::adminEdit/$1');
+$routes->post('admin/usuarios/editar/(:num)', 'UsuarioController::adminEdit/$1');
+$routes->get('admin/usuarios/eliminar/(:num)', 'UsuarioController::adminDelete/$1');
+
+// Control de Inventario
+$routes->get('admin/inventario', 'AdminController::inventario');
+$routes->get('admin/inventario/crear', 'AdminController::crearProducto');
+$routes->post('admin/inventario/crear', 'AdminController::crearProducto');
+$routes->get('admin/inventario/editar/(:num)', 'AdminController::editarProducto/$1');
+$routes->post('admin/inventario/editar/(:num)', 'AdminController::editarProducto/$1');
+$routes->get('admin/inventario/eliminar/(:num)', 'AdminController::eliminarProducto/$1');
+
+// Reportes y Estadísticas
+$routes->get('admin/reportes', 'AdminController::reportes');
 
 /*
  * --------------------------------------------------------------------

@@ -3,19 +3,26 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class PanelController extends Controller{
-
-    public function index(){
+class PanelController extends BaseController
+{
+    public function index()
+    {
         $session = session();
-        $nombre = $session->get('usuario');
-        $perfil = $session->get('perfil_id');
+        if (!$session->get('logueado')) {
+            return redirect()->to('/login');
+        }
+        $nombre = $session->get('nombre');
+        $perfil = $session->get('id_rol');
 
-        $data['perfil_id']=$perfil;
-        $dato['titulo']='panel del usuario';
-        
+
+
         return view('templates/main_layout', [
-            'title' => 'Panel de Administración',
-            'content' => view('back/admin/usuario_logueado')
+            'title' => 'Panel de Usuario',
+            'content' => view('back/usuario/usuarioLogueado', [
+                'nombre' => $nombre,
+                'perfil' => $perfil
+            ])
         ]);
     }
+
 }

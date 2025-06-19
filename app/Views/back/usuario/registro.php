@@ -15,7 +15,6 @@
                         <div class="col-lg-6 bg-light">
                             <div class="p-4">
                                 <h3 class="fw-bold mb-4" style="color: var(--pink);">Información Personal</h3>
-
                                 <?php $validation = \Config\Services::validation(); ?>
                                 <form method="post" action="<?= base_url('registro') ?>" class="needs-validation"
                                     novalidate>
@@ -82,6 +81,10 @@
                                                 <?php endif; ?>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <!-- //crear un div para informar cosas -->
+
                                     </div>
                                     <div class="mb-3">
                                         <div class="form-outline">

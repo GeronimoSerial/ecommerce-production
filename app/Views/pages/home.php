@@ -49,7 +49,7 @@
         <div class="row g-3 g-md-4">
             <!-- Proteínas -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/productos/proteinas') ?>" class="text-decoration-none">
+                <a href="<?= base_url('categoria/proteinas') ?>" class="text-decoration-none">
                     <div class="tilt-card h-100">
                         <div class="tilt-card-inner">
                             <div class="tilt-card-content">
@@ -73,9 +73,8 @@
                 </a>
             </div>
             <!-- Creatinas -->
-            <!-- Proteínas -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/productos/creatinas') ?>" class="text-decoration-none">
+                <a href="<?= base_url('categoria/creatinas') ?>" class="text-decoration-none">
                     <div class="tilt-card h-100">
                         <div class="tilt-card-inner">
                             <div class="tilt-card-content">
@@ -99,10 +98,9 @@
                 </a>
             </div>
 
-
             <!-- Colágenos -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/productos/colagenos ') ?>" class="text-decoration-none">
+                <a href="<?= base_url('categoria/colagenos') ?>" class="text-decoration-none">
                     <div class="tilt-card h-100">
                         <div class="tilt-card-inner">
                             <div class="tilt-card-content">
@@ -126,10 +124,9 @@
                 </a>
             </div>
 
-
             <!-- Accesorios -->
             <div class="col-12 col-sm-6 col-lg-3">
-                <a href="<?= base_url('/productos/accesorios') ?>" class="text-decoration-none">
+                <a href="<?= base_url('categoria/accesorios') ?>" class="text-decoration-none">
                     <div class="tilt-card h-100">
                         <div class="tilt-card-inner">
                             <div class="tilt-card-content">
@@ -169,7 +166,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fs-4 text-primary mb-0">Top en Proteínas</h3>
-                    <a href="<?= base_url('/productos/proteinas') ?>" class="btn btn-outline-primary btn-sm">Ver todos
+                    <a href="<?= base_url('categoria/proteinas') ?>" class="btn btn-outline-primary btn-sm">Ver todos
                         <i class="fas fa-arrow-right ms-2"></i></a>
                 </div>
                 <div class="row g-4 mt-3">

@@ -1,0 +1,226 @@
+<?php 
+$stats = $stats ?? [];
+$productosPorCategoria = $productosPorCategoria ?? [];
+$usuariosPorMes = $usuariosPorMes ?? [];
+?>
+
+<div class="bg-light min-vh-100" style="padding-top: 76px;">
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-0 text-dark">Reportes y Estadísticas</h1>
+                        <p class="text-muted mb-0">Análisis detallado del sistema</p>
+                    </div>
+                    <div>
+                        <a href="<?= base_url('admin') ?>" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver al Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas Generales -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people text-primary" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= $stats['totalUsuarios'] ?? 0 ?></h3>
+                        <p class="text-muted mb-0">Total Usuarios</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-box-seam text-success" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= $stats['totalProductos'] ?? 0 ?></h3>
+                        <p class="text-muted mb-0">Total Productos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= $stats['cantidadBajo'] ?? 0 ?></h3>
+                        <p class="text-muted mb-0">Stock Bajo</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-plus text-info" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= $stats['usuariosEsteMes'] ?? 0 ?></h3>
+                        <p class="text-muted mb-0">Usuarios Nuevos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos y Análisis -->
+        <div class="row">
+            <!-- Productos por Categoría -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-pie-chart"></i> Productos por Categoría</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (empty($productosPorCategoria)): ?>
+                            <div class="text-center py-4">
+                                <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                                <p class="text-muted mt-2 mb-0">No hay datos disponibles</p>
+                            </div>
+                        <?php else: ?>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Categoría</th>
+                                            <th>Cantidad</th>
+                                            <th>Porcentaje</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $totalProductos = array_sum(array_column($productosPorCategoria, 'total'));
+                                        foreach ($productosPorCategoria as $categoria): 
+                                            $porcentaje = $totalProductos > 0 ? round(($categoria['total'] / $totalProductos) * 100, 1) : 0;
+                                        ?>
+                                            <tr>
+                                                <td><?= $categoria['categoria'] ?></td>
+                                                <td>
+                                                    <span class="badge bg-primary"><?= $categoria['total'] ?></span>
+                                                </td>
+                                                <td>
+                                                    <div class="progress" style="height: 20px;">
+                                                        <div class="progress-bar bg-primary" 
+                                                             style="width: <?= $porcentaje ?>%">
+                                                            <?= $porcentaje ?>%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usuarios por Mes -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-graph-up"></i> Usuarios por Mes</h5>
+                    </div>
+                    <div class="card-body">
+                        <?php if (empty($usuariosPorMes)): ?>
+                            <div class="text-center py-4">
+                                <i class="bi bi-inbox text-muted" style="font-size: 2rem;"></i>
+                                <p class="text-muted mt-2 mb-0">No hay datos de usuarios por mes disponibles</p>
+                                <small class="text-muted">Los datos se mostrarán cuando se implemente el campo fecha_creacion</small>
+                            </div>
+                        <?php else: ?>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Mes</th>
+                                            <th>Usuarios</th>
+                                            <th>Tendencia</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($usuariosPorMes as $mes): ?>
+                                            <tr>
+                                                <td><?= $mes['mes'] ?></td>
+                                                <td>
+                                                    <span class="badge bg-success"><?= $mes['total'] ?></span>
+                                                </td>
+                                                <td>
+                                                    <i class="bi bi-arrow-up text-success"></i>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información Adicional -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-info-circle"></i> Información del Sistema</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <small class="text-muted">Versión del Sistema</small>
+                                    <div class="fw-bold">v1.0.0</div>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted">Base de Datos</small>
+                                    <div class="fw-bold text-success">MySQL</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <small class="text-muted">Framework</small>
+                                    <div class="fw-bold">CodeIgniter 4</div>
+                                </div>
+                                <div class="mb-3">
+                                    <small class="text-muted">Estado</small>
+                                    <div class="fw-bold text-success">Operativo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Alertas del Sistema</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <?php if (($stats['cantidadBajo'] ?? 0) > 0): ?>
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1 text-warning">Stock Bajo</h6>
+                                        <small class="text-muted">Crítico</small>
+                                    </div>
+                                    <p class="mb-1 text-muted"><?= $stats['cantidadBajo'] ?> productos con stock bajo</p>
+                                </div>
+                            <?php else: ?>
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1 text-success">Sin Alertas</h6>
+                                        <small class="text-muted">Normal</small>
+                                    </div>
+                                    <p class="mb-1 text-muted">Todos los productos tienen stock suficiente</p>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

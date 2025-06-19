@@ -252,7 +252,7 @@ if (! function_exists('is_pluralizable')) {
                 'insurance',
                 'jewelry',
                 'knowledge',
-                'livestock',
+                'livecantidad',
                 'love',
                 'luck',
                 'marketing',

@@ -1,6 +1,6 @@
 <?php 
-$session = session();
-$nombre = $session->get('nombre');
+$nombre = $nombre ?? '';
+$perfil = $perfil ?? 2;
 ?>
 
 <div class="bg-dark text-light min-vh-100" style="padding-top: 76px;">
@@ -12,9 +12,15 @@ $nombre = $session->get('nombre');
             </div>
         <?php endif;?>
 
+        <?php if (session()->getFlashdata('msg')): ?>
+            <div class="alert alert-info text-center">
+                <?= session('msg') ?>
+            </div>
+        <?php endif; ?>
+
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <?php if(session()->perfil_id == 1): ?>
+                <?php if($perfil == 1): ?>
                     <div class="card bg-gradient border-0 shadow-lg">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-4">
@@ -34,11 +40,11 @@ $nombre = $session->get('nombre');
                                 </ul>
                             </div>
                             <div class="mt-4 text-end">
-                                <a href="<?= base_url('productos/admin') ?>" class="btn btn-primary">Panel de Control</a>
+                                <a href="<?= base_url('admin') ?>" class="btn btn-primary">Panel de Administración</a>
                             </div>
                         </div>
                     </div>
-                <?php elseif (session()->perfil_id == 2):?>
+                <?php elseif ($perfil == 2):?>
                     <div class="card bg-gradient border-0 shadow-lg">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-4">
@@ -70,10 +76,14 @@ $nombre = $session->get('nombre');
                     </div>
                 <?php endif;?>
 
+                <div class="text-end mt-3">
+                    <a href="<?= base_url('actualizar') ?>" class="btn btn-outline-primary">Editar mis datos personales</a>
+                </div>
+
                 <div class="text-center mt-4">
                     <p class="small text-muted">
                         <i class="bi bi-code-slash me-1"></i>
-                        Desarrollado por Geronimo Serial, Alejandro Cintas Gutierrez
+                        Desarrollado por Geronimo Serial
                     </p>
                 </div>
             </div>

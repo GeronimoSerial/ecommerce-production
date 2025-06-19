@@ -556,3 +556,213 @@ footer a:hover {
     font-size: 0.85rem;
   }
 }
+
+/* Estilos para páginas de productos */
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+}
+
+.product-image-container img {
+    transition: transform 0.3s ease;
+}
+
+.product-image-container:hover img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1rem 0;
+}
+
+/* Filtros de productos */
+.accordion-button:not(.collapsed) {
+    background-color: var(--pink);
+    color: white;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(229, 52, 91, 0.25);
+}
+
+.form-range::-webkit-slider-thumb {
+    background: var(--pink);
+}
+
+.form-range::-moz-range-thumb {
+    background: var(--pink);
+}
+
+/* Breadcrumb personalizado */
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    color: var(--pink);
+}
+
+.breadcrumb-item a {
+    color: var(--pink);
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+/* Toast notifications */
+.toast {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.toast-header {
+    border-bottom: none;
+}
+
+/* Botones de acción de productos */
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 0.5rem;
+}
+
+/* Estados de cantidad */
+.cantidad-warning {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Responsive para productos */
+@media (max-width: 768px) {
+    .product-info h1 {
+        font-size: 1.75rem;
+    }
+    
+    .display-6 {
+        font-size: 1.5rem;
+    }
+    
+    .accordion-button {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mejoras para el hover de las tarjetas */
+.hover-card {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--pink);
+}
+
+/* Estilos para el componente de búsqueda */
+.search-container {
+    position: relative;
+}
+
+.search-container .form-control {
+    padding-right: 3rem;
+    border-radius: 2rem;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.search-container .form-control:focus {
+    border-color: var(--pink);
+    box-shadow: 0 0 0 0.2rem rgba(229, 52, 91, 0.25);
+}
+
+.search-container .btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Paginación personalizada */
+.pagination .page-link {
+    color: var(--pink);
+    border-color: #dee2e6;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--pink);
+    border-color: var(--pink);
+}
+
+.pagination .page-link:hover {
+    color: var(--pink);
+    background-color: #f8f9fa;
+}
+
+/* Animaciones para elementos que aparecen */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para productos agotados */
+.product-out-of-cantidad {
+    opacity: 0.7;
+    position: relative;
+}
+
+.product-out-of-cantidad::after {
+    content: "AGOTADO";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    background: rgba(220, 53, 69, 0.9);
+    color: white;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    border-radius: 0.25rem;
+}
+
+/* Mejoras para el sidebar de filtros */
+.sidebar-filters {
+    position: sticky;
+    top: 100px;
+}
+
+@media (max-width: 991px) {
+    .sidebar-filters {
+        position: static;
+        margin-bottom: 2rem;
+    }
+}

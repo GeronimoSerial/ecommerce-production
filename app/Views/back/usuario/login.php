@@ -7,7 +7,19 @@
                     <p class="text-center mb-4">¡Bienvenido de nuevo! Accede a tu cuenta para continuar tu viaje fitness
                     </p>
 
-                    <form method="post" action="<?php echo base_url('') ?>" class="login-form">
+                    <?php if (session()->getFlashdata('error')): ?>
+                        <div class="alert alert-danger text-center">
+                            <?= session('error') ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (session()->getFlashdata('success')): ?>
+                        <div class="alert alert-success text-center">
+                            <?= session('success') ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="post" action="<?= base_url('login') ?>" class="login-form">
                         <div class="mb-4">
                             <label for="exampleInputEmail1" class="form-label">CORREO ELECTRÓNICO</label>
                             <div class="input-group">
@@ -29,14 +41,14 @@
                         </div>
 
                         <div class="mb-4 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember">
                             <label class="form-check-label" for="exampleCheck1">Mantener sesión iniciada</label>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mb-3">INGRESAR</button>
 
                         <div class="text-center links-container">
-                            <a href="#" class="d-block mb-2">¿Has olvidado tu contraseña?</a>
+                            <a href="<?= base_url('recuperar') ?>" class="d-block mb-2">¿Has olvidado tu contraseña?</a>
                             <a href="<?= base_url('registro') ?>" class="d-block">¿Aún no tienes cuenta? ¡Regístrate
                                 ahora!</a>
                         </div>
