@@ -170,145 +170,114 @@
                         <i class="fas fa-arrow-right ms-2"></i></a>
                 </div>
                 <div class="row g-4 mt-3">
-                    <!-- Producto -->
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/isolated.webp') ?>" alt="Proteína"
-                                    class="product-img mx-auto">
+                    <?php if (!empty($topProteinas)): ?>
+                        <?php foreach ($topProteinas as $producto): ?>
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
+                                    <div class="card-img-wrapper mb-3">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                    </div>
+                                    <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
+                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                </div>
                             </div>
-                            <h5 class="fw-semibold mb-2">Whey Protein Isolate</h5>
-                            <p class="text-success fw-bold mb-3">$ 49.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/vegan.webp') ?>" alt="Proteína"
-                                    class="product-img mx-auto">
-                            </div>
-                            <h5 class="fw-semibold mb-2">Proteína Vegana</h5>
-                            <p class="text-success fw-bold mb-3">$ 39.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/caseina.webp') ?>" alt="Proteína"
-                                    class="product-img mx-auto">
-                            </div>
-                            <h5 class="fw-semibold mb-2">Casein Protein</h5>
-                            <p class="text-success fw-bold mb-3">$ 144.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                    <?php endif; ?>
                 </div>
             </div>
 
             <!-- CREATINAS -->
             <div class="col-12">
-                <h3 class="fs-4 mb-4 text-primary text-center">Top en Creatinas</h3>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fs-4 text-primary mb-0">Top en Creatinas</h3>
+                    <a href="<?= base_url('categoria/creatinas') ?>" class="btn btn-outline-primary btn-sm">Ver todos
+                        <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
                 <div class="row g-4 mt-3">
-                    <!-- Producto -->
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/creatina.png') ?>" alt="Creatina"
-                                    class="product-img mx-auto">
+                    <?php if (!empty($topCreatinas)): ?>
+                        <?php foreach ($topCreatinas as $producto): ?>
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
+                                    <div class="card-img-wrapper mb-3">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                    </div>
+                                    <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
+                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                </div>
                             </div>
-                            <h5 class="fw-semibold mb-2">Creatina Monohidrato</h5>
-                            <p class="text-success fw-bold mb-3">$ 29.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/hcl.webp') ?>" alt="Creatina"
-                                    class="product-img mx-auto">
-                            </div>
-                            <h5 class="fw-semibold mb-2">Creatina HCL</h5>
-                            <p class="text-success fw-bold mb-3">$ 134.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/micronizada.webp') ?>" alt="Creatina"
-                                    class="product-img mx-auto">
-                            </div>
-                            <h5 class="fw-semibold mb-2">Creatina Micronizada</h5>
-                            <p class="text-success fw-bold mb-3">$ 36.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                    <?php endif; ?>
                 </div>
             </div>
 
-            <!-- PRE-ENTRENOS -->
+            <!-- COLÁGENOS -->
             <div class="col-12">
-                <h3 class="fs-4 mb-4 text-primary text-center">Top en Pre-Entrenos</h3>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fs-4 text-primary mb-0">Top en Colágenos</h3>
+                    <a href="<?= base_url('categoria/colagenos') ?>" class="btn btn-outline-primary btn-sm">Ver todos
+                        <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
                 <div class="row g-4 mt-3">
-                    <!-- Producto -->
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/pump.webp') ?>" alt="Pre-Entreno"
-                                    class="product-img mx-auto">
+                    <?php if (!empty($topColagenos)): ?>
+                        <?php foreach ($topColagenos as $producto): ?>
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
+                                    <div class="card-img-wrapper mb-3">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                    </div>
+                                    <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
+                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                </div>
                             </div>
-                            <h5 class="fw-semibold mb-2">PUMP v8</h5>
-                            <p class="text-success fw-bold mb-3">$ 39.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/explosive.webp') ?>" alt="Pre-Entreno"
-                                    class="product-img mx-auto">
-                            </div>
-                            <h5 class="fw-semibold mb-2">PRE.NO Explosive</h5>
-                            <p class="text-success fw-bold mb-3">$ 44.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                            <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/prewar.webp') ?>" alt="Pre-Entreno"
-                                    class="product-img mx-auto">
-                            </div>
-                            <h5 class="fw-semibold mb-2">ENA PRE War</h5>
-                            <p class="text-success fw-bold mb-3">$ 34.999</p>
-                            <button class="btn btn-primary mt-auto">Comprar</button>
-                            <a href="#" class="text-primary text-decoration-none mt-1">Detalles</a>
-                        </div>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                    <?php endif; ?>
                 </div>
             </div>
 
+            <!-- ACCESORIOS -->
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fs-4 text-primary mb-0">Top en Accesorios</h3>
+                    <a href="<?= base_url('categoria/accesorios') ?>" class="btn btn-outline-primary btn-sm">Ver todos
+                        <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+                <div class="row g-4 mt-3">
+                    <?php if (!empty($topAccesorios)): ?>
+                        <?php foreach ($topAccesorios as $producto): ?>
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
+                                    <div class="card-img-wrapper mb-3">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                    </div>
+                                    <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
+                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- end of popular -->
+<!-- end of MAS VENDIDOS section-->
 
 <!-- NOSOTROS SECTION -->
 <section id="nosotros" class="py-5 py-md-6 bg-light"

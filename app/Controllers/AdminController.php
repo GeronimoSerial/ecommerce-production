@@ -201,7 +201,9 @@ class AdminController extends BaseController
                 'descripcion' => 'required',
                 'precio' => 'required|numeric',
                 'cantidad' => 'required|integer',
+                'cantidad_vendidos' => 'required|integer',
                 'id_categoria' => 'required|integer'
+
             ];
 
             if ($this->validate($rules)) {
@@ -210,18 +212,14 @@ class AdminController extends BaseController
                     'descripcion' => $this->request->getPost('descripcion'),
                     'precio' => $this->request->getPost('precio'),
                     'cantidad' => $this->request->getPost('cantidad'),
+                    'cantidad_vendidos' => $this->request->getPost('cantidad_vendidos'),
                     'id_categoria' => $this->request->getPost('id_categoria')
                 ];
-
-                // if ($this->request->getPost('imagen')) {
-                //     $data['url_imagen'] = $this->request->getPost('imagen');
-                // }
 
                 $imagen = $this->request->getPost('imagen');
                 if (!empty($imagen)) {
                     $data['url_imagen'] = $imagen;
                 } else {
-                    // Mantener la imagen actual si no se proporciona una nueva
                     $data['url_imagen'] = $producto['url_imagen'];
                 }
 

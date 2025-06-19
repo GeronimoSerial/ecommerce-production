@@ -92,6 +92,21 @@ $validation = $validation ?? \Config\Services::validation();
                                         </div>
                                     <?php endif; ?>
                                 </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="cantidad_vendidos" class="form-label">Cantidad Vendidos *</label>
+                                    <input type="number"
+                                        class="form-control <?= ($validation->hasError('cantidad_vendidos')) ? 'is-invalid' : '' ?>"
+                                        id="cantidad_vendidos" name="cantidad_vendidos"
+                                        value="<?= old('cantidad_vendidos', $producto['cantidad_vendidos']) ?>" min="0"
+                                        required>
+                                    <?php if ($validation->hasError('cantidad_vendidos')): ?>
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('cantidad_vendidos') ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
                             </div>
 
                             <div class="mb-3">

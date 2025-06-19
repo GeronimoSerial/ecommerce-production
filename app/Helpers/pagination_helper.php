@@ -17,7 +17,6 @@ if (!function_exists('generate_pagination')) {
     {
         $paginaActual = $paginacion['paginaActual'];
         $totalPaginas = $paginacion['totalPaginas'];
-        $totalProductos = $paginacion['totalProductos'];
 
         if ($totalPaginas <= 1) {
             return '';
@@ -139,7 +138,8 @@ if (!function_exists('generate_sort_links')) {
         $opciones = [
             'nombre' => 'Nombre',
             'precio' => 'Precio',
-            'cantidad' => 'Cantidad'
+            'cantidad' => 'Cantidad',
+            'cantidad_vendidos' => 'Vendidos'
         ];
 
         $html = '<div class="dropdown">';

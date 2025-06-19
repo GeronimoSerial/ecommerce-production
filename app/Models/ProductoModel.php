@@ -21,7 +21,7 @@ class ProductoModel extends Model
     public function getAllProductsWithCategories($orden = 'nombre', $direccion = 'ASC', $limit = 20, $offset = 0)
     {
         $db = \Config\Database::connect();
-        $allowedOrder = ['nombre', 'precio', 'cantidad', 'categoria_nombre', 'activo', 'id_producto'];
+        $allowedOrder = ['nombre', 'precio', 'cantidad', 'categoria_nombre', 'activo', 'id_producto', 'cantidad_vendidos'];
         $allowedDir = ['ASC', 'DESC'];
         if (!in_array($orden, $allowedOrder))
             $orden = 'nombre';
@@ -65,5 +65,50 @@ class ProductoModel extends Model
         return $db->table('productos')
             ->where('activo', 1)
             ->countAllResults();
+    }
+
+    /**
+     * Obtiene los productos más vendidos, opcionalmente por categoría.
+     * @param int|null $categoriaId Si se pasa, filtra por esa categoría
+     * @param int $limite Cantidad máxima de productos a devolver
+     * @return array
+     */
+    public function getTopVendidos($categoriaId = null, $limite = 3)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('productos');
+        $builder->where('activo', 1);
+        if ($categoriaId !== null) {
+            $builder->where('id_categoria', $categoriaId);
+        }
+        $builder->orderBy('cantidad_vendidos', 'DESC');
+        $builder->limit($limite);
+        return $builder->get()->getResultArray();
+    }
+
+    /**
+     * Obtiene los productos más vendidos para múltiples categorías
+     * @param array $categorias Array asociativo de [nombre_categoria => id_categoria]
+     * @param int $limite Cantidad máxima de productos por categoría
+     * @return array Array asociativo con [nombre_categoria => [productos]]
+     */
+    public function getTopVendidosPorCategorias(array $categorias, int $limite = 3)
+    {
+        $db = \Config\Database::connect();
+        $resultado = [];
+
+        foreach ($categorias as $nombre => $id) {
+            $builder = $db->table($this->table);
+            $productos = $builder->where('activo', 1)
+                               ->where('id_categoria', $id)
+                               ->orderBy('cantidad_vendidos', 'DESC')
+                               ->limit($limite)
+                               ->get()
+                               ->getResultArray();
+            
+            $resultado[$nombre] = $productos;
+        }
+
+        return $resultado;
     }
 }

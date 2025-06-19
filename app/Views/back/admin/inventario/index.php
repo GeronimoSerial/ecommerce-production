@@ -62,8 +62,9 @@ $cantActivos = $cantActivos ?? 0
                                 <th><a
                                         href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'activo', 'direccion' => ($filtros['orden'] == 'activo' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Estado<?= $filtros['orden'] == 'activo' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
                                 </th>
-                                <th>Vendidos</th>
-                                <th>Acciones</th>
+                                <th><a
+                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'cantidad_vendidos', 'direccion' => ($filtros['orden'] == 'cantidad_vendidos' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Vendidos<?= $filtros['orden'] == 'cantidad_vendidos' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
