@@ -11,6 +11,10 @@ class LoginController extends BaseController
     {
 
         helper(['form', 'url']);
+        $session = session();
+        if ($session->get('logueado')) {
+            return redirect()->to('/panel')->with('error', 'Ya estás logueado. No puedes registrarte nuevamente.');
+        }
         return view('templates/main_layout', [
             'title' => 'Login',
             'content' => view('back/usuario/login')
@@ -18,6 +22,10 @@ class LoginController extends BaseController
     }
     public function registro()
     {
+        $session = session();
+        if ($session->get('logueado')) {
+            return redirect()->to('/panel')->with('error', 'Ya estás logueado. No puedes registrarte nuevamente.');
+        }
         return view('templates/main_layout', [
             'title' => 'Registro',
             'content' => view('back/usuario/registro')
@@ -32,7 +40,13 @@ class LoginController extends BaseController
         $input = $this->request->getPost();
 
         $email = $input['email'];
-        $password = $input['pass'];
+        $password = $input['password'];
+        // $activo = $usuarioModel->where('email', $email)->first()['activo'] == 0 ? false : true;
+
+        // if (!$activo) {
+        //     $session->setFlashdata('error', 'El usuario está inactivo. Contacte al administrador.');
+        //     return redirect()->to('/login');
+        // }
 
         // Validación simple
         if (empty($email) || empty($password)) {
@@ -48,11 +62,17 @@ class LoginController extends BaseController
             $persona = $builder->where('id_persona', $usuario['id_persona'])->get()->getRowArray();
             $nombre = $persona ? $persona['nombre'] : '';
             $apellido = $persona ? $persona['apellido'] : '';
+            $activo = $usuario['activo'] == 0 ? false : true;
+
+            if (!$activo) {
+                $session->setFlashdata('error', 'El usuario está inactivo. Contacte al administrador.');
+                return redirect()->to('/login');
+            }
 
             if (password_verify($password, $usuario['password_hash'])) {
                 // Eliminar perfil_id si existe en la sesión anterior
                 $session->remove('perfil_id');
-                
+
                 // Guardar datos en sesión
                 $session->set([
                     'usuario_id' => $usuario['id_usuario'],
@@ -84,7 +104,7 @@ class LoginController extends BaseController
     {
         $session = session();
         $session->destroy();
-        $session->remove('apellido');
+        // $session->remove('apellido');
         return redirect()->to('/login')->with('success', 'Sesión cerrada correctamente.');
     }
 }

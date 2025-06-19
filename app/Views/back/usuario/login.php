@@ -7,25 +7,13 @@
                     <p class="text-center mb-4">¡Bienvenido de nuevo! Accede a tu cuenta para continuar tu viaje fitness
                     </p>
 
-                    <?php if (session()->getFlashdata('error')): ?>
-                        <div class="alert alert-danger text-center">
-                            <?= session('error') ?>
-                        </div>
-                    <?php endif; ?>
-
-                    <?php if (session()->getFlashdata('success')): ?>
-                        <div class="alert alert-success text-center">
-                            <?= session('success') ?>
-                        </div>
-                    <?php endif; ?>
-
                     <form method="post" action="<?= base_url('login') ?>" class="login-form">
                         <div class="mb-4">
                             <label for="exampleInputEmail1" class="form-label">CORREO ELECTRÓNICO</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                 <input name="email" type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="tu@email.com">
+                                    aria-describedby="emailHelp" placeholder="tu@email.com" required>
                             </div>
                             <div id="emailHelp" class="form-text">Nunca compartiremos tu dirección de correo electrónico
                             </div>
@@ -35,8 +23,8 @@
                             <label for="exampleInputPassword1" class="form-label">CONTRASEÑA</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input name="pass" type="password" class="form-control" id="exampleInputPassword1"
-                                    placeholder="********">
+                                <input name="password" type="password" class="form-control" id="exampleInputPassword1"
+                                    placeholder="********" required>
                             </div>
                         </div>
 

@@ -1,26 +1,14 @@
-<?php 
+<?php
 $nombre = $nombre ?? '';
 $perfil = $perfil ?? 2;
 ?>
 
 <div class="bg-dark text-light min-vh-100" style="padding-top: 76px;">
     <div class="container py-5">
-        <?php if (session()->getFlashData('msg')):?>
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                <?= session()->getFlashdata('msg')?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif;?>
-
-        <?php if (session()->getFlashdata('msg')): ?>
-            <div class="alert alert-info text-center">
-                <?= session('msg') ?>
-            </div>
-        <?php endif; ?>
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <?php if($perfil == 1): ?>
+                <?php if ($perfil == 1): ?>
                     <div class="card bg-gradient border-0 shadow-lg">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-4">
@@ -31,8 +19,10 @@ $perfil = $perfil ?? 2;
                                 </div>
                             </div>
                             <div class="welcome-message">
-                                <h2 class="h4 mb-3">¡Bienvenido, <span class="text-primary"><?php echo $nombre; ?></span>!</h2>
-                                <p class="card-text">Como administrador, tienes acceso completo a todas las funciones del sistema:</p>
+                                <h2 class="h4 mb-3">¡Bienvenido, <span class="text-primary"><?php echo $nombre; ?></span>!
+                                </h2>
+                                <p class="card-text">Como administrador, tienes acceso completo a todas las funciones del
+                                    sistema:</p>
                                 <ul class="list-unstyled">
                                     <li><i class="bi bi-check2-circle text-success me-2"></i>Gestión de usuarios</li>
                                     <li><i class="bi bi-check2-circle text-success me-2"></i>Control de inventario</li>
@@ -44,7 +34,7 @@ $perfil = $perfil ?? 2;
                             </div>
                         </div>
                     </div>
-                <?php elseif ($perfil == 2):?>
+                <?php elseif ($perfil == 2): ?>
                     <div class="card bg-gradient border-0 shadow-lg">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-4">
@@ -55,7 +45,8 @@ $perfil = $perfil ?? 2;
                                 </div>
                             </div>
                             <div class="welcome-message">
-                                <h2 class="h4 mb-3">¡Bienvenido de nuevo, <span class="text-primary"><?php echo $nombre; ?></span>!</h2>
+                                <h2 class="h4 mb-3">¡Bienvenido de nuevo, <span
+                                        class="text-primary"><?php echo $nombre; ?></span>!</h2>
                                 <p class="card-text">Accede a tu área personal y descubre todo lo que tenemos para ti:</p>
                                 <div class="row g-4 mt-3">
                                     <div class="col-6">
@@ -74,10 +65,11 @@ $perfil = $perfil ?? 2;
                             </div>
                         </div>
                     </div>
-                <?php endif;?>
+                <?php endif; ?>
 
                 <div class="text-end mt-3">
-                    <a href="<?= base_url('actualizar') ?>" class="btn btn-outline-primary">Editar mis datos personales</a>
+                    <a href="<?= base_url('actualizar') ?>" class="btn btn-outline-primary">Editar mis datos
+                        personales</a>
                 </div>
 
                 <div class="text-center mt-4">

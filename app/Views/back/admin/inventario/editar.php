@@ -23,25 +23,7 @@ $validation = $validation ?? \Config\Services::validation();
             </div>
         </div>
 
-        <!-- Mensajes Flash -->
-        <?php if (session()->getFlashData('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('error') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-        <?php if (isset($debug) && $debug): ?>
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                <?= $debug ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashData('msg')): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('msg') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
+
 
         <!-- Formulario -->
         <div class="row justify-content-center">

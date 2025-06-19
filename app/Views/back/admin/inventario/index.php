@@ -29,20 +29,6 @@ $cantActivos = $cantActivos ?? 0
             </div>
         </div>
 
-        <!-- Mensajes Flash -->
-        <?php if (session()->getFlashData('msg')): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('msg') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-
-        <?php if (session()->getFlashData('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('error') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
 
         <!-- Tabla de Productos -->
         <div class="card border-0 shadow-sm">

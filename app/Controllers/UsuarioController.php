@@ -30,6 +30,7 @@ class UsuarioController extends BaseController
         return view('templates/main_layout', [
             'title' => 'Actualizar mis datos',
             'content' => view('back/usuario/actualizarDatos', [
+                'dni' => $persona['dni'] ?? '',
                 'nombre' => $persona['nombre'] ?? '',
                 'apellido' => $persona['apellido'] ?? '',
                 'email' => $usuario['email'] ?? '',
@@ -136,6 +137,7 @@ class UsuarioController extends BaseController
         ]);
         // Actualizar persona
         $personaModel->update($persona['id_persona'], [
+            'dni' => $input['dni'],
             'nombre' => $input['nombre'],
             'apellido' => $input['apellido'],
             'telefono' => $input['telefono']
@@ -151,7 +153,7 @@ class UsuarioController extends BaseController
     }
 
     // ==================== MÉTODOS PARA PANEL DE ADMINISTRACIÓN ====================
-    
+
     /**
      * Lista todos los usuarios para el panel de administración
      */
@@ -210,11 +212,11 @@ class UsuarioController extends BaseController
 
                 // 2. Insertar persona
                 $idPersona = $personaModel->insert([
-                    'dni' => '00000000',
+                    'dni' => $this->request->getPost('dni'),
                     'nombre' => $this->request->getPost('nombre'),
                     'apellido' => $this->request->getPost('apellido'),
                     'id_domicilio' => $idDomicilio,
-                    'telefono' => '0000000000',
+                    'telefono' => $this->request->getPost('telefono', FILTER_SANITIZE_STRING)
                 ]);
 
                 // 3. Insertar usuario
@@ -253,7 +255,7 @@ class UsuarioController extends BaseController
 
         $usuarioModel = new UsuarioModel();
         $personaModel = new PersonaModel();
-        
+
         $usuario = $usuarioModel->find($id);
         if (!$usuario) {
             return redirect()->to('/admin/usuarios');
@@ -317,7 +319,7 @@ class UsuarioController extends BaseController
         }
 
         $usuarioModel = new UsuarioModel();
-        
+
         if ($usuarioModel->delete($id)) {
             $session->setFlashdata('msg', 'Usuario eliminado exitosamente');
         } else {

@@ -15,6 +15,7 @@ class ProductoModel extends Model
         "cantidad",
         "url_imagen",
         "activo",
+        "cantidad_vendidos"
     ];
 
     public function getAllProductsWithCategories($orden = 'nombre', $direccion = 'ASC', $limit = 20, $offset = 0)

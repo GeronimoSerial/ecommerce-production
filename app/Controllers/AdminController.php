@@ -97,7 +97,7 @@ class AdminController extends BaseController
         $totalPaginas = (int) ceil($totalProductos / $limit);
         $stockBajo = count($this->productoModel->getLowCantidadProducts());
         $cantActivos = $this->productoModel->countActiveProducts();
-        // producto model ya viene paginado, por lo q el resultado es inexacto
+
 
         // Calcular el valor total de todos los productos (precio * cantidad)
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $usuarios = $usuarios ?? [];
 ?>
 
@@ -21,20 +21,7 @@ $usuarios = $usuarios ?? [];
             </div>
         </div>
 
-        <!-- Mensajes Flash -->
-        <?php if (session()->getFlashData('msg')): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('msg') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
 
-        <?php if (session()->getFlashData('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('error') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
 
         <!-- Tabla de Usuarios -->
         <div class="card border-0 shadow-sm">
@@ -71,7 +58,7 @@ $usuarios = $usuarios ?? [];
                                         <td><?= $usuario['apellido'] ?? 'N/A' ?></td>
                                         <td><?= $usuario['email'] ?? 'N/A' ?></td>
                                         <td>
-                                            <?php 
+                                            <?php
                                             $id_rol = $usuario['id_rol'] ?? 2;
                                             if ($id_rol == 1): ?>
                                                 <span class="badge bg-danger">Administrador</span>
@@ -82,7 +69,7 @@ $usuarios = $usuarios ?? [];
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php 
+                                            <?php
                                             $activo = $usuario['activo'] ?? 1;
                                             if ($activo == 1): ?>
                                                 <span class="badge bg-success">Activo</span>
@@ -92,19 +79,17 @@ $usuarios = $usuarios ?? [];
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <?php 
+                                                <?php
                                                 $usuario_id = $usuario['id_usuario'] ?? 0;
-                                                if ($usuario_id > 0): 
-                                                ?>
-                                                    <a href="<?= base_url('admin/usuarios/editar/' . $usuario_id) ?>" 
-                                                       class="btn btn-sm btn-outline-primary" 
-                                                       title="Editar">
+                                                if ($usuario_id > 0):
+                                                    ?>
+                                                    <a href="<?= base_url('admin/usuarios/editar/' . $usuario_id) ?>"
+                                                        class="btn btn-sm btn-outline-primary" title="Editar">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
-                                                    <a href="<?= base_url('admin/usuarios/eliminar/' . $usuario_id) ?>" 
-                                                       class="btn btn-sm btn-outline-danger" 
-                                                       title="Eliminar"
-                                                       onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
+                                                    <a href="<?= base_url('admin/usuarios/eliminar/' . $usuario_id) ?>"
+                                                        class="btn btn-sm btn-outline-danger" title="Eliminar"
+                                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
                                                         <i class="bi bi-trash"></i>
                                                     </a>
                                                 <?php else: ?>
@@ -137,9 +122,9 @@ $usuarios = $usuarios ?? [];
                     <div class="card-body text-center">
                         <i class="bi bi-shield-check text-danger" style="font-size: 2rem;"></i>
                         <h4 class="mt-2 mb-0">
-                            <?= count(array_filter($usuarios, function($u) { 
+                            <?= count(array_filter($usuarios, function ($u) {
                                 $id_rol = $u['id_rol'] ?? 2;
-                                return $id_rol == 1; 
+                                return $id_rol == 1;
                             })) ?>
                         </h4>
                         <p class="text-muted mb-0">Administradores</p>
@@ -151,9 +136,9 @@ $usuarios = $usuarios ?? [];
                     <div class="card-body text-center">
                         <i class="bi bi-person text-primary" style="font-size: 2rem;"></i>
                         <h4 class="mt-2 mb-0">
-                            <?= count(array_filter($usuarios, function($u) { 
+                            <?= count(array_filter($usuarios, function ($u) {
                                 $id_rol = $u['id_rol'] ?? 2;
-                                return $id_rol == 2; 
+                                return $id_rol == 2;
                             })) ?>
                         </h4>
                         <p class="text-muted mb-0">Usuarios</p>
@@ -165,9 +150,9 @@ $usuarios = $usuarios ?? [];
                     <div class="card-body text-center">
                         <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
                         <h4 class="mt-2 mb-0">
-                            <?= count(array_filter($usuarios, function($u) { 
+                            <?= count(array_filter($usuarios, function ($u) {
                                 $activo = $u['activo'] ?? 1;
-                                return $activo == 1; 
+                                return $activo == 1;
                             })) ?>
                         </h4>
                         <p class="text-muted mb-0">Activos</p>
@@ -176,4 +161,4 @@ $usuarios = $usuarios ?? [];
             </div>
         </div>
     </div>
-</div> 
+</div>

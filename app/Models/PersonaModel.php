@@ -11,6 +11,7 @@ class PersonaModel extends Model
 
     // Lists the fields that are allowed to be mass-assigned
     protected $allowedFields = [
+        "dni",
         "nombre",
         "apellido",
         "id_domicilio",

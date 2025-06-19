@@ -8,9 +8,8 @@
                 <p class="lead">Encuentra los mejores suplementos que se adapten a tus necesidades.</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('public/images/banners/gym_wallpaper.webp') ?>" 
-                     alt="Búsqueda Banner" 
-                     class="img-fluid rounded-4">
+                <img src="<?= base_url('public/images/banners/gym_wallpaper.webp') ?>" alt="Búsqueda Banner"
+                    class="img-fluid rounded-4">
             </div>
         </div>
     </div>
@@ -28,7 +27,7 @@
                         <h5 class="mb-0"><i class="bi bi-funnel me-2"></i>Filtros</h5>
                     </div>
                     <div class="card-body">
-                        <?php 
+                        <?php
                         $stats = [
                             'precioMinimo' => $precioMinimo,
                             'precioMaximo' => $precioMaximo
@@ -46,14 +45,14 @@
                     <div>
                         <h4 class="mb-1">Resultados de búsqueda</h4>
                         <p class="text-muted mb-0">
-                            <?php 
+                            <?php
                             // Calcular productos mostrados en esta página
                             $productosEnPagina = count($productos);
                             $inicioProductos = ($paginacion['paginaActual'] - 1) * $paginacion['productosPorPagina'] + 1;
                             $finProductos = $inicioProductos + $productosEnPagina - 1;
                             ?>
                             <?php if (!empty($busqueda)): ?>
-                                Búsqueda: "<strong><?= htmlspecialchars($busqueda) ?></strong>" - 
+                                Búsqueda: "<strong><?= htmlspecialchars($busqueda) ?></strong>" -
                             <?php endif; ?>
                             <?php if ($productosEnPagina > 0): ?>
                                 Mostrando <?= $inicioProductos ?>-<?= $finProductos ?> de <?= $totalProductos ?> productos
@@ -66,10 +65,10 @@
                         </p>
                     </div>
                     <div class="d-flex gap-2">
-                        <?= generate_sort_links($filtros, current_url()) ?>
+                        <?= generate_sort_links($filtros, site_url(uri_string())) ?>
                     </div>
                 </div>
-                
+
                 <?php if (empty($productos)): ?>
                     <!-- Mensaje cuando no hay productos -->
                     <div class="text-center py-5">
@@ -77,7 +76,8 @@
                         <h4 class="text-muted">No se encontraron productos</h4>
                         <p class="text-muted">
                             <?php if (!empty($busqueda)): ?>
-                                No encontramos productos que coincidan con "<strong><?= htmlspecialchars($busqueda) ?></strong>".
+                                No encontramos productos que coincidan con
+                                "<strong><?= htmlspecialchars($busqueda) ?></strong>".
                             <?php endif; ?>
                             Intenta ajustar los filtros de búsqueda.
                         </p>
@@ -94,7 +94,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <span class="badge bg-primary mb-2">
-                                            <?php 
+                                            <?php
                                             // Obtener nombre de categoría
                                             $categoriaNombre = 'Producto';
                                             foreach ($categorias as $cat) {
@@ -108,7 +108,8 @@
                                         </span>
                                         <h5 class="fw-semibold mb-2"><?= $producto['nombre'] ?></h5>
                                         <p class="text-muted small mb-2"><?= $producto['descripcion'] ?></p>
-                                        <p class="text-success fw-bold mb-0">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                        <p class="text-success fw-bold mb-0">$
+                                            <?= number_format($producto['precio'], 0, ',', '.') ?></p>
                                         <?php if ($producto['cantidad'] <= 5 && $producto['cantidad'] > 0): ?>
                                             <small class="text-warning">¡Solo quedan <?= $producto['cantidad'] ?> unidades!</small>
                                         <?php elseif ($producto['cantidad'] == 0): ?>
@@ -117,8 +118,8 @@
                                     </div>
                                     <div class="mt-auto">
                                         <?php if ($producto['cantidad'] > 0): ?>
-                                            <button class="btn btn-primary w-100 mb-2" 
-                                                    onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">
+                                            <button class="btn btn-primary w-100 mb-2"
+                                                onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">
                                                 Agregar al Carrito
                                             </button>
                                         <?php else: ?>
@@ -126,8 +127,8 @@
                                                 Agotado
                                             </button>
                                         <?php endif; ?>
-                                        <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" 
-                                           class="text-primary text-decoration-none small">
+                                        <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                            class="text-primary text-decoration-none small">
                                             Ver Detalles
                                         </a>
                                     </div>
@@ -151,15 +152,15 @@
 </section>
 
 <script>
-function agregarAlCarrito(productoId) {
-    // Implementar lógica del carrito
-    console.log('Agregando producto al carrito:', productoId);
-    
-    // Mostrar notificación
-    const toast = document.createElement('div');
-    toast.className = 'position-fixed top-0 end-0 p-3';
-    toast.style.zIndex = '1050';
-    toast.innerHTML = `
+    function agregarAlCarrito(productoId) {
+        // Implementar lógica del carrito
+        console.log('Agregando producto al carrito:', productoId);
+
+        // Mostrar notificación
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed top-0 end-0 p-3';
+        toast.style.zIndex = '1050';
+        toast.innerHTML = `
         <div class="toast show" role="alert">
             <div class="toast-header">
                 <strong class="me-auto">Carrito</strong>
@@ -170,11 +171,11 @@ function agregarAlCarrito(productoId) {
             </div>
         </div>
     `;
-    document.body.appendChild(toast);
-    
-    // Remover la notificación después de 3 segundos
-    setTimeout(() => {
-        document.body.removeChild(toast);
-    }, 3000);
-}
-</script> 
+        document.body.appendChild(toast);
+
+        // Remover la notificación después de 3 segundos
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 3000);
+    }
+</script>

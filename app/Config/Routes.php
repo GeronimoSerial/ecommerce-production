@@ -58,7 +58,7 @@ $routes->get('categoria/(:segment)', 'ProductosController::porCategoria/$1');
 $routes->get('producto/(:num)', 'ProductosController::detalle/$1');
 $routes->get('productos/buscar', 'ProductosController::buscar');
 $routes->post('productos/buscar', 'ProductosController::buscar');
-
+$routes->get('buscar', 'ProductosController::buscar'); // Si también necesitas esta ruta
 // Ruta legacy para compatibilidad (redirige a la nueva estructura)
 $routes->get('productos/(:segment)', 'ProductosController::porCategoria/$1');
 
@@ -77,7 +77,7 @@ $routes->post('actualizar', 'UsuarioController::Update');
 $routes->get('admin', 'AdminController::index');
 
 // Ruta temporal para debug
-$routes->get('debug-session', function() {
+$routes->get('debug-session', function () {
     $session = session();
     echo "<h2>Debug de Sesión</h2>";
     echo "<pre>";

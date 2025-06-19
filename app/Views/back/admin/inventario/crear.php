@@ -1,4 +1,4 @@
-<?php 
+<?php
 $categorias = $categorias ?? [];
 $validation = $validation ?? \Config\Services::validation();
 ?>
@@ -22,13 +22,6 @@ $validation = $validation ?? \Config\Services::validation();
             </div>
         </div>
 
-        <!-- Mensajes Flash -->
-        <?php if (session()->getFlashData('error')): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= session()->getFlashData('error') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
 
         <!-- Formulario -->
         <div class="row justify-content-center">
@@ -40,49 +33,41 @@ $validation = $validation ?? \Config\Services::validation();
                     <div class="card-body">
                         <form action="<?= base_url('admin/inventario/crear') ?>" method="post">
                             <?= csrf_field() ?>
-                            
+
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre del Producto *</label>
-                                <input type="text" 
-                                       class="form-control <?= ($validation->hasError('nombre')) ? 'is-invalid' : '' ?>" 
-                                       id="nombre" 
-                                       name="nombre" 
-                                       value="<?= old('nombre') ?>" 
-                                       required>
+                                <input type="text"
+                                    class="form-control <?= ($validation->hasError('nombre')) ? 'is-invalid' : '' ?>"
+                                    id="nombre" name="nombre" value="<?= old('nombre') ?>" required>
                                 <?php if ($validation->hasError('nombre')): ?>
                                     <div class="invalid-feedback">
                                         <?= $validation->getError('nombre') ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="descripcion" class="form-label">Descripción *</label>
-                                <textarea class="form-control <?= ($validation->hasError('descripcion')) ? 'is-invalid' : '' ?>" 
-                                          id="descripcion" 
-                                          name="descripcion" 
-                                          rows="4" 
-                                          required><?= old('descripcion') ?></textarea>
+                                <textarea
+                                    class="form-control <?= ($validation->hasError('descripcion')) ? 'is-invalid' : '' ?>"
+                                    id="descripcion" name="descripcion" rows="4"
+                                    required><?= old('descripcion') ?></textarea>
                                 <?php if ($validation->hasError('descripcion')): ?>
                                     <div class="invalid-feedback">
                                         <?= $validation->getError('descripcion') ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="precio" class="form-label">Precio *</label>
                                     <div class="input-group">
                                         <span class="input-group-text">$</span>
-                                        <input type="number" 
-                                               class="form-control <?= ($validation->hasError('precio')) ? 'is-invalid' : '' ?>" 
-                                               id="precio" 
-                                               name="precio" 
-                                               value="<?= old('precio') ?>" 
-                                               step="0.01" 
-                                               min="0" 
-                                               required>
+                                        <input type="number"
+                                            class="form-control <?= ($validation->hasError('precio')) ? 'is-invalid' : '' ?>"
+                                            id="precio" name="precio" value="<?= old('precio') ?>" step="0.01" min="0"
+                                            required>
                                         <?php if ($validation->hasError('precio')): ?>
                                             <div class="invalid-feedback">
                                                 <?= $validation->getError('precio') ?>
@@ -90,16 +75,12 @@ $validation = $validation ?? \Config\Services::validation();
                                         <?php endif; ?>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-6 mb-3">
                                     <label for="cantidad" class="form-label">Cantidad en Stock *</label>
-                                    <input type="number" 
-                                           class="form-control <?= ($validation->hasError('cantidad')) ? 'is-invalid' : '' ?>" 
-                                           id="cantidad" 
-                                           name="cantidad" 
-                                           value="<?= old('cantidad') ?>" 
-                                           min="0" 
-                                           required>
+                                    <input type="number"
+                                        class="form-control <?= ($validation->hasError('cantidad')) ? 'is-invalid' : '' ?>"
+                                        id="cantidad" name="cantidad" value="<?= old('cantidad') ?>" min="0" required>
                                     <?php if ($validation->hasError('cantidad')): ?>
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('cantidad') ?>
@@ -107,16 +88,16 @@ $validation = $validation ?? \Config\Services::validation();
                                     <?php endif; ?>
                                 </div>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="id_categoria" class="form-label">Categoría *</label>
-                                <select class="form-select <?= ($validation->hasError('id_categoria')) ? 'is-invalid' : '' ?>" 
-                                        id="id_categoria" 
-                                        name="id_categoria" 
-                                        required>
+                                <select
+                                    class="form-select <?= ($validation->hasError('id_categoria')) ? 'is-invalid' : '' ?>"
+                                    id="id_categoria" name="id_categoria" required>
                                     <option value="">Selecciona una categoría</option>
                                     <?php foreach ($categorias as $categoria): ?>
-                                        <option value="<?= $categoria['id_categoria'] ?>" <?= (old('id_categoria') == $categoria['id_categoria']) ? 'selected' : '' ?>>
+                                        <option value="<?= $categoria['id_categoria'] ?>"
+                                            <?= (old('id_categoria') == $categoria['id_categoria']) ? 'selected' : '' ?>>
                                             <?= $categoria['nombre'] ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -127,18 +108,14 @@ $validation = $validation ?? \Config\Services::validation();
                                     </div>
                                 <?php endif; ?>
                             </div>
-                            
+
                             <div class="mb-4">
                                 <label for="imagen" class="form-label">URL de la Imagen</label>
-                                <input type="url" 
-                                       class="form-control" 
-                                       id="imagen" 
-                                       name="imagen" 
-                                       value="<?= old('imagen') ?>" 
-                                       placeholder="https://ejemplo.com/imagen.jpg">
+                                <input type="url" class="form-control" id="imagen" name="imagen"
+                                    value="<?= old('imagen') ?>" placeholder="https://ejemplo.com/imagen.jpg">
                                 <div class="form-text text-muted">Deja en blanco para usar imagen por defecto</div>
                             </div>
-                            
+
                             <div class="d-flex justify-content-between">
                                 <a href="<?= base_url('admin/inventario') ?>" class="btn btn-secondary">
                                     <i class="bi bi-x-circle"></i> Cancelar
@@ -153,4 +130,4 @@ $validation = $validation ?? \Config\Services::validation();
             </div>
         </div>
     </div>
-</div> 
+</div>

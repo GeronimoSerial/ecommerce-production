@@ -13,15 +13,16 @@ if (!function_exists('generate_pagination')) {
      * @param string $baseUrl URL base para la paginación
      * @return string HTML de paginación
      */
-    function generate_pagination($paginacion, $filtros = [], $baseUrl = '') {
+    function generate_pagination($paginacion, $filtros = [], $baseUrl = '')
+    {
         $paginaActual = $paginacion['paginaActual'];
         $totalPaginas = $paginacion['totalPaginas'];
         $totalProductos = $paginacion['totalProductos'];
-        
+
         if ($totalPaginas <= 1) {
             return '';
         }
-        
+
         // Construir parámetros de filtros para URLs
         $queryParams = [];
         foreach ($filtros as $key => $value) {
@@ -29,10 +30,10 @@ if (!function_exists('generate_pagination')) {
                 $queryParams[$key] = $value;
             }
         }
-        
+
         $html = '<nav aria-label="Navegación de páginas">';
         $html .= '<ul class="pagination justify-content-center">';
-        
+
         // Botón Anterior
         if ($paginaActual > 1) {
             $prevParams = $queryParams;
@@ -46,12 +47,12 @@ if (!function_exists('generate_pagination')) {
             $html .= '<span class="page-link">Anterior</span>';
             $html .= '</li>';
         }
-        
+
         // Calcular rango de páginas a mostrar
         $rango = 2; // Páginas a mostrar antes y después de la actual
         $inicio = max(1, $paginaActual - $rango);
         $fin = min($totalPaginas, $paginaActual + $rango);
-        
+
         // Mostrar primera página si no está en el rango
         if ($inicio > 1) {
             $params = $queryParams;
@@ -60,20 +61,20 @@ if (!function_exists('generate_pagination')) {
             $html .= '<li class="page-item">';
             $html .= '<a class="page-link" href="' . $url . '">1</a>';
             $html .= '</li>';
-            
+
             if ($inicio > 2) {
                 $html .= '<li class="page-item disabled">';
                 $html .= '<span class="page-link">...</span>';
                 $html .= '</li>';
             }
         }
-        
+
         // Mostrar páginas en el rango
         for ($i = $inicio; $i <= $fin; $i++) {
             $params = $queryParams;
             $params['page'] = $i;
             $url = $baseUrl . '?' . http_build_query($params);
-            
+
             if ($i == $paginaActual) {
                 $html .= '<li class="page-item active">';
                 $html .= '<span class="page-link">' . $i . '</span>';
@@ -84,7 +85,7 @@ if (!function_exists('generate_pagination')) {
                 $html .= '</li>';
             }
         }
-        
+
         // Mostrar última página si no está en el rango
         if ($fin < $totalPaginas) {
             if ($fin < $totalPaginas - 1) {
@@ -92,7 +93,7 @@ if (!function_exists('generate_pagination')) {
                 $html .= '<span class="page-link">...</span>';
                 $html .= '</li>';
             }
-            
+
             $params = $queryParams;
             $params['page'] = $totalPaginas;
             $url = $baseUrl . '?' . http_build_query($params);
@@ -100,7 +101,7 @@ if (!function_exists('generate_pagination')) {
             $html .= '<a class="page-link" href="' . $url . '">' . $totalPaginas . '</a>';
             $html .= '</li>';
         }
-        
+
         // Botón Siguiente
         if ($paginaActual < $totalPaginas) {
             $nextParams = $queryParams;
@@ -114,10 +115,10 @@ if (!function_exists('generate_pagination')) {
             $html .= '<span class="page-link">Siguiente</span>';
             $html .= '</li>';
         }
-        
+
         $html .= '</ul>';
         $html .= '</nav>';
-        
+
         return $html;
     }
 }
@@ -130,49 +131,56 @@ if (!function_exists('generate_sort_links')) {
      * @param string $baseUrl URL base
      * @return string HTML de enlaces de ordenamiento
      */
-    function generate_sort_links($filtros, $baseUrl = '') {
+    function generate_sort_links($filtros, $baseUrl = '')
+    {
         $ordenActual = $filtros['orden'] ?? 'nombre';
         $direccionActual = $filtros['direccion'] ?? 'ASC';
-        
+
         $opciones = [
             'nombre' => 'Nombre',
             'precio' => 'Precio',
-            'cantidad' => 'cantidad'
+            'cantidad' => 'Cantidad'
         ];
-        
+
         $html = '<div class="dropdown">';
         $html .= '<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">';
         $html .= 'Ordenar por: ' . ($opciones[$ordenActual] ?? 'Nombre');
         $html .= '</button>';
         $html .= '<ul class="dropdown-menu">';
-        
+
         foreach ($opciones as $campo => $etiqueta) {
             $params = $filtros;
             $params['orden'] = $campo;
-            
-            // Cambiar dirección si es el mismo campo
+
             if ($ordenActual === $campo) {
                 $params['direccion'] = $direccionActual === 'ASC' ? 'DESC' : 'ASC';
             } else {
                 $params['direccion'] = 'ASC';
             }
-            
-            // Resetear página al cambiar orden
+
             unset($params['page']);
-            
-            $url = $baseUrl . '?' . http_build_query($params);
+
+            // ===== SOLUCIÓN SIMPLE =====
+            // Usar solo la ruta base sin parámetros
+            $urlParts = parse_url($baseUrl);
+            $cleanUrl = $urlParts['path'] ?? $baseUrl;
+            if (strpos($cleanUrl, '?') !== false) {
+                $cleanUrl = explode('?', $cleanUrl)[0];
+            }
+            $url = site_url($cleanUrl) . '?' . http_build_query($params);
+            // ===========================
+
             $icono = '';
-            
             if ($ordenActual === $campo) {
                 $icono = $direccionActual === 'ASC' ? ' ↑' : ' ↓';
             }
-            
+
             $html .= '<li><a class="dropdown-item" href="' . $url . '">' . $etiqueta . $icono . '</a></li>';
         }
-        
+
         $html .= '</ul>';
         $html .= '</div>';
-        
+
         return $html;
     }
 }
@@ -187,36 +195,37 @@ if (!function_exists('generate_filter_form')) {
      * @param string $baseUrl URL base
      * @return string HTML del formulario de filtros
      */
-    function generate_filter_form($filtros, $categorias = [], $stats = [], $baseUrl = '') {
+    function generate_filter_form($filtros, $categorias = [], $stats = [], $baseUrl = '')
+    {
         $html = '<form method="GET" action="' . $baseUrl . '" class="filter-form">';
-        
+
         // Búsqueda
         $html .= '<div class="mb-3">';
         $html .= '<label for="busqueda" class="form-label">Buscar</label>';
         $html .= '<input type="text" class="form-control" id="busqueda" name="busqueda" value="' . htmlspecialchars($filtros['busqueda'] ?? '') . '" placeholder="Buscar productos...">';
         $html .= '</div>';
-        
+
         // Categoría (solo para búsqueda general)
         if (!empty($categorias)) {
             $html .= '<div class="mb-3">';
             $html .= '<label for="categoria" class="form-label">Categoría</label>';
             $html .= '<select class="form-select" id="categoria" name="categoria">';
             $html .= '<option value="">Todas las categorías</option>';
-            
+
             foreach ($categorias as $categoria) {
                 $selected = ($filtros['categoriaId'] ?? '') == $categoria['id_categoria'] ? 'selected' : '';
                 $html .= '<option value="' . $categoria['id_categoria'] . '" ' . $selected . '>' . $categoria['nombre'] . '</option>';
             }
-            
+
             $html .= '</select>';
             $html .= '</div>';
         }
-        
+
         // Rango de precios
         if (!empty($stats)) {
             $precioMin = $stats['precioMinimo'] ?? 0;
             $precioMax = $stats['precioMaximo'] ?? 100000;
-            
+
             $html .= '<div class="mb-3">';
             $html .= '<label class="form-label">Rango de Precio</label>';
             $html .= '<div class="row">';
@@ -230,17 +239,17 @@ if (!function_exists('generate_filter_form')) {
             $html .= '<small class="text-muted">Rango: $' . number_format($precioMin, 0, ',', '.') . ' - $' . number_format($precioMax, 0, ',', '.') . '</small>';
             $html .= '</div>';
         }
-        
+
         // Botones
         $html .= '<div class="d-grid gap-2">';
         $html .= '<button type="submit" class="btn btn-primary">Aplicar Filtros</button>';
-        
+
         // Botón limpiar filtros
         $html .= '<a href="' . $baseUrl . '" class="btn btn-outline-secondary">Limpiar Filtros</a>';
         $html .= '</div>';
-        
+
         $html .= '</form>';
-        
+
         return $html;
     }
-} 
+}
