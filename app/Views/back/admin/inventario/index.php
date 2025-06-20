@@ -100,8 +100,7 @@ $cantActivos = $cantActivos ?? 0
                                             </div>
                                         </td>
                                         <td>
-                                            <span
-                                                class="badge bg-info"><?= $producto['categoria'] ?? 'Sin categoría' ?></span>
+                                            <span class="badge bg-info"><?= $producto['categoria'] ?? 'Sin categoría' ?></span>
                                         </td>
                                         <td>
                                             <strong class="text-success">$<?= number_format($producto['precio'], 2) ?></strong>
@@ -204,12 +203,12 @@ $cantActivos = $cantActivos ?? 0
                             <ul class="dropdown-menu w-100" aria-labelledby="dropdownVendidosCategoria">
                                 <?php foreach (($vendidosPorCategoria ?? []) as $cat): ?>
                                     <?php if (isset($cat['nombre'])): ?>
-                                    <li>
-                                        <span class="dropdown-item d-flex justify-content-between align-items-center">
-                                            <?= htmlspecialchars($cat['nombre']) ?>
-                                            <span class="badge bg-info ms-2"><?= $cat['vendidos_categoria'] ?? 0 ?></span>
-                                        </span>
-                                    </li>
+                                        <li>
+                                            <span class="dropdown-item d-flex justify-content-between align-items-center">
+                                                <?= htmlspecialchars($cat['nombre']) ?>
+                                                <span class="badge bg-info ms-2"><?= $cat['vendidos_categoria'] ?? 0 ?></span>
+                                            </span>
+                                        </li>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                                 <?php if (empty($vendidosPorCategoria)): ?>
@@ -224,7 +223,11 @@ $cantActivos = $cantActivos ?? 0
 
         <!-- PAGINACIÓN -->
         <div class="mt-3">
-            <?= function_exists('generate_pagination') ? generate_pagination($paginacion, $filtros, $baseUrl) : '' ?>
+            <?= view('templates/paginacion', [
+                'paginacion' => $paginacion,
+                'filtros' => $filtros,
+                'baseUrl' => current_url()
+            ]) ?>
         </div>
     </div>
 </div>

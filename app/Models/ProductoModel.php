@@ -29,28 +29,28 @@ class ProductoModel extends Model
             'cantidad' => 'p.cantidad',
             'id_producto' => 'p.id_producto'
         ];
-        
+
         $columnaOrden = $columnasOrdenamiento[$orden] ?? 'p.nombre';
-        
+
         $query = $db->table($this->table . ' p')
-                 ->select('p.*, c.nombre as categoria')
-                 ->join('categorias c', 'c.id_categoria = p.id_categoria');
-                 
+            ->select('p.*, c.nombre as categoria')
+            ->join('categorias c', 'c.id_categoria = p.id_categoria');
+
         // Aplicar ordenamiento
         $query->orderBy($columnaOrden, $direccion);
-                 
+
         return $query->limit($limite, $offset)
-                   ->get()
-                   ->getResultArray();
+            ->get()
+            ->getResultArray();
     }
 
     public function getAllProductsValue()
     {
         $db = \Config\Database::connect();
         $result = $db->table($this->table)
-                    ->select('SUM(precio * cantidad) as valor_total')
-                    ->get()
-                    ->getRow();
+            ->select('SUM(precio * cantidad) as valor_total')
+            ->get()
+            ->getRow();
         return $result ? $result->valor_total : 0;
     }
 
@@ -58,8 +58,8 @@ class ProductoModel extends Model
     {
         $db = \Config\Database::connect();
         return $db->table($this->table . ' p')
-                 ->join('categorias c', 'c.id_categoria = p.id_categoria')
-                 ->countAllResults();
+            ->join('categorias c', 'c.id_categoria = p.id_categoria')
+            ->countAllResults();
     }
 
     public function getProductsByCategory($categoryId)
@@ -70,13 +70,13 @@ class ProductoModel extends Model
     public function getLowCantidadProducts($limite = 10)
     {
         return $this->where('cantidad <', $limite)
-                   ->findAll();
+            ->findAll();
     }
 
     public function countActiveProducts()
     {
         return $this->where('activo', 1)
-                   ->countAllResults();
+            ->countAllResults();
     }
 
     /**
@@ -112,12 +112,12 @@ class ProductoModel extends Model
         foreach ($categorias as $nombre => $id) {
             $builder = $db->table($this->table);
             $productos = $builder->where('activo', 1)
-                               ->where('id_categoria', $id)
-                               ->orderBy('cantidad_vendidos', 'DESC')
-                               ->limit($limite)
-                               ->get()
-                               ->getResultArray();
-            
+                ->where('id_categoria', $id)
+                ->orderBy('cantidad_vendidos', 'DESC')
+                ->limit($limite)
+                ->get()
+                ->getResultArray();
+
             $resultado[$nombre] = $productos;
         }
 
@@ -135,7 +135,7 @@ class ProductoModel extends Model
     {
         $db = \Config\Database::connect();
         $builder = $db->table($this->table);
-        
+
         // Aplicar filtros base
         $builder->where('activo', 1);
         if ($categoriaId !== null) {
@@ -143,16 +143,16 @@ class ProductoModel extends Model
         }
 
         // Aplicar filtros de búsqueda
-        if (!empty($filtros['busqueda'])) {
+        if (!empty($filtros['q'])) {
             $builder->groupStart()
-                   ->like('nombre', $filtros['busqueda'])
-                   ->orLike('descripcion', $filtros['busqueda'])
-                   ->groupEnd();
+                ->like('nombre', $filtros['q'])
+                ->orLike('descripcion', $filtros['q'])
+                ->groupEnd();
         }
 
         // Filtros de precio
-        if (!empty($filtros['precio_min'])) {
-            $builder->where('precio >=', $filtros['precio_min']);
+        if (isset($filtros['precio_min']) && $filtros['precio_min'] !== '') {
+            $builder->where('precio >=', (float) $filtros['precio_min']);
         }
         if (!empty($filtros['precio_max'])) {
             $builder->where('precio <=', $filtros['precio_max']);
@@ -164,10 +164,10 @@ class ProductoModel extends Model
         // Aplicar ordenamiento
         $ordenesPermitidos = ['nombre', 'precio', 'cantidad'];
         $direccionesPermitidas = ['ASC', 'DESC'];
-        
+
         $orden = $filtros['orden'] ?? 'nombre';
         $direccion = $filtros['direccion'] ?? 'ASC';
-        
+
         if (in_array($orden, $ordenesPermitidos)) {
             $builder->orderBy($orden, in_array($direccion, $direccionesPermitidas) ? $direccion : 'ASC');
         } else {
@@ -197,7 +197,7 @@ class ProductoModel extends Model
     {
         $db = \Config\Database::connect();
         $builder = $db->table($this->table)->where('activo', 1);
-        
+
         if ($categoriaId !== null) {
             $builder->where('id_categoria', $categoriaId);
         }
@@ -221,9 +221,9 @@ class ProductoModel extends Model
     public function getProductosRelacionados($productoId, $categoriaId, $limite = 3)
     {
         return $this->where('id_categoria', $categoriaId)
-                   ->where('id_producto !=', $productoId)
-                   ->where('activo', 1)
-                   ->limit($limite)
-                   ->findAll();
+            ->where('id_producto !=', $productoId)
+            ->where('activo', 1)
+            ->limit($limite)
+            ->findAll();
     }
 }

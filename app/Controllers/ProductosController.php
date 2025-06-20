@@ -129,7 +129,7 @@ class ProductosController extends BaseController
     {
         // Obtener parámetros de búsqueda y filtrado
         $filtros = [
-            'busqueda' => $this->request->getGet('q'),
+            'q' => $this->request->getGet('q'),
             'precio_min' => $this->request->getGet('precio_min'),
             'precio_max' => $this->request->getGet('precio_max'),
             'orden' => $this->request->getGet('orden') ?? 'nombre',
@@ -159,7 +159,7 @@ class ProductosController extends BaseController
             "title" => "Resultados de búsqueda",
             "productos" => $resultado['productos'],
             "categorias" => $categorias,
-            "busqueda" => $filtros['busqueda'],
+            "busqueda" => $filtros['q'],
             "totalProductos" => $resultado['total'],
             "precioMinimo" => $precios['minimo'],
             "precioMaximo" => $precios['maximo'],
@@ -173,7 +173,7 @@ class ProductosController extends BaseController
             "content" => view("pages/productos/busqueda", [
                 "productos" => $resultado['productos'],
                 "categorias" => $categorias,
-                "busqueda" => $filtros['busqueda'],
+                "busqueda" => $filtros['q'],
                 "totalProductos" => $resultado['total'],
                 "precioMinimo" => $precios['minimo'],
                 "precioMaximo" => $precios['maximo'],
