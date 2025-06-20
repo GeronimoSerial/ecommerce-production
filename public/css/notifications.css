@@ -61,3 +61,54 @@
     opacity: 0;
   }
 }
+
+/* Estilos específicos para la notificación de éxito del registro */
+.success-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-out;
+  border: none;
+}
+
+.success-notification .countdown {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  width: 100%;
+  position: relative;
+  margin-top: 10px;
+}
+
+.success-notification .countdown-bar {
+  height: 100%;
+  background: #fff;
+  width: 100%;
+  position: absolute;
+  animation: countdown 5s linear forwards;
+}
+
+@keyframes countdown {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes slideOut {
+  from { 
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+  to { 
+    transform: translateX(100%); 
+    opacity: 0; 
+  }
+}

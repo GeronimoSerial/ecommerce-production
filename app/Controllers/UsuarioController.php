@@ -3,15 +3,17 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\DomicilioModel;
-use App\Models\PersonaModel;
+
 use App\Models\UsuarioModel;
 
 class UsuarioController extends BaseController
 {
+    protected $usuarioModel;
+
     public function __construct()
     {
         helper(['form', 'url']);
+        $this->usuarioModel = new UsuarioModel();
     }
 
 
@@ -21,8 +23,7 @@ class UsuarioController extends BaseController
         if (!$session->get('logueado')) {
             return redirect()->to('/login');
         }
-
-        $userData = $this->usuarioModel->getUserWithAllData($session->get('id_usuario'));
+        $userData = $this->usuarioModel->getUserWithAllData($session->get('usuario_id'));
 
         if (!$userData) {
             return redirect()->to('/login');
@@ -54,7 +55,7 @@ class UsuarioController extends BaseController
             'dni' => 'required|numeric|min_length[7]|max_length[10]',
             'telefono' => 'required|min_length[6]|max_length[20]',
             'email' => 'required|valid_email|is_unique[usuarios.email]',
-            'password' => 'required|min_length[8]|max_length[32]|regex_match[/(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+/]',
+            'password' => 'required|min_length[6]|max_length[32]',
             'calle' => 'required|min_length[3]',
             'numero' => 'required',
             'codigo_postal' => 'required',
@@ -199,31 +200,19 @@ class UsuarioController extends BaseController
             if ($this->validate($rules)) {
                 $input = $this->request->getPost();
 
-                $domicilioData = [
-                    'calle' => 'Por definir',
-                    'numero' => '0',
-                    'codigo_postal' => '0000',
-                    'localidad' => 'Por definir',
-                    'provincia' => 'Por definir',
-                    'pais' => 'Por definir',
-                    'activo' => true
-                ];
-
                 $personaData = [
-                    'dni' => $input['dni'],
                     'nombre' => $input['nombre'],
                     'apellido' => $input['apellido'],
-                    'telefono' => $input['telefono']
                 ];
 
                 $userData = [
                     'id_rol' => $input['id_rol'],
                     'email' => $input['email'],
                     'password_hash' => password_hash($input['password'], PASSWORD_DEFAULT),
-                    'activo' => 1
+                    'activo' => 1,
                 ];
 
-                if ($this->usuarioModel->createUserWithRelations($userData, $personaData, $domicilioData)) {
+                if ($this->usuarioModel->createUserWithRelations($userData, $personaData, null)) {
                     $session->setFlashdata('msg', 'Usuario creado exitosamente');
                     return redirect()->to('/admin/usuarios');
                 } else {

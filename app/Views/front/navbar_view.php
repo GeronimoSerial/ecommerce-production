@@ -19,8 +19,8 @@ $apellido = $session->get('apellido');
         <div class="order-lg-2 nav-btns d-flex align-items-center">
             <button type="button" class="btn position-relative me-2 me-lg-3" onclick="abrirCarrito()">
                 <i class="bi bi-cart text-dark"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill"
-                    id="cart-count">0</span>
+                <span class="position-absolute top-0 start-100 translate-middle hidden" id="cart-count"
+                    style="display: none;">0</span>
             </button>
             <button type="button" class="btn position-relative me-2 me-lg-3" onclick="toggleSearch()">
                 <i class="bi bi-search text-dark"></i>
@@ -108,8 +108,8 @@ $apellido = $session->get('apellido');
 $request = service('request');
 $currentPath = $request->getPath();
 
-// Usar site_url() con ruta que comience con / para evitar concatenación
-$buscarBase = site_url('/productos/buscar');
+// Usar base_url() para asegurar que se incluya la ruta base completa
+$buscarBase = base_url('productos/buscar');
 ?>
 
 <div class="search-overlay" id="searchOverlay" style="display: none;">
@@ -118,9 +118,8 @@ $buscarBase = site_url('/productos/buscar');
             <div class="col-lg-8">
                 <form action="<?= $buscarBase ?>" method="GET" class="search-form">
                     <div class="input-group input-group-lg">
-                        <input type="text" name="q" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>"
-                            class="form-control" placeholder="Buscar productos, categorías..." autocomplete="off"
-                            id="searchInput">
+                        <input type="text" name="q" value="<?= $_GET['q'] ?? '' ?>" class="form-control"
+                            placeholder="Buscar productos, categorías..." autocomplete="off" id="searchInput">
                         <button class="btn btn-primary" type="submit">
                             <i class="bi bi-search"></i>
                         </button>

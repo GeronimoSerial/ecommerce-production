@@ -3,6 +3,59 @@
     .login-container {
         min-height: 100vh;
         background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        position: relative;
+    }
+
+    .success-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        min-width: 300px;
+        max-width: 90%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .countdown {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.5);
+        width: 100%;
+        position: relative;
+        margin-top: 10px;
+    }
+
+    .countdown-bar {
+        height: 100%;
+        background: #fff;
+        width: 100%;
+        position: absolute;
+        animation: countdown 5s linear forwards;
+    }
+
+    @keyframes countdown {
+        from {
+            width: 100%;
+        }
+
+        to {
+            width: 0%;
+        }
+
         padding: 2rem 0;
     }
 
@@ -67,7 +120,6 @@
         .card-registration-2 .bg-light {
             border-radius: 15px 0 0 15px;
         }
-    }
     }
 </style>
 
@@ -181,13 +233,15 @@
                                                 <span class="input-group-text"><i class="fas fa-lock"></i></span>
                                                 <input name="password" type="password"
                                                     class="form-control <?= $validation->hasError('password') ? 'is-invalid' : '' ?>"
-                                                    id="validationCustom05" required
-                                                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                                                    title="La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un caracter especial">
+                                                    id="password" required minlength="6"
+                                                    title="La contraseña debe tener al menos 6 caracteres">
                                                 <button class="btn btn-outline-secondary" type="button"
                                                     id="togglePassword">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
+                                                <div class="invalid-feedback">
+                                                    La contraseña debe tener al menos 6 caracteres
+                                                </div>
                                             </div>
                                             <div class="progress mt-2" style="height: 5px;">
                                                 <div class="progress-bar bg-primary" role="progressbar"
@@ -364,6 +418,21 @@
                                     <a href="<?= base_url('/login') ?>">¿Ya tienes una cuenta? ¡Inicia sesión aquí!</a>
                                 </div>
                                 </form>
+                                <!-- Notificación de éxito -->
+                                <?php if (session()->getFlashdata('success')): ?>
+                                    <div class="success-notification alert alert-success alert-dismissible fade show" role="alert">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <strong>¡Registro exitoso!</strong>
+                                        </div>
+                                        <p class="mb-0 mt-2"><?= session()->getFlashdata('success') ?></p>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        <div class="countdown">
+                                            <div class="countdown-bar"></div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+
                             </div>
                         </div>
                     </div>
@@ -372,6 +441,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -387,38 +457,44 @@
 
         // Toggle password visibility
         const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('validationCustom05');
-        togglePassword.addEventListener('click', function () {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            this.querySelector('i').className = `fas fa-${type === 'password' ? 'eye' : 'eye-slash'}`;
-        });
+        const password = document.getElementById('password');
 
-        // Password strength meter
-        const strengthMeter = document.querySelector('.progress-bar');
-        password.addEventListener('input', function () {
-            const value = password.value;
-            let strength = 0;
+        if (togglePassword && password) {
+            togglePassword.addEventListener('click', function () {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.querySelector('i').className = `fas fa-${type === 'password' ? 'eye' : 'eye-slash'}`;
+            });
 
-            // Criterios de fortaleza
-            if (value.length >= 8) strength += 20;
-            if (value.match(/[A-Z]/)) strength += 20;
-            if (value.match(/[a-z]/)) strength += 20;
-            if (value.match(/[0-9]/)) strength += 20;
-            if (value.match(/[^A-Za-z0-9]/)) strength += 20;
+            // Password strength meter
+            const strengthMeter = document.querySelector('.progress-bar');
+            if (strengthMeter) {
+                password.addEventListener('input', function () {
+                    const value = password.value;
+                    let strength = 0;
 
-            // Actualizar el indicador visual
-            strengthMeter.style.width = strength + '%';
+                    // Criterios de fortaleza (solo informativo, no bloqueante)
+                    if (value.length >= 6) strength += 20;
+                    if (value.length >= 8) strength += 20;
+                    if (value.match(/[A-Z]/)) strength += 20;
+                    if (value.match(/[a-z]/)) strength += 20;
+                    if (value.match(/[0-9]/)) strength += 10;
+                    if (value.match(/[^A-Za-z0-9]/)) strength += 10;
 
-            // Cambiar el color según la fortaleza
-            if (strength <= 40) {
-                strengthMeter.className = 'progress-bar bg-danger';
-            } else if (strength <= 80) {
-                strengthMeter.className = 'progress-bar bg-warning';
-            } else {
-                strengthMeter.className = 'progress-bar bg-success';
+                    // Actualizar el indicador visual
+                    strengthMeter.style.width = Math.min(100, strength) + '%';
+
+                    // Cambiar el color según la fortaleza
+                    if (strength <= 40) {
+                        strengthMeter.className = 'progress-bar bg-danger';
+                    } else if (strength <= 80) {
+                        strengthMeter.className = 'progress-bar bg-warning';
+                    } else {
+                        strengthMeter.className = 'progress-bar bg-success';
+                    }
+                });
             }
-        });
+        }
 
         // Formatear automáticamente el número de teléfono
         const telefono = document.getElementById('validationCustomPhone');
@@ -435,4 +511,38 @@
             if (value.length > 8) value = value.slice(0, 8);
             e.target.value = value;
         });
-    });</script>
+
+        // Redirigir después de la notificación de éxito
+        const successNotification = document.querySelector('.success-notification');
+        if (successNotification) {
+            setTimeout(() => {
+                window.location.href = '<?= base_url('login') ?>';
+            }, 5000); // 5 segundos para que coincida con la animación del contador
+        }
+    });
+
+    // Cerrar manualmente la notificación
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.alert-dismissible .btn-close')) {
+            e.preventDefault();
+            const notification = e.target.closest('.success-notification');
+            if (notification) {
+                notification.style.animation = 'slideOut 0.3s ease-out forwards';
+                setTimeout(() => {
+                    notification.remove();
+                    window.location.href = '<?= base_url('login') ?>';
+                }, 300);
+            }
+        }
+    });
+
+    // Animación de salida
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+</script>

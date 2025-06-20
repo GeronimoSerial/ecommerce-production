@@ -132,3 +132,47 @@ body.search-active {
 .search-suggestions .badge:active {
   transform: translateY(0);
 }
+
+/* Estilos para el badge del carrito */
+#cart-count {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 18px;
+  height: 18px;
+  display: none; /* Oculto por defecto */
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Estado inicial completamente oculto */
+  opacity: 0;
+  transform: scale(0.8);
+  /* Posicionamiento */
+  position: absolute;
+  top: 0;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+#cart-count:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estado visible del badge */
+#cart-count.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  display: inline-block !important;
+}
+
+/* Estado oculto del badge */
+#cart-count.hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+}

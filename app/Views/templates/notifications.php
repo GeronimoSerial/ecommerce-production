@@ -11,6 +11,17 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php if (session()->getFlashData('success')): ?>
+        <div class="custom-alert alert-success">
+            <div class="alert-header">
+                <strong>¡Éxito!</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="alert-body">
+                <?= session()->getFlashData('success') ?>
+            </div>
+        </div>
+    <?php endif; ?>
     <?php if (session()->getFlashData('error')): ?>
         <div class="custom-alert alert-danger">
             <div class="alert-header">
