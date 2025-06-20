@@ -130,8 +130,6 @@ class ProductosController extends BaseController
         // Obtener parámetros de búsqueda y filtrado
         $filtros = [
             'q' => $this->request->getGet('q'),
-            'precio_min' => $this->request->getGet('precio_min'),
-            'precio_max' => $this->request->getGet('precio_max'),
             'orden' => $this->request->getGet('orden') ?? 'nombre',
             'direccion' => $this->request->getGet('direccion') ?? 'ASC'
         ];
@@ -141,49 +139,35 @@ class ProductosController extends BaseController
             'limite' => $this->productosPorPagina
         ];
 
-        // Obtener productos filtrados
-        $categoriaId = $this->request->getGet('categoria');
-        $resultado = $this->productoModel->getProductosFiltrados($categoriaId, $filtros, $paginacion);
-
-        // Obtener estadísticas de precios
-        $precios = $this->productoModel->getEstadisticasPrecios($categoriaId);
+        // Obtener productos filtrados (sin categoría ni precios)
+        $resultado = $this->productoModel->getProductosFiltrados(null, $filtros, $paginacion);
 
         // Calcular información de paginación
         $totalPaginas = ceil($resultado['total'] / $this->productosPorPagina);
         $paginaActual = max(1, min($paginacion['pagina'], $totalPaginas));
 
-        // Obtener categorías para filtros
-        $categorias = $this->categoriaModel->findAll();
-
         $data = [
             "title" => "Resultados de búsqueda",
             "productos" => $resultado['productos'],
-            "categorias" => $categorias,
             "busqueda" => $filtros['q'],
             "totalProductos" => $resultado['total'],
-            "precioMinimo" => $precios['minimo'],
-            "precioMaximo" => $precios['maximo'],
             "paginacion" => [
                 "paginaActual" => $paginaActual,
                 "totalPaginas" => $totalPaginas,
                 "productosPorPagina" => $this->productosPorPagina,
                 "totalProductos" => $resultado['total']
             ],
-            "filtros" => array_merge($filtros, ['categoriaId' => $categoriaId]),
+            "filtros" => $filtros,
             "content" => view("pages/productos/busqueda", [
                 "productos" => $resultado['productos'],
-                "categorias" => $categorias,
-                "busqueda" => $filtros['q'],
                 "totalProductos" => $resultado['total'],
-                "precioMinimo" => $precios['minimo'],
-                "precioMaximo" => $precios['maximo'],
                 "paginacion" => [
                     "paginaActual" => $paginaActual,
                     "totalPaginas" => $totalPaginas,
                     "productosPorPagina" => $this->productosPorPagina,
                     "totalProductos" => $resultado['total']
                 ],
-                "filtros" => array_merge($filtros, ['categoriaId' => $categoriaId])
+                "filtros" => $filtros
             ]),
         ];
         return view("templates/main_layout", $data);

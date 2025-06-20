@@ -80,12 +80,7 @@ $apellido = $session->get('apellido');
                         <li><a class="dropdown-item" href="<?= base_url('categoria/accesorios') ?>">
                                 <i class="bi bi-gear me-2 text-danger"></i>Accesorios
                             </a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="<?= base_url('productos/buscar') ?>">
-                                <i class="bi bi-search me-2 text-primary"></i>Buscar Productos
-                            </a></li>
+
                     </ul>
                 </li>
                 <li class="nav-item px-2 py-2">

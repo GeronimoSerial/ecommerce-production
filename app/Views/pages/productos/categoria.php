@@ -26,7 +26,7 @@
             <div class="col-lg-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-funnel me-2"></i>Filtros</h5>
+                        <h5 class="mb-0"><i class="bi bi-search me-2"></i>Buscador</h5>
                     </div>
                     <div class="card-body">
                         <?php

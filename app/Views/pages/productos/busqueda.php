@@ -23,19 +23,13 @@
             <!-- Sidebar con filtros -->
             <div class="col-lg-3">
                 <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="bi bi-funnel me-2"></i>Filtros</h5>
+                    <div class="card-header bg-primary text-white ">
+                        <h5 class="mb-0"><i class="bi bi-search me-2"></i>Buscador</h5>
                     </div>
                     <div class="card-body">
                         <?php
-                        $stats = [
-                            'precioMinimo' => $precioMinimo,
-                            'precioMaximo' => $precioMaximo
-                        ];
                         echo view('templates/buscador', [
                             'filtros' => $filtros,
-                            'categorias' => $categorias,
-                            'stats' => $stats,
                             'baseUrl' => current_url()
                         ]);
                         ?>
@@ -84,7 +78,7 @@
                                 No encontramos productos que coincidan con
                                 "<strong><?= htmlspecialchars($busqueda) ?></strong>".
                             <?php endif; ?>
-                            Intenta ajustar los filtros de búsqueda.
+                            Intenta ajustar tu búsqueda.
                         </p>
                         <a href="<?= base_url('buscar') ?>" class="btn btn-primary">Nueva Búsqueda</a>
                     </div>
@@ -99,17 +93,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <span class="badge bg-primary mb-2">
-                                            <?php
-                                            // Obtener nombre de categoría
-                                            $categoriaNombre = 'Producto';
-                                            foreach ($categorias as $cat) {
-                                                if ($cat['id_categoria'] == $producto['id_categoria']) {
-                                                    $categoriaNombre = $cat['nombre'];
-                                                    break;
-                                                }
-                                            }
-                                            echo $categoriaNombre;
-                                            ?>
+                                            Producto
                                         </span>
                                         <h5 class="fw-semibold mb-2"><?= $producto['nombre'] ?></h5>
                                         <p class="text-muted small mb-2"><?= $producto['descripcion'] ?></p>

@@ -138,9 +138,6 @@ class ProductoModel extends Model
 
         // Aplicar filtros base
         $builder->where('activo', 1);
-        if ($categoriaId !== null) {
-            $builder->where('id_categoria', $categoriaId);
-        }
 
         // Aplicar filtros de búsqueda
         if (!empty($filtros['q'])) {
@@ -148,14 +145,6 @@ class ProductoModel extends Model
                 ->like('nombre', $filtros['q'])
                 ->orLike('descripcion', $filtros['q'])
                 ->groupEnd();
-        }
-
-        // Filtros de precio
-        if (isset($filtros['precio_min']) && $filtros['precio_min'] !== '') {
-            $builder->where('precio >=', (float) $filtros['precio_min']);
-        }
-        if (!empty($filtros['precio_max'])) {
-            $builder->where('precio <=', $filtros['precio_max']);
         }
 
         // Obtener total antes de aplicar límites

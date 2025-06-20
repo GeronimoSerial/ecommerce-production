@@ -104,7 +104,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">
-                            <a href="<?= base_url('productos') ?>" class="btn btn-outline-primary px-4">
+                            <a href="<?= base_url('/') ?>" class="btn btn-outline-primary px-4">
                                 <i class="fas fa-arrow-left me-2"></i> Seguir Comprando
                             </a>
                             <button class="btn btn-outline-danger" id="btn-clear-cart">
