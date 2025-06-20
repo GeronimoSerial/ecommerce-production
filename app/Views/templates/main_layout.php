@@ -43,6 +43,7 @@
     </script>
     <script src="<?= base_url('public/js/navbar.js') ?>"></script>
     <script src="<?= base_url('public/js/script.js') ?>"></script>
+    <script src="<?= base_url('public/js/cart.js') ?>"></script>
 </body>
 
 </html>

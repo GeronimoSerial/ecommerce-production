@@ -43,7 +43,7 @@ $categoriaNombre = $productoModel->getNombreCategoria($idCategoria);
                     </button>
                 </div>
                 <button class="btn btn-primary w-100 mb-2"
-                    onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">Agregar al Carrito</button>
+                    onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>, event)">Agregar al Carrito</button>
                 <button class="btn btn-outline-primary w-100 mb-2"
                     onclick="comprarAhora(<?= $producto['id_producto'] ?>)">Comprar Ahora</button>
             <?php else: ?>

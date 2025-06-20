@@ -91,7 +91,7 @@
                     <div class="d-grid gap-3">
                         <?php if ($producto['cantidad'] > 0): ?>
                             <button class="btn btn-primary btn-lg"
-                                onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">
+                                onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>, event)">
                                 <i class="bi bi-cart-plus me-2"></i>
                                 Agregar al Carrito
                             </button>

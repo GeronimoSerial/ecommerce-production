@@ -52,7 +52,8 @@ if (!function_exists('format_currency')) {
      */
     function format_currency($amount, $currency = '$')
     {
-        return $currency . number_format($amount, 2, ',', '.');
+        // Formatear con separador de miles (.) y decimales (,)
+        return $currency . number_format((float)$amount, 2, ',', '.');
     }
 }
 
@@ -82,7 +83,7 @@ if (!function_exists('add_to_session_cart')) {
     {
         $session = session();
         $cart = get_session_cart();
-        
+
         if (isset($cart[$productoId])) {
             $cart[$productoId]['cantidad'] += $cantidad;
         } else {
@@ -93,7 +94,7 @@ if (!function_exists('add_to_session_cart')) {
                 'imagen' => $imagen
             ];
         }
-        
+
         $session->set('cart', $cart);
         return true;
     }
@@ -110,7 +111,7 @@ if (!function_exists('update_session_cart_quantity')) {
     {
         $session = session();
         $cart = get_session_cart();
-        
+
         if (isset($cart[$productoId])) {
             if ($cantidad <= 0) {
                 unset($cart[$productoId]);
@@ -120,7 +121,7 @@ if (!function_exists('update_session_cart_quantity')) {
             $session->set('cart', $cart);
             return true;
         }
-        
+
         return false;
     }
 }
@@ -135,13 +136,13 @@ if (!function_exists('remove_from_session_cart')) {
     {
         $session = session();
         $cart = get_session_cart();
-        
+
         if (isset($cart[$productoId])) {
             unset($cart[$productoId]);
             $session->set('cart', $cart);
             return true;
         }
-        
+
         return false;
     }
 }
@@ -201,19 +202,19 @@ if (!function_exists('validate_cart_item')) {
     function validate_cart_item($item, $stockDisponible)
     {
         $errors = [];
-        
+
         if ($item['cantidad'] <= 0) {
             $errors[] = 'La cantidad debe ser mayor a 0';
         }
-        
+
         if ($item['precio_unitario'] < 0) {
             $errors[] = 'El precio no puede ser negativo';
         }
-        
+
         if ($item['cantidad'] > $stockDisponible) {
             $errors[] = "Stock insuficiente. Disponible: {$stockDisponible}";
         }
-        
+
         return $errors;
     }
-} 
+}
