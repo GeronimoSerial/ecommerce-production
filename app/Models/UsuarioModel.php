@@ -139,4 +139,79 @@ class UsuarioModel extends Model
             return false;
         }
     }
+
+    /**
+     * Autentica un usuario con email y contraseña
+     * @param string $email Email del usuario
+     * @param string $password Contraseña en texto plano
+     * @return array|false Datos del usuario autenticado o false si falla
+     */
+    public function authenticateUser($email, $password)
+    {
+        $db = \Config\Database::connect();
+        
+        // Buscar usuario con datos de persona
+        $usuario = $db->table($this->table . ' u')
+                     ->select('u.*, p.nombre, p.apellido')
+                     ->join('personas p', 'p.id_persona = u.id_persona')
+                     ->where('u.email', $email)
+                     ->get()
+                     ->getRowArray();
+
+        if (!$usuario) {
+            return false;
+        }
+
+        // Verificar si el usuario está activo
+        if ($usuario['activo'] != 1) {
+            return false;
+        }
+
+        // Verificar contraseña
+        if (!password_verify($password, $usuario['password_hash'])) {
+            return false;
+        }
+
+        return $usuario;
+    }
+
+    /**
+     * Verifica si un email ya existe en la base de datos
+     * @param string $email Email a verificar
+     * @param int|null $excludeId ID de usuario a excluir (para actualizaciones)
+     * @return bool
+     */
+    public function emailExists($email, $excludeId = null)
+    {
+        $query = $this->where('email', $email);
+        
+        if ($excludeId !== null) {
+            $query->where('id_usuario !=', $excludeId);
+        }
+        
+        return $query->countAllResults() > 0;
+    }
+
+    /**
+     * Obtiene un usuario por email
+     * @param string $email Email del usuario
+     * @return array|null
+     */
+    public function getUserByEmail($email)
+    {
+        return $this->where('email', $email)->first();
+    }
+
+    /**
+     * Actualiza la contraseña de un usuario
+     * @param int $usuarioId ID del usuario
+     * @param string $newPassword Nueva contraseña en texto plano
+     * @return bool
+     */
+    public function updatePassword($usuarioId, $newPassword)
+    {
+        return $this->update($usuarioId, [
+            'password_hash' => password_hash($newPassword, PASSWORD_DEFAULT)
+        ]);
+    }
 }

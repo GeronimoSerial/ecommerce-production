@@ -3,7 +3,8 @@
     <div class="container">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= base_url() ?>" class="text-decoration-none">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="<?= base_url('categoria/' . strtolower($categoria['nombre'])) ?>" class="text-decoration-none"><?= $categoria['nombre'] ?></a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('categoria/' . strtolower($categoria['nombre'])) ?>"
+                    class="text-decoration-none"><?= $categoria['nombre'] ?></a></li>
             <li class="breadcrumb-item active" aria-current="page"><?= $producto['nombre'] ?></li>
         </ol>
     </div>
@@ -17,7 +18,7 @@
             <div class="col-lg-6">
                 <div class="product-image-container">
                     <?= safe_product_image($producto, 'large', 'img-fluid rounded-4 shadow-sm') ?>
-                    
+
                     <!-- Badge de cantidad -->
                     <?php if ($producto['cantidad'] <= 5 && $producto['cantidad'] > 0): ?>
                         <div class="position-absolute top-0 start-0 m-3">
@@ -37,10 +38,11 @@
                     <!-- Categoría y Nombre -->
                     <span class="badge bg-primary mb-2"><?= $categoria['nombre'] ?></span>
                     <h1 class="fw-bold mb-3"><?= $producto['nombre'] ?></h1>
-                    
+
                     <!-- Precio -->
                     <div class="mb-4">
-                        <span class="display-6 fw-bold text-success">$ <?= number_format($producto['precio'], 0, ',', '.') ?></span>
+                        <span class="display-6 fw-bold text-success">$
+                            <?= number_format($producto['precio'], 0, ',', '.') ?></span>
                         <?php if ($producto['cantidad'] > 0): ?>
                             <small class="text-muted d-block">Envío gratis en compras superiores a $50.000</small>
                         <?php endif; ?>
@@ -68,10 +70,28 @@
                         <?php endif; ?>
                     </div>
 
+                    <!-- Cantidad a agregar -->
+                    <?php if ($producto['cantidad'] > 0): ?>
+                        <div class="mb-4">
+                            <h5 class="fw-semibold mb-2">Cantidad</h5>
+                            <div class="input-group" style="width: 150px;">
+                                <button class="btn btn-outline-secondary" type="button" onclick="cambiarCantidad(-1)">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" class="form-control text-center" id="cantidad-producto" value="1"
+                                    min="1" max="<?= $producto['cantidad'] ?>">
+                                <button class="btn btn-outline-secondary" type="button" onclick="cambiarCantidad(1)">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                     <!-- Acciones -->
                     <div class="d-grid gap-3">
                         <?php if ($producto['cantidad'] > 0): ?>
-                            <button class="btn btn-primary btn-lg" onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">
+                            <button class="btn btn-primary btn-lg"
+                                onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">
                                 <i class="bi bi-cart-plus me-2"></i>
                                 Agregar al Carrito
                             </button>
@@ -84,7 +104,8 @@
                                 <i class="bi bi-x-circle me-2"></i>
                                 Producto Agotado
                             </button>
-                            <button class="btn btn-outline-primary" onclick="notificarDisponibilidad(<?= $producto['id_producto'] ?>)">
+                            <button class="btn btn-outline-primary"
+                                onclick="notificarDisponibilidad(<?= $producto['id_producto'] ?>)">
                                 <i class="bi bi-bell me-2"></i>
                                 Notificar cuando esté disponible
                             </button>
@@ -153,86 +174,38 @@
 
 <!-- Productos Relacionados -->
 <?php if (!empty($productosRelacionados)): ?>
-<section class="py-5">
-    <div class="container">
-        <h2 class="fw-bold text-center mb-5">Productos Relacionados</h2>
-        <div class="row g-4">
-            <?php foreach ($productosRelacionados as $relacionado): ?>
-                <div class="col-md-6 col-lg-4">
-                    <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                        <div class="card-img-wrapper mb-3">
-                            <img src="<?= base_url('public/images/' . $relacionado['url_imagen']) ?>" 
-                                 alt="<?= $relacionado['nombre'] ?>" 
-                                 class="product-img mx-auto"
-                                 onerror="this.src='<?= base_url('public/images/default-product.webp') ?>'">
-                        </div>
-                        <div class="mb-3">
-                            <span class="badge bg-primary mb-2"><?= $categoria['nombre'] ?></span>
-                            <h5 class="fw-semibold mb-2"><?= $relacionado['nombre'] ?></h5>
-                            <p class="text-muted small mb-2"><?= $relacionado['descripcion'] ?></p>
-                            <p class="text-success fw-bold mb-0">$ <?= number_format($relacionado['precio'], 0, ',', '.') ?></p>
-                        </div>
-                        <div class="mt-auto">
-                            <a href="<?= base_url('producto/' . $relacionado['id_producto']) ?>" 
-                               class="btn btn-outline-primary w-100 mb-2">
-                                Ver Detalles
-                            </a>
+    <section class="py-5">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Productos Relacionados</h2>
+            <div class="row g-4">
+                <?php foreach ($productosRelacionados as $relacionado): ?>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
+                            <div class="card-img-wrapper mb-3">
+                                <img src="<?= base_url('public/images/' . $relacionado['url_imagen']) ?>"
+                                    alt="<?= $relacionado['nombre'] ?>" class="product-img mx-auto"
+                                    onerror="this.src='<?= base_url('public/images/default-product.webp') ?>'">
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-primary mb-2"><?= $categoria['nombre'] ?></span>
+                                <h5 class="fw-semibold mb-2"><?= $relacionado['nombre'] ?></h5>
+                                <p class="text-muted small mb-2"><?= $relacionado['descripcion'] ?></p>
+                                <p class="text-success fw-bold mb-0">$ <?= number_format($relacionado['precio'], 0, ',', '.') ?>
+                                </p>
+                            </div>
+                            <div class="mt-auto">
+                                <a href="<?= base_url('producto/' . $relacionado['id_producto']) ?>"
+                                    class="btn btn-outline-primary w-100 mb-2">
+                                    Ver Detalles
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 <?php endif; ?>
 
 <!-- Scripts para funcionalidad -->
-<script>
-function agregarAlCarrito(idProducto) {
-    console.log('Agregando producto al carrito:', idProducto);
-    
-    // Mostrar notificación
-    mostrarNotificacion('¡Producto agregado al carrito!', 'success');
-}
-
-function comprarAhora(idProducto) {
-    console.log('Comprando producto:', idProducto);
-    
-    // Aquí iría la lógica para ir directamente al checkout
-    mostrarNotificacion('Redirigiendo al checkout...', 'info');
-}
-
-function notificarDisponibilidad(idProducto) {
-    console.log('Solicitando notificación para producto:', idProducto);
-    
-    // Aquí iría la lógica para suscribirse a notificaciones
-    mostrarNotificacion('Te notificaremos cuando esté disponible', 'info');
-}
-
-function mostrarNotificacion(mensaje, tipo) {
-    const toast = document.createElement('div');
-    toast.className = 'position-fixed top-0 end-0 p-3';
-    toast.style.zIndex = '1050';
-    
-    const bgClass = tipo === 'success' ? 'bg-success' : tipo === 'info' ? 'bg-info' : 'bg-warning';
-    
-    toast.innerHTML = `
-        <div class="toast show" role="alert">
-            <div class="toast-header ${bgClass} text-white">
-                <strong class="me-auto">Notificación</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body">
-                ${mensaje}
-            </div>
-        </div>
-    `;
-    document.body.appendChild(toast);
-    
-    setTimeout(() => {
-        if (document.body.contains(toast)) {
-            document.body.removeChild(toast);
-        }
-    }, 3000);
-}
-</script> 
+<script src="<?= base_url('public/js/cart.js') ?>"></script>

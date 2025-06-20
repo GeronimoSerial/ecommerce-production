@@ -8,22 +8,23 @@ use App\Models\UsuarioModel;
 
 class UsuarioController extends BaseController
 {
-    protected $usuarioModel;
+    private $usuarioModel;
+    private $session;
 
     public function __construct()
     {
         helper(['form', 'url']);
         $this->usuarioModel = new UsuarioModel();
+        $this->session = session();
     }
 
 
     public function Read()
     {
-        $session = session();
-        if (!$session->get('logueado')) {
+        if (!$this->session->get('logueado')) {
             return redirect()->to('/login');
         }
-        $userData = $this->usuarioModel->getUserWithAllData($session->get('usuario_id'));
+        $userData = $this->usuarioModel->getUserWithAllData($this->session->get('usuario_id'));
 
         if (!$userData) {
             return redirect()->to('/login');
@@ -110,8 +111,7 @@ class UsuarioController extends BaseController
 
     public function Update()
     {
-        $session = session();
-        if (!$session->get('logueado')) {
+        if (!$this->session->get('logueado')) {
             return redirect()->to('/login');
         }
 
@@ -146,10 +146,10 @@ class UsuarioController extends BaseController
             'email' => $input['email']
         ];
 
-        if ($this->usuarioModel->updateUserWithRelations($session->get('usuario_id'), $userData, $personaData, $domicilioData)) {
+        if ($this->usuarioModel->updateUserWithRelations($this->session->get('usuario_id'), $userData, $personaData, $domicilioData)) {
             // Actualizar sesión
-            $session->set('nombre', $input['nombre']);
-            $session->set('apellido', $input['apellido']);
+            $this->session->set('nombre', $input['nombre']);
+            $this->session->set('apellido', $input['apellido']);
             return redirect()->to('/actualizar')->with('msg', 'Datos personales actualizados correctamente.');
         } else {
             return redirect()->to('/actualizar')->with('msg', 'Error al actualizar los datos personales.');
@@ -163,8 +163,7 @@ class UsuarioController extends BaseController
      */
     public function adminIndex()
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
@@ -183,8 +182,7 @@ class UsuarioController extends BaseController
      */
     public function adminCreate()
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
@@ -213,13 +211,13 @@ class UsuarioController extends BaseController
                 ];
 
                 if ($this->usuarioModel->createUserWithRelations($userData, $personaData, null)) {
-                    $session->setFlashdata('msg', 'Usuario creado exitosamente');
+                    $this->session->setFlashdata('msg', 'Usuario creado exitosamente');
                     return redirect()->to('/admin/usuarios');
                 } else {
-                    $session->setFlashdata('error', 'Error al crear el usuario');
+                    $this->session->setFlashdata('error', 'Error al crear el usuario');
                 }
             } else {
-                $session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
+                $this->session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
             }
         }
 
@@ -236,8 +234,7 @@ class UsuarioController extends BaseController
      */
     public function adminEdit($id = null)
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
@@ -274,13 +271,13 @@ class UsuarioController extends BaseController
                 ];
 
                 if ($this->usuarioModel->updateUserWithRelations($id, $userData, $personaData, null)) {
-                    $session->setFlashdata('msg', 'Usuario actualizado exitosamente');
+                    $this->session->setFlashdata('msg', 'Usuario actualizado exitosamente');
                     return redirect()->to('/admin/usuarios');
                 } else {
-                    $session->setFlashdata('error', 'Error al actualizar el usuario');
+                    $this->session->setFlashdata('error', 'Error al actualizar el usuario');
                 }
             } else {
-                $session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
+                $this->session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
             }
         }
 
@@ -298,17 +295,16 @@ class UsuarioController extends BaseController
      */
     public function adminDelete($id = null)
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
         $usuarioModel = new UsuarioModel();
 
         if ($usuarioModel->delete($id)) {
-            $session->setFlashdata('msg', 'Usuario eliminado exitosamente');
+            $this->session->setFlashdata('msg', 'Usuario eliminado exitosamente');
         } else {
-            $session->setFlashdata('error', 'Error al eliminar el usuario');
+            $this->session->setFlashdata('error', 'Error al eliminar el usuario');
         }
 
         return redirect()->to('/admin/usuarios');

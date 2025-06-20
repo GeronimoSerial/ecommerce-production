@@ -276,7 +276,11 @@
                         // Actualizar subtotal del item
                         const price = parseFloat(row.find('td:nth-child(2) .fw-bold').text().replace(/[^0-9.,]/g, '').replace(',', '.'));
                         const subtotal = price * quantity;
-                        row.find('.item-subtotal').text('$' + subtotal.toFixed(2).replace(/\./g, ','));
+                        // Guardar el valor numérico en un atributo data para facilitar los cálculos
+                        const formattedSubtotal = '$' + subtotal.toFixed(2).replace(/\./g, ',');
+                        row.find('.item-subtotal')
+                            .text(formattedSubtotal)
+                            .data('raw-value', subtotal);
 
                         // Actualizar resumen
                         updateCartSummary();
@@ -367,8 +371,11 @@
         // Recalcular subtotal
         let subtotal = 0;
         $('.item-subtotal').each(function () {
-            const subtotalText = $(this).text().replace(/[^0-9.,]/g, '').replace(',', '.');
-            const itemSubtotal = parseFloat(subtotalText) || 0;
+            // Usar el valor numérico almacenado en data-raw-value si está disponible
+            const rawValue = $(this).data('raw-value');
+            const itemSubtotal = typeof rawValue !== 'undefined' ?
+                parseFloat(rawValue) :
+                parseFloat($(this).text().replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
             subtotal += itemSubtotal;
         });
 
@@ -398,6 +405,16 @@
         }
     }
 
+    function getIconForType(type) {
+        const icons = {
+            'success': 'fa-check-circle',
+            'error': 'fa-times-circle',
+            'warning': 'fa-exclamation-circle',
+            'info': 'fa-info-circle'
+        };
+        return 'fa ' + (icons[type] || 'fa-info-circle');
+    }
+
     function showNotification(message, type = 'info') {
         // Crear notificación si no existe el sistema de notificaciones
         if (typeof showAlert !== 'function') {
@@ -406,31 +423,48 @@
                 $('body').append('<div id="notifications-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 350px;"></div>');
             }
 
-            // Crear la notificación
-            const alertClass = {
-                'success': 'alert-success',
-                'error': 'alert-danger',
-                'warning': 'alert-warning',
-                'info': 'alert-info'
-            }[type] || 'alert-info';
+            // Buscar notificación existente
+            let alert = $('#notifications-container').find('.alert');
 
-            const alertId = 'alert-' + Date.now();
-            const alert = $(`
-                <div id="${alertId}" class="alert ${alertClass} alert-dismissible fade show" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `);
+            // Si no existe una notificación, crea una nueva
+            if (alert.length === 0) {
+                alert = $(`
+                    <div class="alert alert-${type} alert-dismissible fade show" role="alert" style="transition: all 0.3s ease;">
+                        <i class="${getIconForType(type)} me-2"></i>
+                        <span class="notification-message">${message}</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+                $('#notifications-container').append(alert);
+            } else {
+                // Actualizar notificación existente
+                alert.removeClass('alert-success alert-danger alert-warning alert-info')
+                    .addClass(`alert-${type}`)
+                    .find('i')
+                    .removeClass('fa-check-circle fa-times-circle fa-exclamation-circle fa-info-circle')
+                    .addClass(getIconForType(type).replace('fa ', ''))
+                    .end()
+                    .find('.notification-message')
+                    .text(message);
 
-            $('#notifications-container').append(alert);
+                // Reiniciar la animación
+                alert.removeClass('fade show').addClass('fade show');
+            }
+
+            // Limpiar timeout anterior si existe
+            if (alert.data('timeout')) {
+                clearTimeout(alert.data('timeout'));
+            }
 
             // Auto-ocultar después de 5 segundos
-            setTimeout(() => {
+            const timeoutId = setTimeout(() => {
                 alert.alert('close');
             }, 5000);
+
+            // Guardar el ID del timeout
+            alert.data('timeout', timeoutId);
         } else {
             showAlert(message, type);
         }
     }
-
 </script>

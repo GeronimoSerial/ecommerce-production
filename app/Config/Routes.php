@@ -62,6 +62,20 @@ $routes->get('buscar', 'ProductosController::buscar'); // Si también necesitas 
 // Ruta legacy para compatibilidad (redirige a la nueva estructura)
 $routes->get('productos/(:segment)', 'ProductosController::porCategoria/$1');
 
+// ==================== RUTAS DEL CARRITO DE COMPRAS ====================
+$routes->get('/cart', 'CartController::index');
+$routes->post('/cart/add', 'CartController::add');
+$routes->post('/cart/actualizar_cantidad', 'CartController::updateQuantity');
+$routes->post('/cart/eliminar', 'CartController::remove');
+$routes->post('/cart/vaciar', 'CartController::clear');
+$routes->get('/cart/checkout', 'CartController::checkout');
+$routes->get('/cart/count', 'CartController::getCartCount');
+
+// ==================== RUTAS DEL CHECKOUT ====================
+$routes->get('/checkout', 'CheckoutController::index');
+$routes->post('/checkout/confirm', 'CheckoutController::confirm');
+$routes->get('/checkout/summary', 'CheckoutController::getSummary');
+
 $routes->set404Override(function () {
     return view('templates/main_layout', [
         'title' => 'Página no encontrada',

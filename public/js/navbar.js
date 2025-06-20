@@ -251,7 +251,9 @@ class NavbarManager {
   }
 
   openCart() {
-    this.showNotification("Carrito en desarrollo", "info");
+    // const baseUrl = "<?= base_url() ?>";
+    //arreglar esto
+    window.location.href = `/ecommerce/cart`;
   }
 }
 

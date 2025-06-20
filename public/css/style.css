@@ -271,6 +271,133 @@ footer a:hover {
   }
 }
 
+/* Estilos para el carrito de compras */
+.cart-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  background-color: #f8f9fa;
+}
+
+.cart-table td {
+  vertical-align: middle;
+  padding: 1rem 0.75rem !important;
+}
+
+/* Estilos para imágenes en el carrito */
+.cart-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  padding: 0.25rem;
+  background-color: #fff;
+}
+
+/* Asegurar que las imágenes mantengan su relación de aspecto */
+.cart-item-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.quantity-input {
+  max-width: 60px;
+  text-align: center;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.btn-quantity {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.cart-summary {
+  position: sticky;
+  top: 1rem;
+}
+
+.cart-summary .card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: none;
+}
+
+.cart-summary .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+}
+
+.cart-summary .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  border-left: none;
+  border-right: none;
+  background-color: #fff;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.cart-summary .list-group-item:first-child {
+  border-top: none;
+}
+
+.cart-summary .list-group-item:last-child {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--pink);
+  border-bottom: none;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 767.98px) {
+  .cart-table thead {
+    display: none;
+  }
+  
+  .cart-table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+  }
+  
+  .cart-table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .cart-table tbody td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 1rem;
+  }
+  
+  .cart-table tbody td:last-child {
+    border-bottom: none;
+  }
+}
+
 @media (min-width: 992px) {
   .carousel-content {
     padding: 2rem;
@@ -765,4 +892,8 @@ footer a:hover {
         position: static;
         margin-bottom: 2rem;
     }
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(1) brightness(2);
 }

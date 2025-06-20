@@ -4,13 +4,14 @@
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <span class="badge bg-danger text-white px-3 py-2 mb-2"><?= strtoupper($categoria['nombre']) ?></span>
-                <h1 class="display-5 fw-bold mb-3">Suplementos de <span class="text-danger"><?= $categoria['nombre'] ?></span></h1>
-                <p class="lead">Los mejores productos de <?= strtolower($categoria['nombre']) ?> para potenciar tu rendimiento y alcanzar tus objetivos fitness.</p>
+                <h1 class="display-5 fw-bold mb-3">Suplementos de <span
+                        class="text-danger"><?= $categoria['nombre'] ?></span></h1>
+                <p class="lead">Los mejores productos de <?= strtolower($categoria['nombre']) ?> para potenciar tu
+                    rendimiento y alcanzar tus objetivos fitness.</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= safe_banner_url($categoria['nombre']) ?>" 
-                     alt="<?= $categoria['nombre'] ?> Banner" 
-                     class="img-fluid rounded-4">
+                <img src="<?= safe_banner_url($categoria['nombre']) ?>" alt="<?= $categoria['nombre'] ?> Banner"
+                    class="img-fluid rounded-4">
             </div>
         </div>
     </div>
@@ -28,7 +29,7 @@
                         <h5 class="mb-0"><i class="bi bi-funnel me-2"></i>Filtros</h5>
                     </div>
                     <div class="card-body">
-                        <?php 
+                        <?php
                         $stats = [
                             'precioMinimo' => $precioMinimo,
                             'precioMaximo' => $precioMaximo
@@ -46,7 +47,7 @@
                     <div>
                         <h4 class="mb-1"><?= $categoria['nombre'] ?></h4>
                         <p class="text-muted mb-0">
-                            <?php 
+                            <?php
                             // Calcular productos mostrados en esta página
                             $productosEnPagina = count($productos);
                             $inicioProductos = ($paginacion['paginaActual'] - 1) * $paginacion['productosPorPagina'] + 1;
@@ -66,7 +67,7 @@
                         <?= generate_sort_links($filtros, current_url()) ?>
                     </div>
                 </div>
-                
+
                 <?php if (empty($productos)): ?>
                     <!-- Mensaje cuando no hay productos -->
                     <div class="text-center py-5">
@@ -96,7 +97,8 @@
                                         <span class="badge bg-primary mb-2"><?= $categoria['nombre'] ?></span>
                                         <h5 class="fw-semibold mb-2"><?= $producto['nombre'] ?></h5>
                                         <p class="text-muted small mb-2"><?= $producto['descripcion'] ?></p>
-                                        <p class="text-success fw-bold mb-0">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                        <p class="text-success fw-bold mb-0">$
+                                            <?= number_format($producto['precio'], 0, ',', '.') ?></p>
                                         <?php if ($producto['cantidad'] <= 5 && $producto['cantidad'] > 0): ?>
                                             <small class="text-warning">¡Solo quedan <?= $producto['cantidad'] ?> unidades!</small>
                                         <?php elseif ($producto['cantidad'] == 0): ?>
@@ -105,17 +107,23 @@
                                     </div>
                                     <div class="mt-auto">
                                         <?php if ($producto['cantidad'] > 0): ?>
-                                            <button class="btn btn-primary w-100 mb-2" 
-                                                    onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">
-                                                Agregar al Carrito
-                                            </button>
+                                            <div class="input-group mb-2" style="width: 130px; margin: 0 auto;">
+                                                <button class="btn btn-outline-secondary" type="button" onclick="cambiarCantidad(-1, <?= $producto['id_producto'] ?>)">
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                <input type="number" class="form-control text-center" id="cantidad-producto-<?= $producto['id_producto'] ?>" value="1" min="1" max="<?= $producto['cantidad'] ?>">
+                                                <button class="btn btn-outline-secondary" type="button" onclick="cambiarCantidad(1, <?= $producto['id_producto'] ?>)">
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                            <button class="btn btn-primary w-100 mb-2" onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">Agregar al Carrito</button>
+                                            <button class="btn btn-outline-primary w-100 mb-2" onclick="comprarAhora(<?= $producto['id_producto'] ?>)">Comprar Ahora</button>
                                         <?php else: ?>
-                                            <button class="btn btn-secondary w-100 mb-2" disabled>
-                                                Agotado
-                                            </button>
+                                            <button class="btn btn-secondary w-100 mb-2" disabled>Agotado</button>
+                                            <button class="btn btn-outline-primary w-100 mb-2" onclick="notificarDisponibilidad(<?= $producto['id_producto'] ?>)">Notificar cuando esté disponible</button>
                                         <?php endif; ?>
-                                        <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" 
-                                           class="text-primary text-decoration-none small">
+                                        <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                            class="text-primary text-decoration-none small">
                                             Ver Detalles
                                         </a>
                                     </div>
@@ -141,7 +149,8 @@
 <!-- Beneficios Section -->
 <section class="py-5">
     <div class="container">
-        <h2 class="text-center fw-bold mb-5">¿Por qué elegir nuestras <span class="text-danger"><?= $categoria['nombre'] ?></span>?</h2>
+        <h2 class="text-center fw-bold mb-5">¿Por qué elegir nuestras <span
+                class="text-danger"><?= $categoria['nombre'] ?></span>?</h2>
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="text-center">
@@ -168,31 +177,4 @@
     </div>
 </section>
 
-<script>
-function agregarAlCarrito(productoId) {
-    // Implementar lógica del carrito
-    console.log('Agregando producto al carrito:', productoId);
-    
-    // Mostrar notificación
-    const toast = document.createElement('div');
-    toast.className = 'position-fixed top-0 end-0 p-3';
-    toast.style.zIndex = '1050';
-    toast.innerHTML = `
-        <div class="toast show" role="alert">
-            <div class="toast-header">
-                <strong class="me-auto">Carrito</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
-            </div>
-            <div class="toast-body">
-                Producto agregado al carrito exitosamente
-            </div>
-        </div>
-    `;
-    document.body.appendChild(toast);
-    
-    // Remover la notificación después de 3 segundos
-    setTimeout(() => {
-        document.body.removeChild(toast);
-    }, 3000);
-}
-</script>
+<script src="<?= base_url('public/js/cart.js') ?>"></script>

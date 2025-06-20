@@ -8,11 +8,15 @@ use App\Controllers\BaseController;
 class ProductosController extends BaseController
 {
     private $productosPorPagina = 6; // Productos por página
-
+    private $productoModel;
+    private $categoriaModel;
+    public function __construct()
+    {
+        $this->productoModel = new ProductoModel();
+        $this->categoriaModel = new CategoriaModel();
+    }
     public function porCategoria($slug)
     {
-        $categoriaModel = new CategoriaModel();
-        $productoModel = new ProductoModel();
 
         // Obtener parámetros de filtrado y paginado
         $filtros = [
@@ -29,7 +33,7 @@ class ProductosController extends BaseController
         ];
 
         // Buscar la categoria por slug
-        $categoria = $categoriaModel->where("LOWER(nombre)", strtolower($slug))->first();
+        $categoria = $this->categoriaModel->where("LOWER(nombre)", strtolower($slug))->first();
 
         // Si no se encuentra la categoría, mostrar error 404
         if (!$categoria) {
@@ -40,14 +44,14 @@ class ProductosController extends BaseController
         }
 
         // Obtener productos filtrados y total
-        $resultado = $productoModel->getProductosFiltrados(
+        $resultado = $this->productoModel->getProductosFiltrados(
             $categoria['id_categoria'],
             $filtros,
             $paginacion
         );
 
         // Obtener estadísticas de precios
-        $precios = $productoModel->getEstadisticasPrecios($categoria['id_categoria']);
+        $precios = $this->productoModel->getEstadisticasPrecios($categoria['id_categoria']);
 
         // Calcular información de paginación
         $totalPaginas = ceil($resultado['total'] / $this->productosPorPagina);
@@ -88,11 +92,8 @@ class ProductosController extends BaseController
 
     public function detalle($id)
     {
-        $productoModel = new ProductoModel();
-        $categoriaModel = new CategoriaModel();
-
         // Buscar el producto
-        $producto = $productoModel->find($id);
+        $producto = $this->productoModel->find($id);
 
         if (!$producto || $producto['activo'] != 1) {
             return view("errors/html/error_404", [
@@ -102,10 +103,10 @@ class ProductosController extends BaseController
         }
 
         // Obtener la categoría del producto
-        $categoria = $categoriaModel->find($producto['id_categoria']);
+        $categoria = $this->categoriaModel->find($producto['id_categoria']);
 
         // Obtener productos relacionados
-        $productosRelacionados = $productoModel->getProductosRelacionados(
+        $productosRelacionados = $this->productoModel->getProductosRelacionados(
             $producto['id_producto'],
             $producto['id_categoria']
         );
@@ -126,9 +127,6 @@ class ProductosController extends BaseController
 
     public function buscar()
     {
-        $productoModel = new ProductoModel();
-        $categoriaModel = new CategoriaModel();
-
         // Obtener parámetros de búsqueda y filtrado
         $filtros = [
             'busqueda' => $this->request->getGet('q'),
@@ -145,17 +143,17 @@ class ProductosController extends BaseController
 
         // Obtener productos filtrados
         $categoriaId = $this->request->getGet('categoria');
-        $resultado = $productoModel->getProductosFiltrados($categoriaId, $filtros, $paginacion);
+        $resultado = $this->productoModel->getProductosFiltrados($categoriaId, $filtros, $paginacion);
 
         // Obtener estadísticas de precios
-        $precios = $productoModel->getEstadisticasPrecios($categoriaId);
+        $precios = $this->productoModel->getEstadisticasPrecios($categoriaId);
 
         // Calcular información de paginación
         $totalPaginas = ceil($resultado['total'] / $this->productosPorPagina);
         $paginaActual = max(1, min($paginacion['pagina'], $totalPaginas));
 
         // Obtener categorías para filtros
-        $categorias = $categoriaModel->findAll();
+        $categorias = $this->categoriaModel->findAll();
 
         $data = [
             "title" => "Resultados de búsqueda",

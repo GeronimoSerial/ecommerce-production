@@ -99,6 +99,7 @@ class Autoload extends AutoloadConfig
     public $helpers = [
         'url',
         'image',
-        'pagination'
+        'pagination',
+        'cart'
     ];
 }

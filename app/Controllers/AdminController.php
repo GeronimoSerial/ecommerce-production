@@ -9,17 +9,20 @@ use App\Models\PersonaModel;
 
 class AdminController extends BaseController
 {
-    protected $usuarioModel;
-    protected $productoModel;
-    protected $categoriaModel;
-    protected $personaModel;
+    private $usuarioModel;
+    private $productoModel;
+    private $categoriaModel;
+    private $personaModel;
+    private $session;
 
     public function __construct()
     {
+        helper(['form', 'url']);
         $this->usuarioModel = new UsuarioModel();
         $this->productoModel = new ProductoModel();
         $this->categoriaModel = new CategoriaModel();
         $this->personaModel = new PersonaModel();
+        $this->session = session();
     }
 
     public function index()
@@ -80,8 +83,7 @@ class AdminController extends BaseController
     // ==================== CONTROL DE INVENTARIO ====================
     public function inventario()
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
@@ -107,7 +109,7 @@ class AdminController extends BaseController
             'direccion' => $direccion,
             'page' => $page
         ];
-        
+
         $paginacion = [
             'paginaActual' => $page,
             'totalPaginas' => $totalPaginas,
@@ -132,8 +134,7 @@ class AdminController extends BaseController
 
     public function crearProducto()
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
@@ -160,13 +161,13 @@ class AdminController extends BaseController
                 ];
 
                 if ($this->productoModel->insert($data)) {
-                    $session->setFlashdata('msg', 'Producto creado exitosamente');
+                    $this->session->setFlashdata('msg', 'Producto creado exitosamente');
                     return redirect()->to('/admin/inventario');
                 } else {
-                    $session->setFlashdata('error', 'Error al crear el producto');
+                    $this->session->setFlashdata('error', 'Error al crear el producto');
                 }
             } else {
-                $session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
+                $this->session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
             }
         }
 
@@ -181,8 +182,7 @@ class AdminController extends BaseController
 
     public function editarProducto($id = null)
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
@@ -222,13 +222,13 @@ class AdminController extends BaseController
                 }
 
                 if ($this->productoModel->update($id, $data)) {
-                    $session->setFlashdata('msg', 'Producto actualizado exitosamente');
+                    $this->session->setFlashdata('msg', 'Producto actualizado exitosamente');
                     return redirect()->to('/admin/inventario');
                 } else {
-                    $session->setFlashdata('error', 'Error al actualizar el producto');
+                    $this->session->setFlashdata('error', 'Error al actualizar el producto');
                 }
             } else {
-                $session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
+                $this->session->setFlashdata('error', 'Por favor corrige los errores en el formulario');
             }
         }
 
@@ -244,15 +244,14 @@ class AdminController extends BaseController
 
     public function eliminarProducto($id = null)
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 
         if ($this->productoModel->delete($id)) {
-            $session->setFlashdata('msg', 'Producto eliminado exitosamente');
+            $this->session->setFlashdata('msg', 'Producto eliminado exitosamente');
         } else {
-            $session->setFlashdata('error', 'Error al eliminar el producto');
+            $this->session->setFlashdata('error', 'Error al eliminar el producto');
         }
 
         return redirect()->to('/admin/inventario');
@@ -261,8 +260,7 @@ class AdminController extends BaseController
     // ==================== REPORTES Y ESTADÍSTICAS ====================
     public function reportes()
     {
-        $session = session();
-        if (!$session->get('logueado') || $session->get('id_rol') != 1) {
+        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
             return redirect()->to('/login');
         }
 

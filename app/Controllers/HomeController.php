@@ -1,22 +1,28 @@
 <?php
 
 namespace App\Controllers;
+use App\Models\ProductoModel;
+use App\Models\CategoriaModel;
 
 class HomeController extends BaseController
 {
+    private $productoModel;
+    private $categoriaModel;
+    public function __construct()
+    {
+        $this->productoModel = new ProductoModel();
+        $this->categoriaModel = new CategoriaModel();
+    }
     public function index()
     {
-        $productoModel = new \App\Models\ProductoModel();
-        $categoriaModel = new \App\Models\CategoriaModel();
-
         // Definir las categorías que queremos mostrar
         $nombresCategorias = ['proteínas', 'creatinas', 'colágenos', 'accesorios'];
-        
+
         // Obtener IDs de categorías usando el modelo
-        $categorias = $categoriaModel->getCategoriasPorNombres($nombresCategorias);
-        
+        $categorias = $this->categoriaModel->getCategoriasPorNombres($nombresCategorias);
+
         // Obtener productos más vendidos por categoría usando el modelo
-        $productosTopVendidos = $productoModel->getTopVendidosPorCategorias($categorias);
+        $productosTopVendidos = $this->productoModel->getTopVendidosPorCategorias($categorias);
 
         return view('templates/main_layout', [
             'title' => 'Inicio - Mi Tienda',
