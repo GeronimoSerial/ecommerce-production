@@ -139,6 +139,11 @@ class ProductoModel extends Model
         // Aplicar filtros base
         $builder->where('activo', 1);
 
+        // Filtrar por categoría si se proporciona
+        if ($categoriaId !== null) {
+            $builder->where('id_categoria', $categoriaId);
+        }
+
         // Aplicar filtros de búsqueda
         if (!empty($filtros['q'])) {
             $builder->groupStart()
@@ -214,5 +219,12 @@ class ProductoModel extends Model
             ->where('activo', 1)
             ->limit($limite)
             ->findAll();
+    }
+
+    public function getNombreCategoria($id)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('categorias')->where('id_categoria', $id);
+        return $builder->get()->getRowArray()['nombre'];
     }
 }

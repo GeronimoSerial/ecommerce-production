@@ -158,19 +158,19 @@
 
 <!-- Modal de confirmación para vaciar carrito -->
 <div class="modal fade" id="clearCartModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal-dialog bg-white">
+        <div class="modal-content bg-white">
+            <div class="modal-header bg-white">
                 <h5 class="modal-title">
                     <i class="fas fa-exclamation-triangle text-warning"></i> Confirmar Acción
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body bg-white">
                 <p>¿Estás seguro de que quieres vaciar tu carrito de compras?</p>
                 <p class="text-muted small">Esta acción no se puede deshacer.</p>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-white">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger" id="confirm-clear-cart">
                     <i class="fas fa-trash"></i> Vaciar Carrito

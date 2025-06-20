@@ -78,13 +78,13 @@
                         <i class="bi bi-box-seam fs-1 text-muted mb-3"></i>
                         <h4 class="text-muted">No se encontraron productos</h4>
                         <p class="text-muted">
-                            <?php if (!empty($filtros['busqueda']) || !empty($filtros['precioMin']) || !empty($filtros['precioMax'])): ?>
+                            <?php if (!empty($filtros['q']) || !empty($filtros['precioMin']) || !empty($filtros['precioMax'])): ?>
                                 Intenta ajustar los filtros de búsqueda.
                             <?php else: ?>
                                 Pronto tendremos productos de <?= strtolower($categoria['nombre']) ?> disponibles.
                             <?php endif; ?>
                         </p>
-                        <?php if (!empty($filtros['busqueda']) || !empty($filtros['precioMin']) || !empty($filtros['precioMax'])): ?>
+                        <?php if (!empty($filtros['q']) || !empty($filtros['precioMin']) || !empty($filtros['precioMax'])): ?>
                             <a href="<?= current_url() ?>" class="btn btn-primary">Limpiar Filtros</a>
                         <?php endif; ?>
                     </div>
@@ -92,57 +92,7 @@
                     <!-- Grid de Productos -->
                     <div class="row g-3">
                         <?php foreach ($productos as $producto): ?>
-                            <div class="col-md-6 col-lg-4">
-                                <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
-                                    <div class="card-img-wrapper mb-3">
-                                        <?= safe_product_image($producto, 'small') ?>
-                                    </div>
-                                    <div class="mb-3">
-                                        <span class="badge bg-primary mb-2"><?= $categoria['nombre'] ?></span>
-                                        <h5 class="fw-semibold mb-2"><?= $producto['nombre'] ?></h5>
-                                        <p class="text-muted small mb-2"><?= $producto['descripcion'] ?></p>
-                                        <p class="text-success fw-bold mb-0">$
-                                            <?= number_format($producto['precio'], 0, ',', '.') ?>
-                                        </p>
-                                        <?php if ($producto['cantidad'] <= 5 && $producto['cantidad'] > 0): ?>
-                                            <small class="text-warning">¡Solo quedan <?= $producto['cantidad'] ?> unidades!</small>
-                                        <?php elseif ($producto['cantidad'] == 0): ?>
-                                            <small class="text-danger">Agotado</small>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div class="mt-auto">
-                                        <?php if ($producto['cantidad'] > 0): ?>
-                                            <div class="input-group mb-2" style="width: 130px; margin: 0 auto;">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="cambiarCantidad(-1, <?= $producto['id_producto'] ?>)">
-                                                    <i class="bi bi-dash"></i>
-                                                </button>
-                                                <input type="number" class="form-control text-center"
-                                                    id="cantidad-producto-<?= $producto['id_producto'] ?>" value="1" min="1"
-                                                    max="<?= $producto['cantidad'] ?>">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    onclick="cambiarCantidad(1, <?= $producto['id_producto'] ?>)">
-                                                    <i class="bi bi-plus"></i>
-                                                </button>
-                                            </div>
-                                            <button class="btn btn-primary w-100 mb-2"
-                                                onclick="agregarAlCarrito(<?= $producto['id_producto'] ?>)">Agregar al
-                                                Carrito</button>
-                                            <button class="btn btn-outline-primary w-100 mb-2"
-                                                onclick="comprarAhora(<?= $producto['id_producto'] ?>)">Comprar Ahora</button>
-                                        <?php else: ?>
-                                            <button class="btn btn-secondary w-100 mb-2" disabled>Agotado</button>
-                                            <button class="btn btn-outline-primary w-100 mb-2"
-                                                onclick="notificarDisponibilidad(<?= $producto['id_producto'] ?>)">Notificar cuando
-                                                esté disponible</button>
-                                        <?php endif; ?>
-                                        <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
-                                            class="text-primary text-decoration-none small">
-                                            Ver Detalles
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <?= view('templates/producto_card', ['producto' => $producto, 'categoria' => $categoria]) ?>
                         <?php endforeach; ?>
                     </div>
 

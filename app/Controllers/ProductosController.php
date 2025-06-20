@@ -20,7 +20,7 @@ class ProductosController extends BaseController
 
         // Obtener parámetros de filtrado y paginado
         $filtros = [
-            'busqueda' => $this->request->getGet('busqueda'),
+            'q' => $this->request->getGet('q'),
             'precio_min' => $this->request->getGet('precio_min'),
             'precio_max' => $this->request->getGet('precio_max'),
             'orden' => $this->request->getGet('orden') ?? 'nombre',
