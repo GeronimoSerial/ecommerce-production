@@ -15,8 +15,8 @@ class HomeController extends BaseController
     }
     public function index()
     {
-        // Definir las categorías que queremos mostrar
-        $nombresCategorias = ['proteínas', 'creatinas', 'colágenos', 'accesorios'];
+        // Definir las categorías que queremos mostrar (sin acentos para coincidir con la BD)
+        $nombresCategorias = ['proteinas', 'creatinas', 'colagenos', 'accesorios'];
 
         // Obtener IDs de categorías usando el modelo
         $categorias = $this->categoriaModel->getCategoriasPorNombres($nombresCategorias);
@@ -27,9 +27,9 @@ class HomeController extends BaseController
         return view('templates/main_layout', [
             'title' => 'Inicio - Mi Tienda',
             'content' => view('pages/home', [
-                'topProteinas' => $productosTopVendidos['proteínas'] ?? [],
+                'topProteinas' => $productosTopVendidos['proteinas'] ?? [],
                 'topCreatinas' => $productosTopVendidos['creatinas'] ?? [],
-                'topColagenos' => $productosTopVendidos['colágenos'] ?? [],
+                'topColagenos' => $productosTopVendidos['colagenos'] ?? [],
                 'topAccesorios' => $productosTopVendidos['accesorios'] ?? []
             ])
         ]);

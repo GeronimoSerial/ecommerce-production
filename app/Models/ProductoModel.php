@@ -156,7 +156,7 @@ class ProductoModel extends Model
         $total = $builder->countAllResults(false);
 
         // Aplicar ordenamiento
-        $ordenesPermitidos = ['nombre', 'precio', 'cantidad'];
+        $ordenesPermitidos = ['nombre', 'precio', 'cantidad', 'cantidad_vendidos'];
         $direccionesPermitidas = ['ASC', 'DESC'];
 
         $orden = $filtros['orden'] ?? 'nombre';

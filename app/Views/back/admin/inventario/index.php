@@ -1,5 +1,4 @@
 <?php
-require_once APPPATH . 'Helpers/pagination_helper.php';
 $productos = $productos ?? [];
 $filtros = $filtros ?? [];
 $paginacion = $paginacion ?? [];
@@ -35,7 +34,10 @@ $cantActivos = $cantActivos ?? 0
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="bi bi-box-seam"></i> Lista de Productos</h5>
                 <div>
-                    <?= function_exists('generate_sort_links') ? generate_sort_links($filtros, $baseUrl) : '' ?>
+                    <?= view('templates/filtros', [
+                        'filtros' => $filtros,
+                        'baseUrl' => $baseUrl
+                    ]) ?>
                 </div>
             </div>
             <div class="card-body p-0">
@@ -43,28 +45,14 @@ $cantActivos = $cantActivos ?? 0
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'id_producto', 'direccion' => ($filtros['orden'] == 'id_producto' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">ID<?= $filtros['orden'] == 'id_producto' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
+                                <th>ID</th>
                                 <th>Imagen</th>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'nombre', 'direccion' => ($filtros['orden'] == 'nombre' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Nombre<?= $filtros['orden'] == 'nombre' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'categoria_nombre', 'direccion' => ($filtros['orden'] == 'categoria_nombre' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Categoría<?= $filtros['orden'] == 'categoria_nombre' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'precio', 'direccion' => ($filtros['orden'] == 'precio' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Precio<?= $filtros['orden'] == 'precio' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'cantidad', 'direccion' => ($filtros['orden'] == 'cantidad' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Stock<?= $filtros['orden'] == 'cantidad' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'activo', 'direccion' => ($filtros['orden'] == 'activo' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Estado<?= $filtros['orden'] == 'activo' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
-                                <th><a
-                                        href="<?= $baseUrl . '?' . http_build_query(array_merge($filtros, ['orden' => 'cantidad_vendidos', 'direccion' => ($filtros['orden'] == 'cantidad_vendidos' && $filtros['direccion'] == 'ASC' ? 'DESC' : 'ASC'), 'page' => 1])) ?>">Vendidos<?= $filtros['orden'] == 'cantidad_vendidos' ? ($filtros['direccion'] == 'ASC' ? ' ↑' : ' ↓') : '' ?></a>
-                                </th>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th>Vendidos</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -64,7 +64,10 @@
                         </p>
                     </div>
                     <div class="d-flex gap-2">
-                        <?= generate_sort_links($filtros, current_url()) ?>
+                        <?= view('templates/filtros', [
+                            'filtros' => $filtros,
+                            'baseUrl' => current_url()
+                        ]) ?>
                     </div>
                 </div>
 
