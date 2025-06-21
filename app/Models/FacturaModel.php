@@ -10,5 +10,10 @@ class FacturaModel extends Model{
         "importe_total",
         "descuento",
         "activo",
+        "fecha_factura"
     ];
+    
+    protected $useTimestamps = true;
+    protected $createdField = 'fecha_factura';
+    protected $updatedField = false;
 }

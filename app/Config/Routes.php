@@ -43,6 +43,10 @@ $routes->post('registro', 'UsuarioController::Create'); // Procesa el formulario
 $routes->get('/login', 'LoginController');
 $routes->post('/login', 'LoginController::auth');
 $routes->get('/panel', 'PanelController::index');
+$routes->get('/panel/mis-facturas', 'PanelController::misFacturas');
+$routes->get('/panel/factura/(:num)', 'PanelController::detalleFactura/$1');
+$routes->get('/panel/ventas', 'PanelController::ventas');
+$routes->get('/panel/venta/(:num)', 'PanelController::detalleVenta/$1');
 
 $routes->get('/logout', 'LoginController::logout');
 
@@ -75,6 +79,8 @@ $routes->get('/cart/count', 'CartController::getCartCount');
 $routes->get('/checkout', 'CheckoutController::index');
 $routes->post('/checkout/confirm', 'CheckoutController::confirm');
 $routes->get('/checkout/summary', 'CheckoutController::getSummary');
+$routes->get('/checkout/history', 'CheckoutController::getInvoiceHistory');
+$routes->get('/checkout/invoice/(:num)', 'CheckoutController::getInvoiceDetails/$1');
 
 $routes->set404Override(function () {
     return view('templates/main_layout', [

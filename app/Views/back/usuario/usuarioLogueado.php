@@ -50,15 +50,19 @@ $perfil = $perfil ?? 2;
                                 <p class="card-text">Accede a tu área personal y descubre todo lo que tenemos para ti:</p>
                                 <div class="row g-4 mt-3">
                                     <div class="col-6">
-                                        <div class="p-3 border rounded text-center">
-                                            <i class="bi bi-cart3 fs-2 text-primary"></i>
-                                            <h5 class="mt-2">Mis Compras</h5>
-                                        </div>
+                                        <a href="<?= base_url('panel/mis-facturas') ?>" class="text-decoration-none">
+                                            <div class="p-3 border rounded text-center hover-effect">
+                                                <i class="bi bi-receipt fs-2 text-primary"></i>
+                                                <h5 class="mt-2">Mis Facturas</h5>
+                                                <small class="text-muted">Ver historial de compras</small>
+                                            </div>
+                                        </a>
                                     </div>
                                     <div class="col-6">
                                         <div class="p-3 border rounded text-center">
                                             <i class="bi bi-heart fs-2 text-danger"></i>
                                             <h5 class="mt-2">Favoritos</h5>
+                                            <small class="text-muted">Próximamente</small>
                                         </div>
                                     </div>
                                 </div>

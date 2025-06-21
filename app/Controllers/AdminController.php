@@ -6,6 +6,7 @@ use App\Models\UsuarioModel;
 use App\Models\ProductoModel;
 use App\Models\CategoriaModel;
 use App\Models\PersonaModel;
+use App\Models\FacturaModel;
 
 class AdminController extends BaseController
 {
@@ -13,6 +14,7 @@ class AdminController extends BaseController
     private $productoModel;
     private $categoriaModel;
     private $personaModel;
+    private $facturaModel;
     private $session;
 
     public function __construct()
@@ -22,6 +24,7 @@ class AdminController extends BaseController
         $this->productoModel = new ProductoModel();
         $this->categoriaModel = new CategoriaModel();
         $this->personaModel = new PersonaModel();
+        $this->facturaModel = new FacturaModel();
         $this->session = session();
     }
 
@@ -293,11 +296,21 @@ class AdminController extends BaseController
         // Usuarios registrados este mes (si no hay fecha_creacion, mostrar 0)
         $usuariosEsteMes = 0;
 
+        // Estadísticas de ventas
+        $totalVentas = $this->facturaModel->where('activo', 1)->countAllResults();
+        $ingresosTotales = $this->facturaModel->where('activo', 1)->selectSum('importe_total')->get()->getRow()->importe_total ?? 0;
+        $ventasHoy = $this->facturaModel->where('activo', 1)
+                                       ->where('DATE(fecha_factura)', date('Y-m-d'))
+                                       ->countAllResults();
+
         return [
             'totalUsuarios' => $totalUsuarios,
             'totalProductos' => $totalProductos,
             'cantidadBajo' => $cantidadBajo,
-            'usuariosEsteMes' => $usuariosEsteMes
+            'usuariosEsteMes' => $usuariosEsteMes,
+            'totalVentas' => $totalVentas,
+            'ingresosTotales' => $ingresosTotales,
+            'ventasHoy' => $ventasHoy
         ];
     }
 

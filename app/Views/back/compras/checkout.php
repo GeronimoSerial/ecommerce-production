@@ -159,6 +159,35 @@
                             </a>
                         </div>
 
+                        <!-- Información de Factura -->
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-file-invoice"></i> Información de Factura
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled small">
+                                    <li class="mb-2">
+                                        <i class="fas fa-check-circle text-success"></i>
+                                        Se generará una factura automáticamente
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-download text-info"></i>
+                                        Podrás descargar la factura después de la compra
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-envelope text-warning"></i>
+                                        Recibirás un email con el resumen
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-history text-primary"></i>
+                                        Historial disponible en tu cuenta
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <!-- Información Adicional -->
                         <div class="card mt-3">
                             <div class="card-header">
@@ -210,8 +239,12 @@
                     <i class="fas fa-exclamation-triangle"></i>
                     <strong>Total a pagar:</strong> <?= format_currency($total) ?>
                 </div>
+                <div class="alert alert-info">
+                    <i class="fas fa-file-invoice"></i>
+                    <strong>Se generará una factura</strong> con todos los detalles de tu compra.
+                </div>
                 <p class="text-muted small">
-                    Al confirmar, se procesará el pago y se descontará el stock de los productos.
+                    Al confirmar, se procesará el pago, se descontará el stock de los productos y se generará tu factura.
                 </p>
             </div>
             <div class="modal-footer">
@@ -319,6 +352,10 @@
                             <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
                             <h4>¡Gracias por tu compra!</h4>
                             <p>Tu pedido ha sido procesado correctamente.</p>
+                            <div class="alert alert-info">
+                                <i class="fas fa-file-invoice"></i>
+                                <strong>Factura generada:</strong> Se ha creado tu factura con todos los detalles.
+                            </div>
                             <p class="text-muted">Recibirás un email de confirmación pronto.</p>
                         </div>
                         <div class="modal-footer bg-light border-top">

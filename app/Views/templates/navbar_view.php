@@ -36,8 +36,14 @@ $apellido = $session->get('apellido');
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <?php if ($perfil == 1): ?>
                             <li><a class="dropdown-item" href="<?= base_url('panel') ?>">Panel Admin</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('panel/ventas') ?>">
+                                <i class="bi bi-graph-up me-2"></i>Gestión de Ventas
+                            </a></li>
                         <?php else: ?>
                             <li><a class="dropdown-item" href="<?= base_url('panel') ?>">Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('panel/mis-facturas') ?>">
+                                <i class="bi bi-receipt me-2"></i>Mis Facturas
+                            </a></li>
                         <?php endif; ?>
                         <li><a class="dropdown-item" href="<?= base_url('actualizar') ?>">Mis datos personales</a></li>
                         <li>

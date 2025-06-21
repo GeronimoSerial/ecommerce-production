@@ -43,8 +43,30 @@ $stats = $stats ?? [];
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2.5rem;"></i>
-                        <h3 class="mt-3 mb-1"><?= $stats['cantidadBajo'] ?? 0 ?></h3>
+                        <i class="bi bi-receipt text-warning" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= $stats['totalVentas'] ?? 0 ?></h3>
+                        <p class="text-muted mb-0">Total Ventas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-currency-dollar text-info" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= format_currency($stats['ingresosTotales'] ?? 0) ?></h3>
+                        <p class="text-muted mb-0">Ingresos Totales</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas Secundarias -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+                        <h4 class="mt-2 mb-1"><?= $stats['cantidadBajo'] ?? 0 ?></h4>
                         <p class="text-muted mb-0">Stock Bajo</p>
                     </div>
                 </div>
@@ -52,9 +74,29 @@ $stats = $stats ?? [];
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <i class="bi bi-person-plus text-info" style="font-size: 2.5rem;"></i>
-                        <h3 class="mt-3 mb-1"><?= $stats['usuariosEsteMes'] ?? 0 ?></h3>
+                        <i class="bi bi-person-plus text-info" style="font-size: 2rem;"></i>
+                        <h4 class="mt-2 mb-1"><?= $stats['usuariosEsteMes'] ?? 0 ?></h4>
                         <p class="text-muted mb-0">Usuarios Nuevos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
+                        <h4 class="mt-2 mb-1"><?= $stats['ventasHoy'] ?? 0 ?></h4>
+                        <p class="text-muted mb-0">Ventas Hoy</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-graph-up text-primary" style="font-size: 2rem;"></i>
+                        <h4 class="mt-2 mb-1">
+                            <?= $stats['totalVentas'] > 0 ? round(($stats['ingresosTotales'] / $stats['totalVentas']), 2) : 0 ?>
+                        </h4>
+                        <p class="text-muted mb-0">Promedio por Venta</p>
                     </div>
                 </div>
             </div>
@@ -87,6 +129,17 @@ $stats = $stats ?? [];
                                             <i class="bi bi-box-seam text-success" style="font-size: 2rem;"></i>
                                             <h6 class="mt-2 mb-0 text-dark">Control de Inventario</h6>
                                             <small class="text-muted">Gestionar productos</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <a href="<?= base_url('panel/ventas') ?>" class="text-decoration-none">
+                                    <div class="card border-0 bg-light h-100 accesos">
+                                        <div class="card-body text-center">
+                                            <i class="bi bi-graph-up text-warning" style="font-size: 2rem;"></i>
+                                            <h6 class="mt-2 mb-0 text-dark">Gestión de Ventas</h6>
+                                            <small class="text-muted">Ver todas las ventas</small>
                                         </div>
                                     </div>
                                 </a>
