@@ -1,3 +1,7 @@
+<?php
+$productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
+?>
+
 <!-- Breadcrumb -->
 <nav aria-label="breadcrumb" class="py-3">
     <div class="container">
@@ -17,7 +21,9 @@
             <!-- Imagen del Producto -->
             <div class="col-lg-6">
                 <div class="product-image-container">
-                    <?= safe_product_image($producto, 'large', 'img-fluid rounded-4 shadow-sm') ?>
+                    <img src="<?= $productImageUrl ?>" alt="<?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?>"
+                        class="img-fluid rounded-4 shadow-sm"
+                        onerror="this.src='<?= base_url('public/images/default-product.webp') ?>'">
 
                     <!-- Badge de cantidad -->
                     <?php if ($producto['cantidad'] <= 5 && $producto['cantidad'] > 0): ?>
@@ -74,13 +80,15 @@
                     <?php if ($producto['cantidad'] > 0): ?>
                         <div class="mb-4">
                             <h5 class="fw-semibold mb-2">Cantidad</h5>
-                            <div class="input-group" style="width: 150px;">
-                                <button class="btn btn-outline-secondary" type="button" onclick="cambiarCantidad(-1)">
+                            <div class="input-group" style="width: 180px;">
+                                <button class="btn btn-outline-secondary" style="width: 40px;" type="button"
+                                    onclick="cambiarCantidad(-1)">
                                     <i class="bi bi-dash"></i>
                                 </button>
                                 <input type="number" class="form-control text-center" id="cantidad-producto" value="1"
                                     min="1" max="<?= $producto['cantidad'] ?>">
-                                <button class="btn btn-outline-secondary" type="button" onclick="cambiarCantidad(1)">
+                                <button class="btn btn-outline-secondary" style="width: 40px;" type="button"
+                                    onclick="cambiarCantidad(1)">
                                     <i class="bi bi-plus"></i>
                                 </button>
                             </div>
@@ -179,11 +187,13 @@
             <h2 class="fw-bold text-center mb-5">Productos Relacionados</h2>
             <div class="row g-4">
                 <?php foreach ($productosRelacionados as $relacionado): ?>
+                    <?php $relacionadoImageUrl = getSafeImageUrl($relacionado['url_imagen'] ?? ''); ?>
                     <div class="col-md-6 col-lg-4">
                         <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                             <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('public/images/' . $relacionado['url_imagen']) ?>"
-                                    alt="<?= $relacionado['nombre'] ?>" class="product-img mx-auto"
+                                <img src="<?= $relacionadoImageUrl ?>"
+                                    alt="<?= htmlspecialchars($relacionado['nombre'] ?? 'Producto') ?>"
+                                    class="product-img mx-auto"
                                     onerror="this.src='<?= base_url('public/images/default-product.webp') ?>'">
                             </div>
                             <div class="mb-3">
@@ -206,4 +216,3 @@
         </div>
     </section>
 <?php endif; ?>
-

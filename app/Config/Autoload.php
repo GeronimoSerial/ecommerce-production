@@ -100,6 +100,7 @@ class Autoload extends AutoloadConfig
         'url',
         'image',
         'pagination',
-        'cart'
+        'cart',
+        'image_utils'
     ];
 }

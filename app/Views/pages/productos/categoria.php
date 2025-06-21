@@ -1,3 +1,24 @@
+<?php
+// Función local para manejar banners de categorías
+if (!function_exists('getBannerUrl')) {
+    function getBannerUrl($categoryName) {
+        $bannerMap = [
+            'proteinas' => 'protein_wallpaper.webp',
+            'creatinas' => 'gym_wallpaper.webp',
+            'colagenos' => 'header-background.webp',
+            'accesorios' => 'gym_wallpaper.webp'
+        ];
+
+        $categoryKey = strtolower($categoryName);
+        $bannerImage = $bannerMap[$categoryKey] ?? 'header-background.webp';
+
+        return base_url('public/images/banners/' . $bannerImage);
+    }
+}
+
+$bannerUrl = getBannerUrl($categoria['nombre']);
+?>
+
 <!-- Hero Section -->
 <div class="bg-dark text-white py-5 mt-2">
     <div class="container">
@@ -10,7 +31,7 @@
                     rendimiento y alcanzar tus objetivos fitness.</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= safe_banner_url($categoria['nombre']) ?>" alt="<?= $categoria['nombre'] ?> Banner"
+                <img src="<?= $bannerUrl ?>" alt="<?= $categoria['nombre'] ?> Banner"
                     class="img-fluid rounded-4">
             </div>
         </div>

@@ -85,14 +85,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">
-                                <i class="fas fa-lock"></i> Información de Pago (Simulado)
+                                <i class="fas fa-lock"></i> Información de Pago
                             </h5>
                         </div>
                         <div class="card-body">
                             <div class="alert alert-info">
                                 <i class="fas fa-info-circle"></i>
-                                <strong>Nota:</strong> Este es un sistema de pago simulado para fines de demostración.
-                                En un entorno de producción, aquí se integraría con un gateway de pago real.
+                                <strong>Nota:</strong> No ingrese datos reales. Este es un sistema de pago simulado.
                             </div>
 
                             <div class="row">
@@ -130,7 +129,7 @@
 
                 <div class="col-lg-4">
                     <!-- Resumen de Compra -->
-                    <div class="card sticky-top" style="top: 20px;">
+                    <div class="card sticky-top" style="top: 100px;">
                         <div class="card-header">
                             <h5 class="mb-0">
                                 <i class="fas fa-calculator"></i> Resumen de Compra
@@ -159,34 +158,34 @@
                                 <i class="fas fa-arrow-left"></i> Volver al Carrito
                             </a>
                         </div>
-                    </div>
 
-                    <!-- Información Adicional -->
-                    <div class="card mt-3">
-                        <div class="card-header">
-                            <h6 class="mb-0">
-                                <i class="fas fa-info-circle"></i> Información Importante
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-unstyled small">
-                                <li class="mb-2">
-                                    <i class="fas fa-shield-alt text-success"></i>
-                                    Pago seguro y encriptado
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fas fa-truck text-info"></i>
-                                    Envío gratuito en compras superiores a $50
-                                </li>
-                                <li class="mb-2">
-                                    <i class="fas fa-undo text-warning"></i>
-                                    Devoluciones gratuitas hasta 30 días
-                                </li>
-                                <li>
-                                    <i class="fas fa-headset text-primary"></i>
-                                    Soporte 24/7 disponible
-                                </li>
-                            </ul>
+                        <!-- Información Adicional -->
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-info-circle"></i> Información Importante
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled small">
+                                    <li class="mb-2">
+                                        <i class="fas fa-shield-alt text-success"></i>
+                                        Pago seguro y encriptado
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-truck text-info"></i>
+                                        Envío gratuito en compras superiores a $50
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-undo text-warning"></i>
+                                        Devoluciones gratuitas hasta 30 días
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-headset text-primary"></i>
+                                        Soporte 24/7 disponible
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
