@@ -55,10 +55,10 @@ class CartController extends BaseController
 
         return view('templates/main_layout', [
             'title' => 'Carrito de Compras',
-            'content' => view('pages/cart', [
+            'content' => view('back/compras/cart', [
                 'cartItems' => $cartItems,
                 'subtotal' => $subtotal,
-                'isLoggedIn' => (bool)$usuarioId
+                'isLoggedIn' => (bool) $usuarioId
             ])
         ]);
     }
@@ -69,7 +69,8 @@ class CartController extends BaseController
     public function add()
     {
         $productoId = $this->request->getPost('producto_id');
-        $cantidad = (int)$this->request->getPost('cantidad') ?: 1;
+        $cantidad = (int) $this->request->getPost('cantidad') ?: 1;
+        $compraDirecta = $this->request->getPost('compra_directa') === 'true';
         $usuarioId = $this->session->get('usuario_id');
 
         // Validar producto
@@ -81,11 +82,44 @@ class CartController extends BaseController
             ]);
         }
 
-        // Validar stock
-        if ($cantidad > $producto['cantidad']) {
+        // Si es compra directa, verificar si el producto ya está en el carrito
+        if ($compraDirecta) {
+            if ($usuarioId) {
+                $itemExistente = $this->cartModel->getCartItem($usuarioId, $productoId);
+            } else {
+                $sessionCart = get_session_cart();
+                $itemExistente = isset($sessionCart[$productoId]) ? $sessionCart[$productoId] : null;
+            }
+
+            if ($itemExistente) {
+                // El producto ya está en el carrito, redirigir directamente al checkout
+                return $this->response->setJSON([
+                    'success' => true,
+                    'message' => 'Producto ya en carrito, redirigiendo al checkout',
+                    'redirect' => true
+                ]);
+            }
+        }
+
+        // Validar stock considerando la cantidad ya en el carrito
+        $cantidadEnCarrito = 0;
+        if ($usuarioId) {
+            $itemExistente = $this->cartModel->getCartItem($usuarioId, $productoId);
+            if ($itemExistente) {
+                $cantidadEnCarrito = $itemExistente['cantidad'];
+            }
+        } else {
+            $sessionCart = get_session_cart();
+            if (isset($sessionCart[$productoId])) {
+                $cantidadEnCarrito = $sessionCart[$productoId]['cantidad'];
+            }
+        }
+
+        $cantidadTotal = $cantidadEnCarrito + $cantidad;
+        if ($cantidadTotal > $producto['cantidad']) {
             return $this->response->setJSON([
                 'success' => false,
-                'message' => 'Stock insuficiente. Disponible: ' . $producto['cantidad']
+                'message' => 'No hay stock suficiente'
             ]);
         }
 
@@ -127,7 +161,7 @@ class CartController extends BaseController
     public function updateQuantity()
     {
         $carritoId = $this->request->getPost('carrito_id');
-        $cantidad = (int)$this->request->getPost('cantidad');
+        $cantidad = (int) $this->request->getPost('cantidad');
         $usuarioId = $this->session->get('usuario_id');
 
         if ($cantidad < 0) {
@@ -264,7 +298,7 @@ class CartController extends BaseController
     public function getCartCount()
     {
         $usuarioId = $this->session->get('usuario_id');
-        
+
         if ($usuarioId) {
             $count = $this->cartModel->getCartItemCount($usuarioId);
         } else {
@@ -273,4 +307,4 @@ class CartController extends BaseController
 
         return $this->response->setJSON(['count' => $count]);
     }
-} 
+}

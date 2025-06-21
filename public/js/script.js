@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     
     // Selección de elementos del DOM
-    const filterButtons = document.querySelectorAll('.filter-button-group button');
-    const collectionItems = document.querySelectorAll('.collection-list .col-md-6');
-    const collectionList = document.querySelector('.collection-list');
+    // const filterButtons = document.querySelectorAll('.filter-button-group button');
+    // const collectionItems = document.querySelectorAll('.collection-list .col-md-6');
+    // const collectionList = document.querySelector('.collection-list');
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
             cardInner.style.transform = 'scale(0.98)';
             setTimeout(() => {
                 cardInner.style.transform = 'scale(1)';
-                // window.location.href = 'tu-url-destino';
             }, 150);
         });
     });

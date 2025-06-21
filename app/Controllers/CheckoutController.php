@@ -27,12 +27,12 @@ class CheckoutController extends BaseController
         $usuarioId = $this->session->get('usuario_id');
 
         if (!$usuarioId) {
-            return redirect()->to('/login')->with('error', 'Debes iniciar sesión para acceder al checkout');
+            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para finalizar la compra');
         }
 
         // Obtener productos del carrito
         $cartItems = $this->cartModel->getCartByUser($usuarioId);
-        
+
         if (empty($cartItems)) {
             return redirect()->to('/cart')->with('error', 'Tu carrito está vacío');
         }
@@ -44,7 +44,7 @@ class CheckoutController extends BaseController
 
         return view('templates/main_layout', [
             'title' => 'Finalizar Compra',
-            'content' => view('pages/checkout', [
+            'content' => view('back/compras/checkout', [
                 'cartItems' => $cartItems,
                 'subtotal' => $subtotal,
                 'tax' => $tax,
@@ -62,12 +62,12 @@ class CheckoutController extends BaseController
         $usuarioId = $this->session->get('usuario_id');
 
         if (!$usuarioId) {
-            return redirect()->to('/login')->with('error', 'Debes iniciar sesión para confirmar la compra');
+            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para confirmar la compra');
         }
 
         // Obtener productos del carrito
         $cartItems = $this->cartModel->getCartByUser($usuarioId);
-        
+
         if (empty($cartItems)) {
             return redirect()->to('/cart')->with('error', 'Tu carrito está vacío');
         }
@@ -79,7 +79,7 @@ class CheckoutController extends BaseController
             foreach ($stockErrors as $error) {
                 $errorMessage .= "\n- {$error['producto']}: solicitado {$error['cantidad_solicitada']}, disponible {$error['stock_disponible']}";
             }
-            return redirect()->to('/checkout')->with('error', $errorMessage);
+            return redirect()->to('/checkout')->with('info', $errorMessage);
         }
 
         // Procesar la compra
@@ -109,7 +109,7 @@ class CheckoutController extends BaseController
 
         } catch (\Exception $e) {
             $db->transRollback();
-            return redirect()->to('/checkout')->with('error', 'Error al procesar la compra. Por favor, intenta nuevamente.');
+            return redirect()->to('/checkout')->with('info', 'Error al procesar la compra. Por favor, intenta nuevamente.');
         }
     }
 
@@ -143,4 +143,4 @@ class CheckoutController extends BaseController
             ]
         ]);
     }
-} 
+}

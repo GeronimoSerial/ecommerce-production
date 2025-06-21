@@ -107,5 +107,3 @@
         </div>
     </div>
 </section>
-
-<script src="<?= base_url('public/js/cart.js') ?>"></script>

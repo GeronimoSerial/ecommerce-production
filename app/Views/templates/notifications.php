@@ -33,14 +33,14 @@
             </div>
         </div>
     <?php endif; ?>
-    <?php if (session()->getFlashData('debug')): ?>
+    <?php if (session()->getFlashData('info')): ?>
         <div class="custom-alert alert-info">
             <div class="alert-header">
                 <strong>Información</strong>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <div class="alert-body">
-                <?= session()->getFlashData('debug') ?>
+                <?= session()->getFlashData('info') ?>
             </div>
         </div>
     <?php endif; ?>

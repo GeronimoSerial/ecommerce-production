@@ -117,23 +117,27 @@
                         <div class="cart-summary">
                             <div class="card border-0 shadow-sm">
                                 <div class="card-header bg-white border-bottom">
-                                    <h5 class="mb-0">
+                                    <h5 class="mb-0 ">
                                         <i class="fas fa-receipt me-2"></i>Resumen de la compra
                                     </h5>
-                                    <span class="fw-bold" id="cart-subtotal"><?= format_currency($subtotal) ?></span>
+                                    <hr>
+
+                                    <div class="d-flex justify-content-between">
+                                        <span class="fw-normal">Subtotal:</span>
+                                        <span class="fw-bold" id="cart-subtotal"><?= format_currency($subtotal) ?></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="fw-normal">Impuestos (21%):</span>
+                                        <span class="fw-bold"
+                                            id="cart-tax"><?= format_currency(calculate_tax($subtotal)) ?></span>
+                                    </div>
+                                    <hr>
                                 </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Impuestos (21%):</span>
-                                    <span class="fw-bold"
-                                        id="cart-tax"><?= format_currency(calculate_tax($subtotal)) ?></span>
-                                </div>
-                                <hr>
                                 <div class="d-flex justify-content-between mb-3">
                                     <span class="h5 mb-0">Total:</span>
                                     <span class="h5 mb-0 text-primary"
                                         id="cart-total"><?= format_currency(calculate_total($subtotal)) ?></span>
                                 </div>
-
                                 <?php if ($isLoggedIn): ?>
                                     <a href="<?= base_url('checkout') ?>" class="btn btn-success w-100">
                                         <i class="fas fa-credit-card"></i> Finalizar Compra
@@ -179,10 +183,3 @@
         </div>
     </div>
 </div>
-
-<!--
-    La lógica del carrito ha sido movida a public/js/cart.js
-    Este archivo se carga globalmente o se puede incluir aquí si es necesario.
-    Asegúrate de que jQuery y Bootstrap 5 estén cargados antes de este script.
--->
-<script src="<?= base_url('public/js/cart.js') ?>"></script>

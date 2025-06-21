@@ -207,5 +207,3 @@
     </section>
 <?php endif; ?>
 
-<!-- Scripts para funcionalidad -->
-<script src="<?= base_url('public/js/cart.js') ?>"></script>

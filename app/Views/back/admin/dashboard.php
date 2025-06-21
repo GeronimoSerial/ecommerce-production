@@ -1,4 +1,4 @@
-<?php 
+<?php
 $nombre = $nombre ?? '';
 $stats = $stats ?? [];
 ?>
@@ -67,12 +67,12 @@ $stats = $stats ?? [];
                     <div class="card-header bg-primary text-white">
                         <h5 class="mb-0"><i class="bi bi-lightning"></i> Accesos Rápidos</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <div class="row">
                             <div class="col-md-3 mb-3">
                                 <a href="<?= base_url('admin/usuarios') ?>" class="text-decoration-none">
                                     <div class="card border-0 bg-light h-100">
-                                        <div class="card-body text-center">
+                                        <div class="card-body text-center accesos">
                                             <i class="bi bi-people text-primary" style="font-size: 2rem;"></i>
                                             <h6 class="mt-2 mb-0 text-dark">Gestión de Usuarios</h6>
                                             <small class="text-muted">Administrar usuarios del sistema</small>
@@ -82,7 +82,7 @@ $stats = $stats ?? [];
                             </div>
                             <div class="col-md-3 mb-3">
                                 <a href="<?= base_url('admin/inventario') ?>" class="text-decoration-none">
-                                    <div class="card border-0 bg-light h-100">
+                                    <div class="card border-0 bg-light h-100 accesos">
                                         <div class="card-body text-center">
                                             <i class="bi bi-box-seam text-success" style="font-size: 2rem;"></i>
                                             <h6 class="mt-2 mb-0 text-dark">Control de Inventario</h6>
@@ -93,7 +93,7 @@ $stats = $stats ?? [];
                             </div>
                             <div class="col-md-3 mb-3">
                                 <a href="<?= base_url('admin/reportes') ?>" class="text-decoration-none">
-                                    <div class="card border-0 bg-light h-100">
+                                    <div class="card border-0 bg-light h-100 accesos">
                                         <div class="card-body text-center">
                                             <i class="bi bi-graph-up text-info" style="font-size: 2rem;"></i>
                                             <h6 class="mt-2 mb-0 text-dark">Reportes</h6>
@@ -104,7 +104,7 @@ $stats = $stats ?? [];
                             </div>
                             <div class="col-md-3 mb-3">
                                 <a href="<?= base_url('/') ?>" class="text-decoration-none">
-                                    <div class="card border-0 bg-light h-100">
+                                    <div class="card border-0 bg-light h-100 accesos">
                                         <div class="card-body text-center">
                                             <i class="bi bi-house text-warning" style="font-size: 2rem;"></i>
                                             <h6 class="mt-2 mb-0 text-dark">Ir al Sitio</h6>
@@ -179,5 +179,12 @@ $stats = $stats ?? [];
             </div>
         </div>
     </div>
-</div> 
-</div> 
+</div>
+</div>
+
+<style>
+    .accesos:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    }
+</style>
