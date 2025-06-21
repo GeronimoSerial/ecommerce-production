@@ -27,6 +27,7 @@ $perfil = $perfil ?? 2;
                                     <li><i class="bi bi-check2-circle text-success me-2"></i>Gestión de usuarios</li>
                                     <li><i class="bi bi-check2-circle text-success me-2"></i>Control de inventario</li>
                                     <li><i class="bi bi-check2-circle text-success me-2"></i>Reportes y estadísticas</li>
+                                    <li><i class="bi bi-check2-circle text-success me-2"></i>Gestión de contactos</li>
                                 </ul>
                             </div>
                             <div class="mt-4 text-end">
@@ -59,11 +60,29 @@ $perfil = $perfil ?? 2;
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <div class="p-3 border rounded text-center">
+                                        <a href="<?= base_url('contacto/mis-contactos') ?>" class="text-decoration-none">
+                                            <div class="p-3 border rounded text-center hover-effect">
+                                                <i class="bi bi-chat-dots fs-2 text-success"></i>
+                                                <h5 class="mt-2">Mis Contactos</h5>
+                                                <small class="text-muted">Ver mis mensajes y respuestas</small>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="<?= base_url('contacto') ?>" class="text-decoration-none">
+                                            <div class="p-3 border rounded text-center hover-effect">
+                                                <i class="bi bi-envelope fs-2 text-info"></i>
+                                                <h5 class="mt-2">Contactar Soporte</h5>
+                                                <small class="text-muted">Enviar nuevo mensaje</small>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <!-- <div class="p-3 border rounded text-center">
                                             <i class="bi bi-heart fs-2 text-danger"></i>
                                             <h5 class="mt-2">Favoritos</h5>
                                             <small class="text-muted">Próximamente</small>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

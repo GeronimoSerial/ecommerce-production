@@ -10,44 +10,74 @@
                         contacto contigo lo antes posible.</p>
                 </div>
 
+                <!-- Mensajes de éxito/error -->
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <?= session()->getFlashdata('success') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <?= session()->getFlashdata('error') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                <?php endif; ?>
+
                 <div class="card border-0 shadow-lg rounded-4 bg-hero">
                     <div class="card-body p-4 p-md-5">
-                        <form id="contactForm">
+                        <form action="<?= base_url('contacto/enviar') ?>" method="POST" id="contactForm">
                             <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="nombre" class="form-label fw-bold">Nombre</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-danger text-white border-0">
-                                                <i class="bi bi-person"></i>
-                                            </span>
-                                            <input type="text" class="form-control" id="nombre" name="name" required
-                                                placeholder="Tu nombre">
-                                        </div>
-                                        <?php if (isset($validation) && $validation->hasError('name')): ?>
-                                            <div class="text-danger mt-2">
-                                                <?= $validation->getError('name') ?>
+                                <?php if (!$usuario): ?>
+                                    <!-- Campos para usuarios no logueados -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="nombre" class="form-label fw-bold">Nombre</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-danger text-white border-0">
+                                                    <i class="bi bi-person"></i>
+                                                </span>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required
+                                                    placeholder="Tu nombre" value="<?= old('nombre') ?>">
                                             </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="email" class="form-label fw-bold">Email</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-danger text-white border-0">
-                                                <i class="bi bi-envelope"></i>
-                                            </span>
-                                            <input type="email" class="form-control" id="email" name="email" required
-                                                placeholder="tu@email.com">
+                                            <?php if (isset($validation) && $validation->hasError('nombre')): ?>
+                                                <div class="text-danger mt-2">
+                                                    <?= $validation->getError('nombre') ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
-                                        <?php if (isset($validation) && $validation->hasError('email')): ?>
-                                            <div class="text-danger mt-2">
-                                                <?= $validation->getError('email') ?>
-                                            </div>
-                                        <?php endif; ?>
                                     </div>
-                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email" class="form-label fw-bold">Email</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-danger text-white border-0">
+                                                    <i class="bi bi-envelope"></i>
+                                                </span>
+                                                <input type="email" class="form-control" id="email" name="email" required
+                                                    placeholder="tu@email.com" value="<?= old('email') ?>">
+                                            </div>
+                                            <?php if (isset($validation) && $validation->hasError('email')): ?>
+                                                <div class="text-danger mt-2">
+                                                    <?= $validation->getError('email') ?>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <!-- Información del usuario logueado -->
+                                    <div class="col-12">
+                                        <div class="alert alert-info">
+                                            <i class="bi bi-info-circle me-2"></i>
+                                            <strong>Enviando como:</strong> <?= $usuario['nombre'] . ' ' . $usuario['apellido'] ?> 
+                                            (<?= $usuario['email'] ?>)
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="asunto" class="form-label fw-bold">Asunto</label>
@@ -56,7 +86,7 @@
                                                 <i class="bi bi-tag"></i>
                                             </span>
                                             <input type="text" class="form-control" id="asunto" name="asunto" required
-                                                placeholder="Asunto de tu mensaje">
+                                                placeholder="Asunto de tu mensaje" value="<?= old('asunto') ?>">
                                         </div>
                                         <?php if (isset($validation) && $validation->hasError('asunto')): ?>
                                             <div class="text-danger mt-2">
@@ -72,12 +102,12 @@
                                             <span class="input-group-text bg-danger text-white border-0">
                                                 <i class="bi bi-chat"></i>
                                             </span>
-                                            <textarea class="form-control" id="mensaje" name="message" rows="5" required
-                                                placeholder="Escribe tu mensaje aquí..."></textarea>
+                                            <textarea class="form-control" id="mensaje" name="mensaje" rows="5" required
+                                                placeholder="Escribe tu mensaje aquí..."><?= old('mensaje') ?></textarea>
                                         </div>
-                                        <?php if (isset($validation) && $validation->hasError('message')): ?>
+                                        <?php if (isset($validation) && $validation->hasError('mensaje')): ?>
                                             <div class="text-danger mt-2">
-                                                <?= $validation->getError('message') ?>
+                                                <?= $validation->getError('mensaje') ?>
                                             </div>
                                         <?php endif; ?>
                                     </div>

@@ -39,10 +39,16 @@ $apellido = $session->get('apellido');
                             <li><a class="dropdown-item" href="<?= base_url('panel/ventas') ?>">
                                 <i class="bi bi-graph-up me-2"></i>Gestión de Ventas
                             </a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('contacto/admin') ?>">
+                                <i class="bi bi-chat-dots me-2"></i>Gestión de Mensajes
+                            </a></li>
                         <?php else: ?>
                             <li><a class="dropdown-item" href="<?= base_url('panel') ?>">Mi Perfil</a></li>
                             <li><a class="dropdown-item" href="<?= base_url('panel/mis-facturas') ?>">
                                 <i class="bi bi-receipt me-2"></i>Mis Facturas
+                            </a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('contacto/mis-contactos') ?>">
+                                <i class="bi bi-chat-dots me-2"></i>Mis Mensajes
                             </a></li>
                         <?php endif; ?>
                         <li><a class="dropdown-item" href="<?= base_url('actualizar') ?>">Mis datos personales</a></li>

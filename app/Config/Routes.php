@@ -34,6 +34,7 @@ $routes->get('/comercializacion', 'ComercializacionController::index');
 $routes->get('/terminos', 'TerminosController::index');
 $routes->get('/nosotros', 'NosotrosController::index');
 $routes->get('/contacto', 'ContactoController::index');
+$routes->post('/contacto/enviar', 'ContactoController::enviar');
 
 // Rutas del registro de usuarios
 $routes->get('registro', 'LoginController::registro');       // Muestra el formulario
@@ -96,24 +97,6 @@ $routes->post('actualizar', 'UsuarioController::Update');
 // Dashboard principal
 $routes->get('admin', 'AdminController::index');
 
-// Ruta temporal para debug
-$routes->get('debug-session', function () {
-    $session = session();
-    echo "<h2>Debug de Sesión</h2>";
-    echo "<pre>";
-    echo "logueado: " . ($session->get('logueado') ? 'true' : 'false') . "\n";
-    echo "usuario_id: " . $session->get('usuario_id') . "\n";
-    echo "usuario_email: " . $session->get('usuario_email') . "\n";
-    echo "nombre: " . $session->get('nombre') . "\n";
-    echo "apellido: " . $session->get('apellido') . "\n";
-    echo "id_rol: " . $session->get('id_rol') . "\n";
-    echo "\n=== TODOS LOS DATOS DE SESIÓN ===\n";
-    print_r($session->get());
-    echo "\n=== VERIFICACIÓN DE ADMIN ===\n";
-    $esAdmin = $session->get('logueado') && $session->get('id_rol') == 1;
-    echo "¿Es administrador? " . ($esAdmin ? 'SÍ' : 'NO') . "\n";
-    echo "</pre>";
-});
 
 // Gestión de Usuarios
 $routes->get('admin/usuarios', 'UsuarioController::adminIndex');
@@ -133,6 +116,13 @@ $routes->get('admin/inventario/eliminar/(:num)', 'AdminController::eliminarProdu
 
 // Reportes y Estadísticas
 $routes->get('admin/reportes', 'AdminController::reportes');
+
+// Rutas del sistema de contacto
+$routes->get('/contacto/mis-contactos', 'ContactoController::misContactos');
+$routes->get('/contacto/detalle/(:num)', 'ContactoController::detalle/$1');
+$routes->get('/contacto/admin', 'ContactoController::admin');
+$routes->post('/contacto/responder/(:num)', 'ContactoController::responder/$1');
+$routes->get('/contacto/marcar-leido/(:num)', 'ContactoController::marcarLeido/$1');
 
 /*
  * --------------------------------------------------------------------

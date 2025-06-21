@@ -65,7 +65,7 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <span
-                                                            class="fw-bold"><?= format_currency($item['precio_unitario']) ?></span>
+                                                            class="price fw-bold"><?= format_currency($item['precio_unitario']) ?></span>
                                                     </td>
                                                     <td class="text-center" data-label="Cantidad">
                                                         <div class="d-flex justify-content-center">
@@ -85,9 +85,8 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
-                                                        <span class="fw-bold item-subtotal">
-                                                            <?= format_currency($item['cantidad'] * $item['precio_unitario']) ?>
-                                                        </span>
+                                                        <span class="fw-bold item-subtotal"
+                                                            data-item-id="<?= $item['id_carrito'] ?>"><?= format_currency($item['cantidad'] * $item['precio_unitario']) ?></span>
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-danger btn-sm btn-remove"

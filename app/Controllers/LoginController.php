@@ -69,6 +69,14 @@ class LoginController extends BaseController
                 'logueado' => true
             ]);
 
+            // Transferir carrito de sesión a base de datos si existe
+            $sessionCart = get_session_cart();
+            if (!empty($sessionCart)) {
+                $cartModel = new \App\Models\CartModel();
+                $cartModel->transferFromSession($usuario['id_usuario'], $sessionCart);
+                clear_session_cart();
+            }
+
             // Verificar si hay URL de retorno
             $returnUrl = $this->session->get('return_url');
             if ($returnUrl) {

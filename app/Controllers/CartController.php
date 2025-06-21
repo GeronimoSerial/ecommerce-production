@@ -29,7 +29,15 @@ class CartController extends BaseController
         $subtotal = 0;
 
         if ($usuarioId) {
-            // Usuario logueado - obtener de base de datos
+            // Usuario logueado - verificar si hay carrito de sesión para transferir
+            $sessionCart = get_session_cart();
+            if (!empty($sessionCart)) {
+                // Transferir carrito de sesión a base de datos
+                $this->cartModel->transferFromSession($usuarioId, $sessionCart);
+                clear_session_cart();
+            }
+            
+            // Obtener carrito de base de datos
             $cartItems = $this->cartModel->getCartByUser($usuarioId);
             $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
         } else {

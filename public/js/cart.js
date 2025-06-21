@@ -285,30 +285,35 @@ function updateCartSummary() {
   $("tr[data-item-id]").each(function () {
     const row = $(this);
     const quantity = parseInt(row.find(".quantity-input").val());
-    const priceText = row.find("td:nth-child(2) .fw-bold").text().trim();
+    const priceText = row.find(".price").text().trim();
+
+    // Parsear precio del formato PHP ($1.234,56 -> 1234.56)
+    // Remover el símbolo $ y convertir coma decimal a punto
     const price = parseFloat(
-      priceText.replace(/[^0-9,]/g, "").replace(",", ".")
+      priceText.replace("$", "").replace(/\./g, "").replace(",", ".")
     );
+    
+    // Función para formatear moneda igual que PHP (punto para miles, coma para decimales)
+    const formatCurrency = (num) => {
+      return "$" + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace(".", ",");
+    };
 
     if (!isNaN(quantity) && !isNaN(price)) {
       const itemSubtotal = quantity * price;
       subtotal += itemSubtotal;
-      row
-        .find(".item-subtotal")
-        .text("$" + itemSubtotal.toFixed(2).replace(/\./g, ","));
+      // Actualiza el subtotal de cada producto en la tabla y lo formatea
+      row.find(".item-subtotal").text(formatCurrency(itemSubtotal));
     }
   });
 
   const tax = subtotal * 0.21;
   const total = subtotal + tax;
-
-  const formatCurrency = (num) =>
-    "$" +
-    num.toLocaleString("es-AR", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-
+  
+  // Función para formatear moneda igual que PHP (punto para miles, coma para decimales)
+  const formatCurrency = (num) => {
+    return "$" + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace(".", ",");
+  };
+  
   $("#cart-subtotal").text(formatCurrency(subtotal));
   $("#cart-tax").text(formatCurrency(tax));
   $("#cart-total").text(formatCurrency(total));

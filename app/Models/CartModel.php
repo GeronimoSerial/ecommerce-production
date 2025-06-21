@@ -61,39 +61,21 @@ class CartModel extends Model
         $item = $this->getCartItem($usuarioId, $productoId);
         
         if ($item) {
-            // DEBUG: Log del item encontrado
-            log_message('error', 'DEBUG carrito EXISTE: ' . print_r($item, true));
+            // Producto ya existe, actualizar cantidad
             $nuevaCantidad = $item['cantidad'] + $cantidad;
-            if (!isset($item['id_carrito'])) {
-                log_message('error', 'ERROR: id_carrito es nulo para usuario ' . $usuarioId . ' y producto ' . $productoId);
-                return false;
-            }
-            $result = $this->update($item['id_carrito'], [
+            return $this->update($item['id_carrito'], [
                 'cantidad' => $nuevaCantidad,
                 'fecha_agregado' => date('Y-m-d H:i:s')
             ]);
-            log_message('error', 'DEBUG update resultado: ' . var_export($result, true));
-            if ($result === false) {
-                log_message('error', 'ERROR: Falló la actualización del carrito para id_carrito ' . $item['id_carrito']);
-                return false;
-            }
-            return $result;
         } else {
-            // DEBUG: Log de nuevo item
-            log_message('error', 'DEBUG carrito NUEVO: usuario ' . $usuarioId . ', producto ' . $productoId);
-            $result = $this->insert([
+            // Producto nuevo, insertar
+            return $this->insert([
                 'id_usuario' => $usuarioId,
                 'id_producto' => $productoId,
                 'cantidad' => $cantidad,
                 'precio_unitario' => $precioUnitario,
                 'fecha_agregado' => date('Y-m-d H:i:s')
             ]);
-            log_message('error', 'DEBUG insert resultado: ' . var_export($result, true));
-            if ($result === false) {
-                log_message('error', 'ERROR: Falló el insert del carrito para usuario ' . $usuarioId . ' y producto ' . $productoId);
-                return false;
-            }
-            return $result;
         }
     }
 
@@ -203,6 +185,10 @@ class CartModel extends Model
         $db->transStart();
 
         try {
+            // Primero, limpiar el carrito existente en base de datos
+            $this->clearCart($usuarioId);
+            
+            // Luego, agregar todos los productos del carrito de sesión
             foreach ($sessionCart as $productoId => $item) {
                 $this->addToCart($usuarioId, $productoId, $item['cantidad'], $item['precio']);
             }
@@ -211,6 +197,7 @@ class CartModel extends Model
             return true;
         } catch (\Exception $e) {
             $db->transRollback();
+            log_message('error', 'Error al transferir carrito de sesión: ' . $e->getMessage());
             return false;
         }
     }

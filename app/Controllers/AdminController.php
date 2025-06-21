@@ -7,6 +7,7 @@ use App\Models\ProductoModel;
 use App\Models\CategoriaModel;
 use App\Models\PersonaModel;
 use App\Models\FacturaModel;
+use App\Models\ContactoModel;
 
 class AdminController extends BaseController
 {
@@ -15,6 +16,7 @@ class AdminController extends BaseController
     private $categoriaModel;
     private $personaModel;
     private $facturaModel;
+    private $contactoModel;
     private $session;
 
     public function __construct()
@@ -25,6 +27,7 @@ class AdminController extends BaseController
         $this->categoriaModel = new CategoriaModel();
         $this->personaModel = new PersonaModel();
         $this->facturaModel = new FacturaModel();
+        $this->contactoModel = new ContactoModel();
         $this->session = session();
     }
 
@@ -303,6 +306,9 @@ class AdminController extends BaseController
                                        ->where('DATE(fecha_factura)', date('Y-m-d'))
                                        ->countAllResults();
 
+        // Estadísticas de contactos
+        $estadisticasContactos = $this->contactoModel->getEstadisticas();
+
         return [
             'totalUsuarios' => $totalUsuarios,
             'totalProductos' => $totalProductos,
@@ -310,7 +316,10 @@ class AdminController extends BaseController
             'usuariosEsteMes' => $usuariosEsteMes,
             'totalVentas' => $totalVentas,
             'ingresosTotales' => $ingresosTotales,
-            'ventasHoy' => $ventasHoy
+            'ventasHoy' => $ventasHoy,
+            'contactosNoLeidos' => $estadisticasContactos['no_leidos'],
+            'contactosNoRespondidos' => $estadisticasContactos['no_respondidos'],
+            'contactosHoy' => $estadisticasContactos['hoy']
         ];
     }
 
@@ -321,7 +330,6 @@ class AdminController extends BaseController
 
     private function getUsuariosPorMes()
     {
-        // Como no hay fecha_creacion, retornamos array vacío
         return [];
     }
 }
