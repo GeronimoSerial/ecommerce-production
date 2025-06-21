@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="<?= base_url('public/images/creatina.png') ?>" alt="Creatinas"
+                                <img src="<?= base_url('public/images/creatina.webp') ?>" alt="Creatinas"
                                     class="img-fluid rounded-3">
                             </div>
                         </div>
@@ -175,17 +175,23 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                            alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
-                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                    <p class="text-success fw-bold mb-3">$
+                                        <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="text-primary text-decoration-none mt-1">Detalles</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                        <div class="col-12">
+                            <p class="text-muted">No hay productos destacados en esta categoría.</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -203,17 +209,23 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                            alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
-                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                    <p class="text-success fw-bold mb-3">$
+                                        <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="text-primary text-decoration-none mt-1">Detalles</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                        <div class="col-12">
+                            <p class="text-muted">No hay productos destacados en esta categoría.</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -231,17 +243,23 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                            alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
-                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                    <p class="text-success fw-bold mb-3">$
+                                        <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="text-primary text-decoration-none mt-1">Detalles</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                        <div class="col-12">
+                            <p class="text-muted">No hay productos destacados en esta categoría.</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -259,17 +277,23 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>" alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
+                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                            alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
-                                    <p class="text-success fw-bold mb-3">$ <?= number_format($producto['precio'], 0, ',', '.') ?></p>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="btn btn-primary mt-auto">Comprar</a>
-                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>" class="text-primary text-decoration-none mt-1">Detalles</a>
+                                    <p class="text-success fw-bold mb-3">$
+                                        <?= number_format($producto['precio'], 0, ',', '.') ?></p>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="btn btn-primary mt-auto">Comprar</a>
+                                    <a href="<?= base_url('producto/' . $producto['id_producto']) ?>"
+                                        class="text-primary text-decoration-none mt-1">Detalles</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-12"><p class="text-muted">No hay productos destacados en esta categoría.</p></div>
+                        <div class="col-12">
+                            <p class="text-muted">No hay productos destacados en esta categoría.</p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>

@@ -103,12 +103,12 @@ $facturas = $facturas ?? [];
                                 Todas tus facturas están disponibles aquí
                             </li>
                             <li class="mb-2">
-                                <i class="bi bi-download text-primary me-2"></i>
-                                Puedes descargar tus facturas en PDF
+                                <i class="bi bi-eye text-primary me-2"></i>
+                                Puedes ver tus facturas virtuales en cualquier momento
                             </li>
                             <li>
-                                <i class="bi bi-envelope text-warning me-2"></i>
-                                Recibirás un email con cada compra
+                                <i class="bi bi-clock text-info me-2"></i>
+                                Historial completo de todas tus compras
                             </li>
                         </ul>
                     </div>

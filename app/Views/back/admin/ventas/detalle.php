@@ -20,9 +20,7 @@ $usuario = $usuario ?? [];
                         <a href="<?= base_url('panel/ventas') ?>" class="btn btn-outline-secondary me-2">
                             <i class="bi bi-arrow-left"></i> Volver a Ventas
                         </a>
-                        <button class="btn btn-primary" onclick="window.print()">
-                            <i class="bi bi-printer"></i> Imprimir
-                        </button>
+                        <!--  -->
                     </div>
                 </div>
             </div>
@@ -40,32 +38,34 @@ $usuario = $usuario ?? [];
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <p><strong>Nombre:</strong> <?= $usuario['nombre'] ?? 'N/A' ?> <?= $usuario['apellido'] ?? '' ?></p>
+                                <p><strong>Nombre:</strong> <?= $usuario['nombre'] ?? 'N/A' ?>
+                                    <?= $usuario['apellido'] ?? '' ?></p>
                                 <p><strong>Email:</strong> <?= $usuario['email'] ?? 'N/A' ?></p>
                                 <p><strong>Teléfono:</strong> <?= $usuario['telefono'] ?? 'N/A' ?></p>
                                 <p><strong>ID Usuario:</strong> #<?= $factura['id_usuario'] ?></p>
                             </div>
                             <div class="col-md-6">
                                 <p><strong>DNI:</strong> <?= $usuario['dni'] ?? 'N/A' ?></p>
-                                <p><strong>Fecha de Venta:</strong> <?= date('d/m/Y H:i', strtotime($factura['fecha_factura'])) ?></p>
+                                <p><strong>Fecha de Venta:</strong>
+                                    <?= date('d/m/Y H:i', strtotime($factura['fecha_factura'])) ?></p>
                                 <p><strong>Número de Factura:</strong> #<?= $factura['id_factura'] ?></p>
-                                <p><strong>Estado:</strong> 
+                                <p><strong>Estado:</strong>
                                     <span class="badge bg-success">
                                         <i class="bi bi-check-circle me-1"></i>Completada
                                     </span>
                                 </p>
                             </div>
                         </div>
-                        
+
                         <!-- Dirección del Cliente -->
                         <?php if (isset($usuario['calle'])): ?>
                             <hr>
                             <h6><i class="bi bi-geo-alt"></i> Dirección de Envío</h6>
                             <p class="mb-0">
-                                <?= $usuario['calle'] ?? '' ?> <?= $usuario['numero'] ?? '' ?>, 
-                                <?= $usuario['localidad'] ?? '' ?>, 
-                                <?= $usuario['provincia'] ?? '' ?>, 
-                                <?= $usuario['pais'] ?? '' ?> 
+                                <?= $usuario['calle'] ?? '' ?>     <?= $usuario['numero'] ?? '' ?>,
+                                <?= $usuario['localidad'] ?? '' ?>,
+                                <?= $usuario['provincia'] ?? '' ?>,
+                                <?= $usuario['pais'] ?? '' ?>
                                 (CP: <?= $usuario['codigo_postal'] ?? '' ?>)
                             </p>
                         <?php endif; ?>
@@ -107,7 +107,8 @@ $usuario = $usuario ?? [];
                                                 </div>
                                             </td>
                                             <td class="text-center">
-                                                <span class="fw-bold"><?= format_currency($detalle['subtotal'] / $detalle['cantidad']) ?></span>
+                                                <span
+                                                    class="fw-bold"><?= format_currency($detalle['subtotal'] / $detalle['cantidad']) ?></span>
                                             </td>
                                             <td class="text-center">
                                                 <span class="badge bg-primary"><?= $detalle['cantidad'] ?></span>
@@ -133,12 +134,12 @@ $usuario = $usuario ?? [];
                         </h5>
                     </div>
                     <div class="card-body">
-                        <?php 
+                        <?php
                         $subtotal = array_sum(array_column($detalles, 'subtotal'));
                         $tax = calculate_tax($subtotal);
                         $total = $factura['importe_total'];
                         ?>
-                        
+
                         <div class="d-flex justify-content-between mb-2">
                             <span>Subtotal:</span>
                             <span class="fw-bold"><?= format_currency($subtotal) ?></span>
@@ -195,15 +196,9 @@ $usuario = $usuario ?? [];
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <button class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-envelope"></i> Enviar Email
-                                </button>
-                                <button class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-download"></i> Descargar PDF
-                                </button>
-                                <button class="btn btn-sm btn-outline-warning">
-                                    <i class="bi bi-printer"></i> Imprimir Factura
-                                </button>
+                                <a href="<?= base_url('panel/ventas') ?>" class="btn btn-sm btn-outline-secondary">
+                                    <i class="bi bi-arrow-left"></i> Volver a Ventas
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -214,13 +209,17 @@ $usuario = $usuario ?? [];
 </div>
 
 <style>
-@media print {
-    .btn, .navbar, .footer {
-        display: none !important;
+    @media print {
+
+        .btn,
+        .navbar,
+        .footer {
+            display: none !important;
+        }
+
+        .card {
+            border: 1px solid #ddd !important;
+            box-shadow: none !important;
+        }
     }
-    .card {
-        border: 1px solid #ddd !important;
-        box-shadow: none !important;
-    }
-}
-</style> 
+</style>

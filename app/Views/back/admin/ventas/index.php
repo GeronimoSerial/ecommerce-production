@@ -157,8 +157,8 @@ $ventas = $ventas ?? [];
                                 Estadísticas en tiempo real
                             </li>
                             <li class="mb-2">
-                                <i class="bi bi-download text-warning me-2"></i>
-                                Exportar reportes disponibles
+                                <i class="bi bi-eye text-info me-2"></i>
+                                Ver facturas virtuales disponibles
                             </li>
                             <li>
                                 <i class="bi bi-shield-check text-success me-2"></i>
@@ -180,8 +180,8 @@ $ventas = $ventas ?? [];
                                 Ver detalles completos de cada venta
                             </li>
                             <li class="mb-2">
-                                <i class="bi bi-printer text-info me-2"></i>
-                                Imprimir facturas individuales
+                                <i class="bi bi-eye text-info me-2"></i>
+                                Ver facturas virtuales individuales
                             </li>
                             <li class="mb-2">
                                 <i class="bi bi-file-earmark-text text-success me-2"></i>

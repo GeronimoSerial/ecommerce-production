@@ -173,12 +173,8 @@
                                         Se generará una factura automáticamente
                                     </li>
                                     <li class="mb-2">
-                                        <i class="fas fa-download text-info"></i>
-                                        Podrás descargar la factura después de la compra
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-envelope text-warning"></i>
-                                        Recibirás un email con el resumen
+                                        <i class="fas fa-eye text-info"></i>
+                                        Podrás ver tu factura virtual después de la compra
                                     </li>
                                     <li>
                                         <i class="fas fa-history text-primary"></i>
@@ -354,12 +350,15 @@
                             <p>Tu pedido ha sido procesado correctamente.</p>
                             <div class="alert alert-info">
                                 <i class="fas fa-file-invoice"></i>
-                                <strong>Factura generada:</strong> Se ha creado tu factura con todos los detalles.
+                                <strong>Factura generada:</strong> Se ha creado tu factura virtual con todos los detalles.
                             </div>
-                            <p class="text-muted">Recibirás un email de confirmación pronto.</p>
+                            <p class="text-muted">Puedes acceder a tu factura desde tu cuenta de usuario.</p>
                         </div>
                         <div class="modal-footer bg-light border-top">
-                            <a href="<?= base_url() ?>" class="btn btn-primary">
+                            <a href="<?= base_url('panel/mis-facturas') ?>" class="btn btn-primary">
+                                <i class="fas fa-file-invoice"></i> Ver Mis Facturas
+                            </a>
+                            <a href="<?= base_url() ?>" class="btn btn-outline-secondary">
                                 <i class="fas fa-home"></i> Volver al Inicio
                             </a>
                         </div>
