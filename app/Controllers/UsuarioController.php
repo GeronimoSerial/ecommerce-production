@@ -32,7 +32,7 @@ class UsuarioController extends BaseController
 
         return view('templates/main_layout', [
             'title' => 'Actualizar mis datos',
-            'content' => view('back/usuario/actualizarDatos', [
+            'content' => view('back/usuario/actualizar_datos', [
                 'dni' => $userData['dni'] ?? '',
                 'nombre' => $userData['nombre'] ?? '',
                 'apellido' => $userData['apellido'] ?? '',

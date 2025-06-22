@@ -129,7 +129,7 @@
 
                 <div class="col-lg-4">
                     <!-- Resumen de Compra -->
-                    <div class="card sticky-top" style="top: 100px;">
+                    <div class="card sticky-top mb-3" style="top: 100px;">
                         <div class="card-header">
                             <h5 class="mb-0">
                                 <i class="fas fa-calculator"></i> Resumen de Compra
@@ -189,64 +189,37 @@
                                 <i class="fas fa-arrow-left"></i> Volver al Carrito
                             </a>
                         </div>
+                        
+                  
 
-                        <!-- Información de Factura mejorada -->
-                        <div class="card mt-3 border-0 shadow-sm">
-                            <div class="card-header bg-gradient-info text-white border-0">
-                                <h6 class="mb-0">
-                                    <i class="fas fa-file-invoice"></i> Información de Factura
-                                </h6>
+                            <!-- Información de Factura mejorada -->
+                            <div class="card mt-3 border-0 shadow-sm">
+                                <div class="card-header bg-gradient-info text-white border-0">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-file-invoice"></i> Información de Factura
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="list-unstyled small">
+                                        <li class="mb-2">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                            Se generará una factura automáticamente
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-eye text-info"></i>
+                                            Podrás ver tu factura virtual después de la compra
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="fas fa-history text-primary"></i>
+                                            Historial disponible en tu cuenta
+                                        </li>
+                                        <li>
+                                            <i class="fab fa-cc-mastercard text-primary"></i>
+                                            Pago procesado por MercadoPago
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled small">
-                                    <li class="mb-2">
-                                        <i class="fas fa-check-circle text-success"></i>
-                                        Se generará una factura automáticamente
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-eye text-info"></i>
-                                        Podrás ver tu factura virtual después de la compra
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-history text-primary"></i>
-                                        Historial disponible en tu cuenta
-                                    </li>
-                                    <li>
-                                        <i class="fab fa-cc-mastercard text-primary"></i>
-                                        Pago procesado por MercadoPago
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Información de Seguridad -->
-                        <div class="card mt-3 border-0 shadow-sm">
-                            <div class="card-header bg-gradient-success text-white border-0">
-                                <h6 class="mb-0">
-                                    <i class="fas fa-shield-alt"></i> Seguridad Garantizada
-                                </h6>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-unstyled small">
-                                    <li class="mb-2">
-                                        <i class="fas fa-lock text-success"></i>
-                                        Transacciones 100% seguras
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-credit-card text-primary"></i>
-                                        Múltiples métodos de pago
-                                    </li>
-                                    <li class="mb-2">
-                                        <i class="fas fa-headset text-info"></i>
-                                        Soporte disponible 24/7
-                                    </li>
-                                    <li>
-                                        <i class="fas fa-award text-warning"></i>
-                                        Garantía de satisfacción
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

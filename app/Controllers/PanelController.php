@@ -36,7 +36,7 @@ class PanelController extends BaseController
 
         return view('templates/main_layout', [
             'title' => 'Panel de Usuario',
-            'content' => view('back/usuario/usuarioLogueado', [
+            'content' => view('back/usuario/perfil', [
                 'nombre' => $nombre,
                 'perfil' => $perfil
             ])

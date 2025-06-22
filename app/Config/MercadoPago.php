@@ -57,7 +57,7 @@ class MercadoPago extends BaseConfig
      */
     public $taxes = [
         'enabled' => true,
-        'percentage' => 21.0 // IVA en Argentina
+        'percentage' => 21.0 // IVA 
     ];
 
     /**

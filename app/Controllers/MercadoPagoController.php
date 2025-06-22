@@ -114,7 +114,7 @@ class MercadoPagoController extends BaseController
                 ];
             }
 
-            // Crear preferencia usando arrays (SDK v3.x)
+            // Crear preferencia
             $preference = [
                 'items' => $items,
                 'external_reference' => (string) $facturaId,

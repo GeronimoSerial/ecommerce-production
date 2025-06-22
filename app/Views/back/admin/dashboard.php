@@ -71,73 +71,15 @@ $stats = $stats ?? [];
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-person-plus text-info" style="font-size: 2rem;"></i>
-                        <h4 class="mt-2 mb-1"><?= $stats['usuariosEsteMes'] ?? 0 ?></h4>
-                        <p class="text-muted mb-0">Usuarios Nuevos</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-check text-success" style="font-size: 2rem;"></i>
-                        <h4 class="mt-2 mb-1"><?= $stats['ventasHoy'] ?? 0 ?></h4>
-                        <p class="text-muted mb-0">Ventas Hoy</p>
-                    </div>
-                </div>
-            </div>
+
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
                         <i class="bi bi-graph-up text-primary" style="font-size: 2rem;"></i>
                         <h4 class="mt-2 mb-1">
-                            <?= $stats['totalVentas'] > 0 ? round(($stats['ingresosTotales'] / $stats['totalVentas']), 2) : 0 ?>
+                            <?= $stats['totalVentas'] > 0 ? format_currency(round(($stats['ingresosTotales'] / $stats['totalVentas']), 2)) : 0 ?>
                         </h4>
                         <p class="text-muted mb-0">Promedio por Venta</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Estadísticas de Contactos -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Estadísticas de Contactos</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="text-center">
-                                    <i class="bi bi-envelope text-warning" style="font-size: 2rem;"></i>
-                                    <h4 class="mt-2 mb-1"><?= $stats['contactosNoLeidos'] ?? 0 ?></h4>
-                                    <p class="text-muted mb-0">Mensajes No Leídos</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="text-center">
-                                    <i class="bi bi-question-circle text-danger" style="font-size: 2rem;"></i>
-                                    <h4 class="mt-2 mb-1"><?= $stats['contactosNoRespondidos'] ?? 0 ?></h4>
-                                    <p class="text-muted mb-0">Sin Responder</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="text-center">
-                                    <i class="bi bi-calendar-day text-success" style="font-size: 2rem;"></i>
-                                    <h4 class="mt-2 mb-1"><?= $stats['contactosHoy'] ?? 0 ?></h4>
-                                    <p class="text-muted mb-0">Contactos Hoy</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-center mt-3">
-                            <a href="<?= base_url('contacto/admin') ?>" class="btn btn-info">
-                                <i class="bi bi-arrow-right me-2"></i>Gestionar Mensajes
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -223,9 +165,51 @@ $stats = $stats ?? [];
                 </div>
             </div>
         </div>
+        <!-- Estadísticas de Contactos -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-chat-dots"></i> Estadísticas de Contactos</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="bi bi-envelope text-warning" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1"><?= $stats['contactosNoLeidos'] ?? 0 ?></h4>
+                                    <p class="text-muted mb-0">Mensajes No Leídos</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="bi bi-question-circle text-danger" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1"><?= $stats['contactosNoRespondidos'] ?? 0 ?></h4>
+                                    <p class="text-muted mb-0">Sin Responder</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="bi bi-calendar-day text-success" style="font-size: 2rem;"></i>
+                                    <h4 class="mt-2 mb-1"><?= $stats['contactosHoy'] ?? 0 ?></h4>
+                                    <p class="text-muted mb-0">Contactos Hoy</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="<?= base_url('contacto/admin') ?>" class="btn btn-info">
+                                <i class="bi bi-arrow-right me-2"></i>Gestionar Mensajes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
 
         <!-- Actividad Reciente -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-success text-white">
@@ -250,8 +234,8 @@ $stats = $stats ?? [];
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
+            </div> -->
+            <!-- <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-info text-white">
                         <h5 class="mb-0"><i class="bi bi-gear"></i> Configuración del Sistema</h5>
@@ -285,7 +269,7 @@ $stats = $stats ?? [];
         </div>
     </div>
 </div>
-</div>
+</div> -->
 
 <style>
     .accesos:hover {
