@@ -161,9 +161,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <h5 class="fw-bold"><i class="bi bi-person-badge text-danger me-2"></i>Titulares de
+                                    <h5 class="fw-bold"><i class="bi bi-person-badge text-danger me-2"></i>Titular de
                                         la Empresa</h5>
-                                    <p class="text-muted">Alejandro Cinta Gutierrez, Geronimo Serial</p>
+                                     <a href="https://geroserial.com" class="text-muted">Geronimo Serial</a>
                                 </div>
                                 <div class="mb-3">
                                     <h5 class="fw-bold"><i class="bi bi-building text-danger me-2"></i>Razón Social</h5>

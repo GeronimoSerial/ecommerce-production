@@ -21,9 +21,10 @@ $productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
             <!-- Imagen del Producto -->
             <div class="col-lg-6">
                 <div class="product-image-container">
-                    <img src="<?= $productImageUrl ?>" alt="<?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?>"
+                    <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                        alt="<?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?>"
                         class="img-fluid rounded-4 shadow-sm"
-                        onerror="this.src='<?= base_url('public/images/default-product.webp') ?>'">
+                        onerror="this.src='<?= base_url('images/default-product.webp') ?>'">
 
                     <!-- Badge de cantidad -->
                     <?php if ($producto['cantidad'] <= 5 && $producto['cantidad'] > 0): ?>
@@ -191,10 +192,10 @@ $productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
                     <div class="col-md-6 col-lg-4">
                         <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                             <div class="card-img-wrapper mb-3">
-                                <img src="<?= $relacionadoImageUrl ?>"
+                                <img src="<?= base_url('images/' . ($relacionado['url_imagen'] ?? 'default-product.jpg')) ?>"
                                     alt="<?= htmlspecialchars($relacionado['nombre'] ?? 'Producto') ?>"
                                     class="product-img mx-auto"
-                                    onerror="this.src='<?= base_url('public/images/default-product.webp') ?>'">
+                                    onerror="this.src='<?= base_url('images/default-product.webp') ?>'">
                             </div>
                             <div class="mb-3">
                                 <span class="badge bg-primary mb-2"><?= $categoria['nombre'] ?></span>

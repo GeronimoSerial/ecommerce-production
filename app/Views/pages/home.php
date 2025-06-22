@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="<?= base_url('public/images/proteinas.webp') ?>" alt="Proteínas"
+                                <img src="<?= base_url('images/proteinas.webp') ?>" alt="Proteínas"
                                     class="img-fluid rounded-3">
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="<?= base_url('public/images/creatina.webp') ?>" alt="Creatinas"
+                                <img src="<?= base_url('images/creatina.webp') ?>" alt="Creatinas"
                                     class="img-fluid rounded-3">
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="<?= base_url('public/images/colageno.webp') ?>" alt="Colágenos"
+                                <img src="<?= base_url('images/colageno.webp') ?>" alt="Colágenos"
                                     class="img-fluid rounded-3">
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <img src="<?= base_url('public/images/accesorios.webp') ?>" alt="Accesorios"
+                                <img src="<?= base_url('images/accesorios.webp') ?>" alt="Accesorios"
                                     class="img-fluid rounded-3">
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                        <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
                                             alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
@@ -209,7 +209,7 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                        <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
                                             alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
@@ -243,7 +243,7 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                        <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
                                             alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
@@ -277,7 +277,7 @@
                             <div class="col-md-4">
                                 <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                                     <div class="card-img-wrapper mb-3">
-                                        <img src="<?= base_url('public/images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                        <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
                                             alt="<?= esc($producto['nombre']) ?>" class="product-img mx-auto">
                                     </div>
                                     <h5 class="fw-semibold mb-2"><?= esc($producto['nombre']) ?></h5>
@@ -353,7 +353,7 @@
             <!-- Imagen -->
             <div class="col-12 col-lg-6 order-lg-0">
                 <div class="px-4 px-lg-0">
-                    <img src="<?= base_url('public/images/nosotros.png') ?>" alt="Sobre nosotros"
+                    <img src="<?= base_url('images/nosotros.png') ?>" alt="Sobre nosotros"
                         class="img-fluid rounded-4 shadow-lg transform-hover">
                 </div>
             </div>

@@ -36,36 +36,38 @@ $routes->get('/nosotros', 'NosotrosController::index');
 $routes->get('/contacto', 'ContactoController::index');
 $routes->post('/contacto/enviar', 'ContactoController::enviar');
 
-// Rutas del registro de usuarios
+// ==================== RUTAS DEL REGISTRO DE USUARIOS ====================
 $routes->get('registro', 'LoginController::registro');       // Muestra el formulario
 $routes->post('registro', 'UsuarioController::Create'); // Procesa el formulario
 
-// Rutas del Login
+//==================== RUTAS DEL LOGIN ====================
 $routes->get('/login', 'LoginController');
 $routes->post('/login', 'LoginController::auth');
+$routes->get('/logout', 'LoginController::logout');
+
+// ==================== RUTAS DEL PANEL DE ADMINISTRACIÓN ====================
 $routes->get('/panel', 'PanelController::index');
 $routes->get('/panel/mis-facturas', 'PanelController::misFacturas');
 $routes->get('/panel/factura/(:num)', 'PanelController::detalleFactura/$1');
 $routes->get('/panel/ventas', 'PanelController::ventas');
 $routes->get('/panel/venta/(:num)', 'PanelController::detalleVenta/$1');
 
-$routes->get('/logout', 'LoginController::logout');
 
-$routes->get('/recuperar', function () {
-    return view('templates/main_layout', [
-        'title' => 'Recuperar contraseña',
-        'content' => '<div class="container py-5"><h2>Página de recuperación de contraseña (en construcción)</h2></div>'
-    ]);
-});
+// $routes->get('/recuperar', function () {
+//     return view('templates/main_layout', [
+//         'title' => 'Recuperar contraseña',
+//         'content' => '<div class="container py-5"><h2>Página de recuperación de contraseña (en construcción)</h2></div>'
+//     ]);
+// });
 
-// Rutas de productos unificadas
+// ==================== RUTAS DE PRODUCTOS ====================
 $routes->get('categoria/(:segment)', 'ProductosController::porCategoria/$1');
 $routes->get('producto/(:num)', 'ProductosController::detalle/$1');
 $routes->get('productos/buscar', 'ProductosController::buscar');
 $routes->post('productos/buscar', 'ProductosController::buscar');
-$routes->get('buscar', 'ProductosController::buscar'); // Si también necesitas esta ruta
+$routes->get('buscar', 'ProductosController::buscar'); 
 // Ruta legacy para compatibilidad (redirige a la nueva estructura)
-$routes->get('productos/(:segment)', 'ProductosController::porCategoria/$1');
+// $routes->get('productos/(:segment)', 'ProductosController::porCategoria/$1');
 
 // ==================== RUTAS DEL CARRITO DE COMPRAS ====================
 $routes->get('/cart', 'CartController::index');
@@ -90,6 +92,7 @@ $routes->set404Override(function () {
     ]);
 });
 
+// ==================== RUTAS DE ACTUALIZACIÓN DATOS PERSONALES ====================
 $routes->get('actualizar', 'UsuarioController::Read');
 $routes->post('actualizar', 'UsuarioController::Update');
 

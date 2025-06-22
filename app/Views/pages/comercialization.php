@@ -7,7 +7,7 @@
                 <p class="lead">Todo lo que necesitas saber sobre nuestros servicios de entrega y pago</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('public/images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid"
+                <img src="<?= base_url('images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid"
                     style="max-height: 300px;">
             </div>
         </div>

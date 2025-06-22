@@ -4,7 +4,7 @@
         <div class="row text-white g-4">
             <div class="col-12 col-md-6 col-lg-3">
                 <a class="text-decoration-none brand text-white d-block mb-3" href="<?= base_url('/') ?>">
-                    <img src="<?= base_url('public/images/workoutIcon.png') ?>" alt="FitSyn Logo" class="img-fluid me-2"
+                    <img src="<?= base_url('images/workoutIcon.png') ?>" alt="FitSyn Logo" class="img-fluid me-2"
                         style="max-height: 30px;">
                     <span class="align-middle">FITSYN</span>
                 </a>

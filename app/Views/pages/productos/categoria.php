@@ -12,7 +12,7 @@ if (!function_exists('getBannerUrl')) {
         $categoryKey = strtolower($categoryName);
         $bannerImage = $bannerMap[$categoryKey] ?? 'header-background.webp';
 
-        return base_url('public/images/banners/' . $bannerImage);
+        return base_url('images/banners/' . $bannerImage);
     }
 }
 

@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="<?= base_url('public/css/style.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('public/css/notifications.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('public/css/navbar_styles.css') ?>">
-    <script src="<?= base_url('public/js/notifications.js') ?>" defer></script>
+    <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/notifications.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/navbar_styles.css') ?>">
+    <script src="<?= base_url('js/notifications.js') ?>" defer></script>
     <title>FitSyn - <?php echo ($title); ?></title>
 </head>
 
@@ -36,13 +36,9 @@
 
     <!-- Scripts -->
 
-    <script>
-        // Check if Bootstrap is loaded
-        console.log('Bootstrap loaded:', typeof bootstrap !== 'undefined' ? 'Yes' : 'No');
-    </script>
-    <script src="<?= base_url('public/js/navbar.js') ?>"></script>
-    <script src="<?= base_url('public/js/script.js') ?>"></script>
-    <script src="<?= base_url('public/js/cart.js') ?>"></script>
+    <script src="<?= base_url('js/navbar.js') ?>"></script>
+    <script src="<?= base_url('js/script.js') ?>"></script>
+    <script src="<?= base_url('js/cart.js') ?>"></script>
 </body>
 
 </html>

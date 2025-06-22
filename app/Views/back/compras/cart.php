@@ -48,7 +48,7 @@
                                                 <tr data-item-id="<?= $item['id_carrito'] ?>">
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img src="<?= base_url('public/images/' . $item['url_imagen']) ?>"
+                                                            <img src="<?= base_url('images/' . $item['url_imagen']) ?>"
                                                                 alt="<?= $item['nombre'] ?>" class="cart-item-image me-3">
                                                             <div>
                                                                 <h6 class="mb-1"><?= $item['nombre'] ?></h6>

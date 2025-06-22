@@ -2,7 +2,7 @@
 // Incluye funciones para agregar productos, gestionar la página del carrito y mostrar notificaciones.
 // Compatible con jQuery, Bootstrap 5, y FontAwesome.
 
-var base_url = "/ecommerce/";
+var base_url = "/";
 
 // =================================================================================
 // FUNCIONES GLOBALES DEL CARRITO (para vistas de productos)
@@ -292,7 +292,7 @@ function updateCartSummary() {
     const price = parseFloat(
       priceText.replace("$", "").replace(/\./g, "").replace(",", ".")
     );
-    
+
     // Función para formatear moneda igual que PHP (punto para miles, coma para decimales)
     const formatCurrency = (num) => {
       return "$" + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace(".", ",");
@@ -308,12 +308,12 @@ function updateCartSummary() {
 
   const tax = subtotal * 0.21;
   const total = subtotal + tax;
-  
+
   // Función para formatear moneda igual que PHP (punto para miles, coma para decimales)
   const formatCurrency = (num) => {
     return "$" + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ".").replace(".", ",");
   };
-  
+
   $("#cart-subtotal").text(formatCurrency(subtotal));
   $("#cart-tax").text(formatCurrency(tax));
   $("#cart-total").text(formatCurrency(total));

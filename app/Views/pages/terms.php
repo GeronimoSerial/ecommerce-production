@@ -7,7 +7,7 @@
                 <p class="lead">Información legal y políticas de uso de <b>FitSyn</b></p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('public/images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid"
+                <img src="<?= base_url('images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid"
                     style="max-height: 300px;">
             </div>
         </div>

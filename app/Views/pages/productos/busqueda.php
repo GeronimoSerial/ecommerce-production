@@ -8,7 +8,7 @@
                 <p class="lead">Encuentra los mejores suplementos que se adapten a tus necesidades.</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('public/images/banners/gym_wallpaper.webp') ?>" alt="Búsqueda Banner"
+                <img src="<?= base_url('images/banners/gym_wallpaper.webp') ?>" alt="Búsqueda Banner"
                     class="img-fluid rounded-4">
             </div>
         </div>

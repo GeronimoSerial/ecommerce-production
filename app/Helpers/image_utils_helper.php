@@ -17,15 +17,15 @@ if (!function_exists('getSafeImageUrl')) {
     function getSafeImageUrl($imagePath, $defaultImage = 'default-product.webp')
     {
         if (empty($imagePath)) {
-            return base_url('public/images/' . $defaultImage);
+            return base_url('images/' . $defaultImage);
         }
         
         $fullPath = FCPATH . 'public/images/' . $imagePath;
         if (!file_exists($fullPath)) {
-            return base_url('public/images/' . $defaultImage);
+            return base_url('images/' . $defaultImage);
         }
         
-        return base_url('public/images/' . $imagePath);
+        return base_url('images/' . $imagePath);
     }
 }
 
@@ -48,6 +48,6 @@ if (!function_exists('getBannerUrl')) {
         $categoryKey = strtolower($categoryName);
         $bannerImage = $bannerMap[$categoryKey] ?? 'header-background.webp';
 
-        return base_url('public/images/banners/' . $bannerImage);
+        return base_url('images/banners/' . $bannerImage);
     }
 } 

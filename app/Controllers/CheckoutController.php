@@ -133,32 +133,13 @@ class CheckoutController extends BaseController
                 // Descontar stock de cada producto
                 $producto = $this->productoModel->find($item['id_producto']);
                 
-                // LOGS DE DEPURACIÓN
-                log_message('info', "=== PROCESANDO PRODUCTO ===");
-                log_message('info', "Producto ID: " . $item['id_producto']);
-                log_message('info', "Nombre: " . $item['nombre']);
-                log_message('info', "Cantidad en carrito: " . $item['cantidad']);
-                log_message('info', "Stock actual: " . $producto['cantidad']);
-                log_message('info', "Vendidos actual: " . $producto['cantidad_vendidos']);
-                
                 $nuevoStock = $producto['cantidad'] - $item['cantidad'];
                 $nuevosVendidos = $producto['cantidad_vendidos'] + $item['cantidad'];
-                
-                log_message('info', "Nuevo stock calculado: " . $nuevoStock);
-                log_message('info', "Nuevos vendidos calculado: " . $nuevosVendidos);
 
                 $updateResult = $this->productoModel->update($item['id_producto'], [
                     'cantidad' => $nuevoStock,
                     'cantidad_vendidos' => $nuevosVendidos
                 ]);
-                
-                log_message('info', "Resultado del update: " . var_export($updateResult, true));
-                
-                // Verificar el resultado después del update
-                $productoActualizado = $this->productoModel->find($item['id_producto']);
-                log_message('info', "Stock después del update: " . $productoActualizado['cantidad']);
-                log_message('info', "Vendidos después del update: " . $productoActualizado['cantidad_vendidos']);
-                log_message('info', "=== FIN PRODUCTO ===");
             }
 
             // Vaciar el carrito

@@ -4,7 +4,6 @@
 Proyecto de e-commerce desarrollado como parte del curso de Taller de Programación
 
 ## Desarrolladores
-- Cintas Alejandro
 - Serial Geronimo
 
 ## Tecnologías Utilizadas

@@ -2,7 +2,6 @@
  * Funcionalidades del Navbar
  * Maneja la búsqueda, carrito y navegación
  */
-console.log("Navbar script loaded");
 
 class NavbarManager {
   constructor() {
@@ -13,38 +12,22 @@ class NavbarManager {
   }
 
   init() {
-    console.log("Initializing NavbarManager");
-    console.log("Search overlay element:", this.searchOverlay);
-    console.log("Search input element:", this.searchInput);
-    console.log("Cart count element:", this.cartCount);
-
     // Asegurarse de que el overlay esté oculto inicialmente
     if (this.searchOverlay) {
-      console.log("Hiding search overlay");
       this.searchOverlay.style.display = "none";
-    } else {
-      console.error("Search overlay element not found!");
     }
 
     // Inicializar el badge del carrito completamente oculto
     if (this.cartCount) {
-      console.log("Cart badge found, initializing...");
       this.cartCount.textContent = "0";
-      this.cartCount.style.display = "none";
+      // No establecer display: none, dejar que el CSS maneje la visibilidad
       this.cartCount.classList.add("hidden");
       this.cartCount.classList.remove("visible");
-      console.log("Cart badge initialized as completely hidden");
-      console.log("Cart badge classes:", this.cartCount.className);
-      console.log("Cart badge display:", this.cartCount.style.display);
-    } else {
-      console.error("Cart count element not found!");
     }
 
     this.setupEventListeners();
     this.loadCartCount();
     this.setupSearchSuggestions();
-
-    console.log("NavbarManager initialization complete");
   }
 
   setupEventListeners() {
@@ -70,9 +53,7 @@ class NavbarManager {
   }
 
   toggleSearch() {
-    console.log("toggleSearch called");
     if (!this.searchOverlay) {
-      console.error("Search overlay element not found!");
       return;
     }
 
@@ -87,7 +68,6 @@ class NavbarManager {
   }
 
   openSearch() {
-    console.log("Opening search overlay");
     if (this.searchOverlay) {
       this.searchOverlay.style.display = "flex";
       document.body.classList.add("search-active");
@@ -95,24 +75,17 @@ class NavbarManager {
       setTimeout(() => {
         if (this.searchInput) {
           this.searchInput.focus();
-        } else {
-          console.error("Search input element not found!");
         }
       }, 100);
 
       document.body.style.overflow = "hidden";
-    } else {
-      console.error("Search overlay element not found!");
     }
   }
 
   closeSearch() {
-    console.log("Closing search overlay");
     if (this.searchOverlay) {
       this.searchOverlay.style.display = "none";
       document.body.classList.remove("search-active");
-    } else {
-      console.error("Search overlay element not found!");
     }
     document.body.style.overflow = "auto";
   }
@@ -138,7 +111,6 @@ class NavbarManager {
 
   showSearchSuggestions(query) {
     // Implementar sugerencias dinámicas basadas en la consulta
-    console.log("Buscando:", query);
   }
 
   async loadCartCount() {
@@ -147,51 +119,48 @@ class NavbarManager {
       const count = await this.getCartCount();
       this.updateCartCount(count);
     } catch (error) {
-      console.error("Error cargando carrito:", error);
       // Solo actualizar si hay error, pero sin establecer valor inicial
       this.updateCartCount(0);
     }
   }
 
   async getCartCount() {
-    // Simular petición al servidor
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Aquí se obtendría el valor real del carrito
-        // Por ahora retornamos 0, pero esto debería ser una petición AJAX real
-        resolve(0);
-      }, 100);
-    });
+    try {
+      // Obtener la URL base del proyecto
+      const baseUrl = window.location.origin;
+      const response = await fetch(`${baseUrl}/cart/count`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.count || 0;
+    } catch (error) {
+      return 0;
+    }
   }
 
   updateCartCount(count) {
     if (this.cartCount) {
-      console.log("Updating cart count to:", count);
-      console.log("Current cart badge text:", this.cartCount.textContent);
-      console.log("Current cart badge classes:", this.cartCount.className);
-      console.log("Current cart badge display:", this.cartCount.style.display);
-
       // Solo actualizar si el valor es diferente para evitar flash
       if (this.cartCount.textContent !== count.toString()) {
-        console.log("Value changed, updating...");
         this.cartCount.textContent = count;
 
         if (count > 0) {
-          console.log("Showing cart badge");
           this.cartCount.classList.remove("hidden");
           this.cartCount.classList.add("visible");
-          console.log("After showing - classes:", this.cartCount.className);
         } else {
-          console.log("Hiding cart badge");
           this.cartCount.classList.remove("visible");
           this.cartCount.classList.add("hidden");
-          console.log("After hiding - classes:", this.cartCount.className);
         }
-      } else {
-        console.log("Value unchanged, skipping update");
       }
-    } else {
-      console.error("Cart count element not found!");
     }
   }
 
@@ -251,66 +220,60 @@ class NavbarManager {
   }
 
   openCart() {
-    // const baseUrl = "<?= base_url() ?>";
-    //arreglar esto
-    window.location.href = `/ecommerce/cart`;
+    // Usar la URL correcta del carrito
+    window.location.href = window.location.origin + '/cart';
   }
 }
 
 // Inicializar cuando el DOM esté listo
-console.log("DOMContentLoaded event fired");
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Initializing navbar...");
-
   try {
     // Hacer las funciones disponibles globalmente
     window.navbarManager = new NavbarManager();
 
     // Funciones globales para compatibilidad con HTML antiguo
     window.toggleSearch = () => {
-      console.log("toggleSearch called");
       window.navbarManager.toggleSearch();
     };
 
     window.abrirCarrito = () => {
-      console.log("abrirCarrito called");
       window.navbarManager.openCart();
     };
 
     window.mostrarNotificacion = (mensaje, tipo) => {
-      console.log("mostrarNotificacion called with:", { mensaje, tipo });
       window.navbarManager.showNotification(mensaje, tipo);
     };
 
     window.setSearchTerm = (term) => {
-      console.log("setSearchTerm called with:", term);
       window.navbarManager.setSearchTerm(term);
     };
 
-    console.log("Global functions registered");
+    // Función global para actualizar el contador del carrito
+    window.actualizarContadorCarrito = (count) => {
+      if (window.navbarManager) {
+        window.navbarManager.updateCartCount(count);
+      }
+    };
 
     // Inicializar tooltips de Bootstrap
     try {
       var tooltipTriggerList = [].slice.call(
         document.querySelectorAll('[data-bs-toggle="tooltip"]')
       );
-      console.log("Found", tooltipTriggerList.length, "tooltips to initialize");
 
       tooltipTriggerList.forEach(function (tooltipTriggerEl) {
         try {
           new bootstrap.Tooltip(tooltipTriggerEl);
         } catch (err) {
-          console.error("Error initializing tooltip:", err);
+          // Silenciar errores de tooltip
         }
       });
     } catch (err) {
-      console.error("Error initializing tooltips:", err);
+      // Silenciar errores de tooltips
     }
-
-    console.log("Navbar initialization complete");
   } catch (error) {
-    console.error("Error initializing NavbarManager:", error);
+    // Silenciar errores de inicialización
   }
 });
 
@@ -319,7 +282,6 @@ if (
   document.readyState === "complete" ||
   document.readyState === "interactive"
 ) {
-  console.log("Document already loaded, initializing navbar directly");
   const event = new Event("DOMContentLoaded");
   document.dispatchEvent(event);
 }

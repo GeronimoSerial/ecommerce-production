@@ -11,7 +11,7 @@ $apellido = $session->get('apellido');
     <div class="container">
         <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
             href="<?= base_url('/') ?>">
-            <img src="<?= base_url('public/images/workoutIcon.png') ?>" alt="site icon" class="img-fluid"
+            <img src="<?= base_url('images/workoutIcon.png') ?>" alt="site icon" class="img-fluid"
                 style="max-height: 40px;">
             <span class="fw-bold ms-2">FITSYN</span>
         </a>
@@ -19,8 +19,7 @@ $apellido = $session->get('apellido');
         <div class="order-lg-2 nav-btns d-flex align-items-center">
             <button type="button" class="btn position-relative me-2 me-lg-3" onclick="abrirCarrito()">
                 <i class="bi bi-cart text-dark"></i>
-                <span class="position-absolute top-0 start-100 translate-middle hidden" id="cart-count"
-                    style="display: none;">0</span>
+                <span class="position-absolute top-0 start-100 translate-middle hidden" id="cart-count">0</span>
             </button>
             <button type="button" class="btn position-relative me-2 me-lg-3" onclick="toggleSearch()">
                 <i class="bi bi-search text-dark"></i>

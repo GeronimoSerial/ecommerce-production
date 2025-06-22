@@ -76,7 +76,7 @@ $usuario = $usuario ?? [];
                                         <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <img src="<?= base_url('public/images/' . $detalle['url_imagen']) ?>"
+                                                    <img src="<?= base_url('images/' . $detalle['url_imagen']) ?>"
                                                         alt="<?= $detalle['nombre'] ?>" class="img-thumbnail me-3"
                                                         style="width: 50px; height: 50px; object-fit: cover;">
                                                     <div>
