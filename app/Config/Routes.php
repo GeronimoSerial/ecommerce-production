@@ -85,6 +85,14 @@ $routes->get('/checkout/summary', 'CheckoutController::getSummary');
 $routes->get('/checkout/history', 'CheckoutController::getInvoiceHistory');
 $routes->get('/checkout/invoice/(:num)', 'CheckoutController::getInvoiceDetails/$1');
 
+// ==================== RUTAS DE MERCADOPAGO ====================
+$routes->get('/mercadopago/create', 'MercadoPagoController::createPreference');
+$routes->post('/mercadopago/webhook', 'MercadoPagoController::webhook');
+$routes->get('/mercadopago/success', 'MercadoPagoController::success');
+$routes->get('/mercadopago/failure', 'MercadoPagoController::failure');
+$routes->get('/mercadopago/pending', 'MercadoPagoController::pending');
+$routes->get('/mercadopago/history', 'MercadoPagoController::getPaymentHistory');
+
 $routes->set404Override(function () {
     return view('templates/main_layout', [
         'title' => 'Página no encontrada',
