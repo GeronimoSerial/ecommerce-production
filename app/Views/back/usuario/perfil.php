@@ -78,11 +78,7 @@ $perfil = $perfil ?? 2;
                                         </a>
                                     </div>
                                     <div class="col-6">
-                                        <!-- <div class="p-3 border rounded text-center">
-                                            <i class="bi bi-heart fs-2 text-danger"></i>
-                                            <h5 class="mt-2">Favoritos</h5>
-                                            <small class="text-muted">Próximamente</small>
-                                        </div> -->
+
                                     </div>
                                 </div>
                             </div>

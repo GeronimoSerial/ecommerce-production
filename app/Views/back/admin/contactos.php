@@ -142,7 +142,8 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="text-truncate" style="max-width: 200px;" title="<?= $contacto['asunto'] ?>">
+                                                <div class="text-truncate" style="max-width: 200px;"
+                                                    title="<?= $contacto['asunto'] ?>">
                                                     <?= $contacto['asunto'] ?>
                                                 </div>
                                             </td>
@@ -168,25 +169,21 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a href="<?= base_url('contacto/detalle/' . $contacto['id_contacto']) ?>" 
-                                                       class="btn btn-sm btn-outline-primary" 
-                                                       title="Ver detalle">
+                                                    <a href="<?= base_url('contacto/detalle/' . $contacto['id_contacto']) ?>"
+                                                        class="btn btn-sm btn-outline-primary" title="Ver detalle">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
                                                     <?php if (!$contacto['leido']): ?>
-                                                        <button type="button" 
-                                                                class="btn btn-sm btn-outline-warning marcar-leido" 
-                                                                data-id="<?= $contacto['id_contacto'] ?>"
-                                                                title="Marcar como leído">
+                                                        <button type="button" class="btn btn-sm btn-outline-warning marcar-leido"
+                                                            data-id="<?= $contacto['id_contacto'] ?>" title="Marcar como leído">
                                                             <i class="bi bi-check"></i>
                                                         </button>
                                                     <?php endif; ?>
                                                     <?php if (!$contacto['respondido']): ?>
-                                                        <button type="button" 
-                                                                class="btn btn-sm btn-outline-success responder-contacto"
-                                                                data-id="<?= $contacto['id_contacto'] ?>"
-                                                                data-asunto="<?= $contacto['asunto'] ?>"
-                                                                title="Responder">
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-success responder-contacto"
+                                                            data-id="<?= $contacto['id_contacto'] ?>"
+                                                            data-asunto="<?= $contacto['asunto'] ?>" title="Responder">
                                                             <i class="bi bi-reply"></i>
                                                         </button>
                                                     <?php endif; ?>
@@ -223,8 +220,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="respuesta" class="form-label fw-bold">Tu respuesta:</label>
-                        <textarea class="form-control" id="respuesta" name="respuesta" rows="6" 
-                                  placeholder="Escribe tu respuesta aquí..." required></textarea>
+                        <textarea class="form-control" id="respuesta" name="respuesta" rows="6"
+                            placeholder="Escribe tu respuesta aquí..." required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -237,46 +234,4 @@
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Marcar como leído
-    document.querySelectorAll('.marcar-leido').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const row = this.closest('tr');
-            
-            fetch(`<?= base_url('contacto/marcar-leido/') ?>${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        row.classList.remove('table-warning');
-                        this.remove();
-                        // Actualizar contador de no leídos
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al marcar como leído');
-                });
-        });
-    });
-
-    // Responder contacto
-    document.querySelectorAll('.responder-contacto').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.dataset.id;
-            const asunto = this.dataset.asunto;
-            
-            document.getElementById('asuntoContacto').textContent = asunto;
-            document.getElementById('formResponder').action = `<?= base_url('contacto/responder/') ?>${id}`;
-            
-            const modal = new bootstrap.Modal(document.getElementById('responderModal'));
-            modal.show();
-        });
-    });
-});
-</script> 
+<script src="<?= base_url('js/contactos.js') ?>" defer></script>
