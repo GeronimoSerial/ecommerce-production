@@ -272,14 +272,12 @@ class AdminController extends BaseController
 
         $stats = $this->getDashboardStats();
         $productosPorCategoria = $this->getProductosPorCategoria();
-        $usuariosPorMes = $this->getUsuariosPorMes();
 
         return view('templates/main_layout', [
             'title' => 'Reportes y Estadísticas',
             'content' => view('back/admin/reportes/index', [
                 'stats' => $stats,
                 'productosPorCategoria' => $productosPorCategoria,
-                'usuariosPorMes' => $usuariosPorMes
             ])
         ]);
     }
@@ -296,15 +294,18 @@ class AdminController extends BaseController
         // Productos con cantidad bajo (menos de 10)
         $cantidadBajo = count($this->productoModel->getLowCantidadProducts());
 
-        // Usuarios registrados este mes (si no hay fecha_creacion, mostrar 0)
-        $usuariosEsteMes = 0;
+        // Productos sin stock
+        $sinStock = count($this->productoModel->getProductosSinStock());
+
+
+
 
         // Estadísticas de ventas
         $totalVentas = $this->facturaModel->where('activo', 1)->countAllResults();
         $ingresosTotales = $this->facturaModel->where('activo', 1)->selectSum('importe_total')->get()->getRow()->importe_total ?? 0;
         $ventasHoy = $this->facturaModel->where('activo', 1)
-                                       ->where('DATE(fecha_factura)', date('Y-m-d'))
-                                       ->countAllResults();
+            ->where('DATE(fecha_factura)', date('Y-m-d'))
+            ->countAllResults();
 
         // Estadísticas de contactos
         $estadisticasContactos = $this->contactoModel->getEstadisticas();
@@ -313,7 +314,7 @@ class AdminController extends BaseController
             'totalUsuarios' => $totalUsuarios,
             'totalProductos' => $totalProductos,
             'cantidadBajo' => $cantidadBajo,
-            'usuariosEsteMes' => $usuariosEsteMes,
+            'sinStock' => $sinStock,
             'totalVentas' => $totalVentas,
             'ingresosTotales' => $ingresosTotales,
             'ventasHoy' => $ventasHoy,
@@ -328,8 +329,5 @@ class AdminController extends BaseController
         return $this->categoriaModel->getProductosPorCategoria();
     }
 
-    private function getUsuariosPorMes()
-    {
-        return [];
-    }
+
 }

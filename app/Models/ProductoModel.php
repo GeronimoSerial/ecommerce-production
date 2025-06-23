@@ -73,6 +73,14 @@ class ProductoModel extends Model
             ->findAll();
     }
 
+    
+
+    public function getProductosSinStock()
+    {
+        return $this->where('cantidad', 0)
+            ->findAll();
+    }
+
     public function countActiveProducts()
     {
         return $this->where('activo', 1)

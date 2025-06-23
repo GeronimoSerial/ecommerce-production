@@ -41,6 +41,16 @@
                                 ahora!</a>
                         </div>
                     </form>
+
+                    <!-- Datos de prueba -->
+                    <div class="card border-info mt-4">
+                        <div class="card-header bg-info text-white">Datos de prueba</div>
+                        <div class="card-body">
+                            <p class="mb-2"><strong>Admin</strong>: usuarioadmin@demo.com | <strong>Contraseña</strong>: Contrasen10!-</p>
+                            <p class="mb-0"><strong>Usuario</strong>: usuariocliente@demo.com | <strong>Contraseña</strong>: Contrasen10!-</p>
+                        </div>
+                    </div>
+                    <!-- Fin card -->
                 </div>
             </div>
         </div>
