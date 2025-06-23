@@ -28,3 +28,5 @@ Homestead.json
 /writable
 /writable
 /.continue
+.env
+app/config/MercadoPago.php
