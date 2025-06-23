@@ -21,8 +21,8 @@ Este proyecto es una plataforma de administración para un sistema de ecommerce,
 
 1. Clona el repositorio:
    ```bash
-   git clone <https://github.com/GeronimoSerial/ecommerce>
-   cd admin_ecommerce
+   git clone https://github.com/GeronimoSerial/ecommerce
+   cd ecommerce
    ```
 2. Instala las dependencias con Composer:
    ```bash
