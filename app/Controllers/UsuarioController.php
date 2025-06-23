@@ -142,8 +142,15 @@ class UsuarioController extends BaseController
             'telefono' => $input['telefono']
         ];
 
+        // if ($input['password']) {
+        //     $userData['password_hash'] = password_hash($input['password'], PASSWORD_DEFAULT);
+        // } else {
+        //     $userData['password_hash'] = $this->usuarioModel->getUserPasswordHash($this->session->get('usuario_id'));
+        // }
+
         $userData = [
-            'email' => $input['email']
+            'email' => $input['email'],
+            'password_hash' => $input['password'] ? password_hash($input['password'], PASSWORD_DEFAULT) : $this->usuarioModel->getUserPasswordHash($this->session->get('usuario_id')),
         ];
 
         if ($this->usuarioModel->updateUserWithRelations($this->session->get('usuario_id'), $userData, $personaData, $domicilioData)) {

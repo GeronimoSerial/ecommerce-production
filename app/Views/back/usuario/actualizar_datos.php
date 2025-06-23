@@ -29,7 +29,16 @@
                                     required>
 
                             </div>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="password" class="form-label">Contraseña </label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Dejar en blanco si no desea cambiarla
+                                    ">
+                                </div>
+                            </div>
                         </div>
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="email" class="form-label">Correo electrónico</label>
