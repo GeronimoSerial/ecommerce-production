@@ -3,7 +3,7 @@ $productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
 ?>
 
 <!-- Breadcrumb -->
-<nav aria-label="breadcrumb" class="py-3">
+<nav aria-label="breadcrumb" class="py-3 mt-5">
     <div class="container">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= base_url() ?>" class="text-decoration-none">Inicio</a></li>

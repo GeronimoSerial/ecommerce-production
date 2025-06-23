@@ -65,7 +65,7 @@ class UsuarioModel extends Model
 
         try {
             $idDomicilio = null;
-            
+
             // 1. Insertar domicilio si se proporciona
             if ($domicilioData !== null) {
                 $db->table('domicilios')->insert($domicilioData);
@@ -76,7 +76,7 @@ class UsuarioModel extends Model
             if ($idDomicilio !== null) {
                 $personaData['id_domicilio'] = $idDomicilio;
             }
-            
+
             $db->table('personas')->insert($personaData);
             $idPersona = $db->insertID();
 
@@ -140,6 +140,36 @@ class UsuarioModel extends Model
         }
     }
 
+    //el administrador solo puede modificar rol y estado del usuario
+    public function updateRolOrStatus($userData, $usuarioId)
+    {
+        $db = \Config\Database::connect();
+        $db->transStart();
+        try {
+            // Verificar si el usuario existe
+            $usuario = $this->find($usuarioId);
+            if (!$usuario) {
+                throw new \Exception('Usuario no encontrado');
+            }
+
+            // $persona = $db->table('personas')->where('id_persona', $usuario['id_persona'])->get()->getRowArray();
+            // Actualizar usuario
+            if ($userData) {
+                $db->table($this->table)
+                    ->where('id_usuario', $usuarioId)
+                    ->update($userData);
+            }
+        } catch (\Exception $e) {
+            $db->transRollback();
+            return false;
+        }
+        $db->transComplete();
+        if ($db->transStatus() === false) {
+            throw new \Exception('Error al actualizar el usuario');
+        }
+        return true;
+    }
+
     /**
      * Autentica un usuario con email y contraseña
      * @param string $email Email del usuario
@@ -149,14 +179,14 @@ class UsuarioModel extends Model
     public function authenticateUser($email, $password)
     {
         $db = \Config\Database::connect();
-        
+
         // Buscar usuario con datos de persona
         $usuario = $db->table($this->table . ' u')
-                     ->select('u.*, p.nombre, p.apellido')
-                     ->join('personas p', 'p.id_persona = u.id_persona')
-                     ->where('u.email', $email)
-                     ->get()
-                     ->getRowArray();
+            ->select('u.*, p.nombre, p.apellido')
+            ->join('personas p', 'p.id_persona = u.id_persona')
+            ->where('u.email', $email)
+            ->get()
+            ->getRowArray();
 
         if (!$usuario) {
             return false;
@@ -184,11 +214,11 @@ class UsuarioModel extends Model
     public function emailExists($email, $excludeId = null)
     {
         $query = $this->where('email', $email);
-        
+
         if ($excludeId !== null) {
             $query->where('id_usuario !=', $excludeId);
         }
-        
+
         return $query->countAllResults() > 0;
     }
 

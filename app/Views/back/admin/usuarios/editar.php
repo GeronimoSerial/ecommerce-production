@@ -39,11 +39,11 @@ $validation = $validation ?? \Config\Services::validation();
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="nombre" class="form-label">Nombre *</label>
+                                    <label for="nombre" class="form-label">Nombre </label>
                                     <input type="text"
                                         class="form-control <?= ($validation->hasError('nombre')) ? 'is-invalid' : '' ?>"
                                         id="nombre" name="nombre" value="<?= old('nombre', $usuario['nombre'] ?? '') ?>"
-                                        required>
+                                        disabled>
                                     <?php if ($validation->hasError('nombre')): ?>
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('nombre') ?>
@@ -52,11 +52,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="apellido" class="form-label">Apellido *</label>
+                                    <label for="apellido" class="form-label">Apellido </label>
                                     <input type="text"
                                         class="form-control <?= ($validation->hasError('apellido')) ? 'is-invalid' : '' ?>"
                                         id="apellido" name="apellido"
-                                        value="<?= old('apellido', $usuario['apellido'] ?? '') ?>" required>
+                                        value="<?= old('apellido', $usuario['apellido'] ?? '') ?>" disabled>
                                     <?php if ($validation->hasError('apellido')): ?>
                                         <div class="invalid-feedback">
                                             <?= $validation->getError('apellido') ?>
@@ -65,11 +65,11 @@ $validation = $validation ?? \Config\Services::validation();
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email *</label>
+                                <label for="email" class="form-label">Email </label>
                                 <input type="email"
                                     class="form-control <?= ($validation->hasError('email')) ? 'is-invalid' : '' ?>"
                                     id="email" name="email" value="<?= old('email', $usuario['email'] ?? '') ?>"
-                                    required>
+                                    disabled>
                                 <?php if ($validation->hasError('email')): ?>
                                     <div class="invalid-feedback">
                                         <?= $validation->getError('email') ?>
@@ -77,19 +77,6 @@ $validation = $validation ?? \Config\Services::validation();
                                 <?php endif; ?>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Nueva Contraseña</label>
-                                <input type="password"
-                                    class="form-control <?= ($validation->hasError('password')) ? 'is-invalid' : '' ?>"
-                                    id="password" name="password">
-                                <?php if ($validation->hasError('password')): ?>
-                                    <div class="invalid-feedback">
-                                        <?= $validation->getError('password') ?>
-                                    </div>
-                                <?php endif; ?>
-                                <div class="form-text text-muted">Deja en blanco para mantener la contraseña actual
-                                </div>
-                            </div>
 
                             <div class="mb-4">
                                 <label for="id_rol" class="form-label">Rol *</label>

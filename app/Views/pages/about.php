@@ -13,8 +13,7 @@ $session = session();
                     ofrecer productos de la más alta calidad.</p>
             </div>
             <div class="col-lg-6">
-                <img src="<?= base_url('images/workoutIconabout.webp') ?>" alt="FitSyn Logo"
-                    class="img-fluid big-logo">
+                <img src="<?= base_url('images/workoutIconabout.webp') ?>" alt="FitSyn Logo" class="img-fluid big-logo">
             </div>
         </div>
     </div>
@@ -45,7 +44,7 @@ $session = session();
                     <div class="card-body text-center p-4">
                         <div
                             class="rounded-circle bg-danger d-inline-flex align-items-center justify-content-center mb-3 team-icon">
-                            <i class="bi bi-person-fill text-white fs-1"></i>
+                            <i class="fas fa-person text-white fs-1"></i>
                         </div>
                         <h4 class="fw-bold">Geronimo Serial</h4>
                         <p class="text-danger">CEO y Director de Operaciones</p>

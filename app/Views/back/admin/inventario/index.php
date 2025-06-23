@@ -179,34 +179,7 @@ $cantActivos = $cantActivos ?? 0
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <i class="bi bi-bar-chart-line text-info" style="font-size: 2rem;"></i>
-                        <div class="dropdown mt-2">
-                            <button class="btn btn-outline-info dropdown-toggle w-100" type="button"
-                                id="dropdownVendidosCategoria" data-bs-toggle="dropdown" aria-expanded="false">
-                                Vendidos por Categoría
-                            </button>
-                            <ul class="dropdown-menu w-100" aria-labelledby="dropdownVendidosCategoria">
-                                <?php foreach (($vendidosPorCategoria ?? []) as $cat): ?>
-                                    <?php if (isset($cat['nombre'])): ?>
-                                        <li>
-                                            <span class="dropdown-item d-flex justify-content-between align-items-center">
-                                                <?= htmlspecialchars($cat['nombre']) ?>
-                                                <span class="badge bg-info ms-2"><?= $cat['vendidos_categoria'] ?? 0 ?></span>
-                                            </span>
-                                        </li>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                                <?php if (empty($vendidosPorCategoria)): ?>
-                                    <li><span class="dropdown-item text-muted">Sin datos</span></li>
-                                <?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+         
         </div>
 
         <!-- PAGINACIÓN -->

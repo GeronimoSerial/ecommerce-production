@@ -21,7 +21,7 @@
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="<?= base_url('#productos') ?>" class="text-white-50 text-decoration-none hover-link">
+                        <a href="<?= base_url('productos/buscar?q=') ?>" class="text-white-50 text-decoration-none hover-link">
                             <i class="bi bi-chevron-right me-2 small"></i>Productos
                         </a>
                     </li>
@@ -31,7 +31,7 @@
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="<?= base_url('#nosotros') ?>" class="text-white-50 text-decoration-none hover-link">
+                        <a href="<?= base_url('nosotros') ?>" class="text-white-50 text-decoration-none hover-link">
                             <i class="bi bi-chevron-right me-2 small"></i>Sobre Nosotros
                         </a>
                     </li>
@@ -59,10 +59,9 @@
             <div class="col-12 col-md-6 col-lg-3">
                 <h5 class="fw-light mb-3">Síguenos</h5>
                 <div class="d-flex gap-3">
-                    <a href="#" class="text-white fs-5 hover-link"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white fs-5 hover-link"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-white fs-5 hover-link"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="text-white fs-5 hover-link"><i class="bi bi-youtube"></i></a>
+                    <a href="https://facebook.com/fitsyn" class="text-white fs-5 hover-link"><i class="bi bi-facebook"></i></a>
+                    <a href="https://instagram.com/geroserial" class="text-white fs-5 hover-link"><i class="bi bi-instagram"></i></a>
+                    <a href="https://x.com/geroserial" class="text-white fs-5 hover-link"><i class="bi bi-x"></i></a>
                 </div>
             </div>
         </div>

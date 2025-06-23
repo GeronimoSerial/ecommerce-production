@@ -98,7 +98,7 @@ $apellido = $session->get('apellido');
                     <a class="nav-link text-dark" href="<?= base_url('/comercializacion') ?>">COMERCIALIZACIÓN</a>
                 </li>
                 <li class="nav-item px-2 py-2">
-                    <a class="nav-link text-dark" href="<?= base_url('#nosotros') ?>">NOSOTROS</a>
+                    <a class="nav-link text-dark" href="<?= base_url('/nosotros') ?>">NOSOTROS</a>
                 </li>
                 <li class="nav-item px-2 py-2">
                     <a class="nav-link text-dark" href="<?= base_url('/contacto') ?>">CONTACTO</a>

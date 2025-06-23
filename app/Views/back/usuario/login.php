@@ -36,11 +36,24 @@
                         <button type="submit" class="btn btn-primary w-100 mb-3">INGRESAR</button>
 
                         <div class="text-center links-container">
-                            <a href="<?= base_url('recuperar') ?>" class="d-block mb-2">¿Has olvidado tu contraseña?</a>
+                            <!-- <a href="<?= base_url('recuperar') ?>" class="d-block mb-2">¿Has olvidado tu contraseña?</a> -->
                             <a href="<?= base_url('registro') ?>" class="d-block">¿Aún no tienes cuenta? ¡Regístrate
                                 ahora!</a>
                         </div>
                     </form>
+
+                    <!-- Datos de prueba -->
+                    <div class="card border-info mt-4">
+                        <div class="card-header bg-info text-white">Datos de prueba</div>
+                        <div class="card-body">
+                            <p class="mb-2"><strong>Admin</strong>: usuarioadmin@demo.com | <strong>Contraseña</strong>:
+                                Contrasen10!</p>
+                            <p class="mb-0"><strong>Usuario</strong>: usuariocliente@demo.com |
+                                <strong>Contraseña</strong>: Contrasen10!
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Fin card -->
                 </div>
             </div>
         </div>

@@ -1,7 +1,6 @@
-<?php 
+<?php
 $stats = $stats ?? [];
 $productosPorCategoria = $productosPorCategoria ?? [];
-$usuariosPorMes = $usuariosPorMes ?? [];
 ?>
 
 <div class="bg-light min-vh-100" style="padding-top: 76px;">
@@ -55,12 +54,22 @@ $usuariosPorMes = $usuariosPorMes ?? [];
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
+                        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-3 mb-1"><?= $stats['sinStock'] ?></h3>
+                        <p class="text-muted mb-0">Sin Stock</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
                         <i class="bi bi-person-plus text-info" style="font-size: 2.5rem;"></i>
                         <h3 class="mt-3 mb-1"><?= $stats['usuariosEsteMes'] ?? 0 ?></h3>
                         <p class="text-muted mb-0">Usuarios Nuevos</p>
                     </div>
                 </div>
-            </div>
+            </div>   -->
         </div>
 
         <!-- Gráficos y Análisis -->
@@ -83,25 +92,24 @@ $usuariosPorMes = $usuariosPorMes ?? [];
                                     <thead class="table-light">
                                         <tr>
                                             <th>Categoría</th>
-                                            <th>Cantidad</th>
+                                            <th>Tipos de Producto </th>
                                             <th>Porcentaje</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php 
+                                        <?php
                                         $totalProductos = array_sum(array_column($productosPorCategoria, 'total'));
-                                        foreach ($productosPorCategoria as $categoria): 
+                                        foreach ($productosPorCategoria as $categoria):
                                             $porcentaje = $totalProductos > 0 ? round(($categoria['total'] / $totalProductos) * 100, 1) : 0;
-                                        ?>
+                                            ?>
                                             <tr>
                                                 <td><?= $categoria['categoria'] ?></td>
                                                 <td>
-                                                    <span class="badge bg-primary"><?= $categoria['total'] ?></span>
+                                                    <span class=" badge bg-primary"><?= $categoria['total'] ?></span>
                                                 </td>
                                                 <td>
                                                     <div class="progress" style="height: 20px;">
-                                                        <div class="progress-bar bg-primary" 
-                                                             style="width: <?= $porcentaje ?>%">
+                                                        <div class="progress-bar bg-primary" style="width: <?= $porcentaje ?>%">
                                                             <?= $porcentaje ?>%
                                                         </div>
                                                     </div>
@@ -117,7 +125,7 @@ $usuariosPorMes = $usuariosPorMes ?? [];
             </div>
 
             <!-- Usuarios por Mes -->
-            <div class="col-md-6 mb-4">
+            <!-- <div class="col-md-6 mb-4">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-success text-white">
                         <h5 class="mb-0"><i class="bi bi-graph-up"></i> Usuarios por Mes</h5>
@@ -157,11 +165,11 @@ $usuariosPorMes = $usuariosPorMes ?? [];
                         <?php endif; ?>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> -->
 
-        <!-- Información Adicional -->
-        <div class="row">
+            <!-- </div> -->
+            <!-- Información Adicional -->
+            <!-- <div class="row"> -->
             <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-info text-white">
@@ -200,7 +208,14 @@ $usuariosPorMes = $usuariosPorMes ?? [];
                     </div>
                     <div class="card-body">
                         <div class="list-group list-group-flush">
-                            <?php if (($stats['cantidadBajo'] ?? 0) > 0): ?>
+                            <?php if (($stats['cantidadBajo'] || $stats['sinStock'] ?? 0) > 0): ?>
+                                <div class="list-group-item border-0 px-0">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1 text-danger">Sin Stock</h6>
+                                        <small class="text-muted">ATENCIÓN</small>
+                                    </div>
+                                    <p class="mb-1 text-muted"><?= $stats['sinStock'] ?> productos sin stock </p>
+                                </div>
                                 <div class="list-group-item border-0 px-0">
                                     <div class="d-flex w-100 justify-content-between">
                                         <h6 class="mb-1 text-warning">Stock Bajo</h6>
@@ -223,4 +238,4 @@ $usuariosPorMes = $usuariosPorMes ?? [];
             </div>
         </div>
     </div>
-</div> 
+</div>

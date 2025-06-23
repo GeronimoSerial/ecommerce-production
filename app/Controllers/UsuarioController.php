@@ -32,7 +32,7 @@ class UsuarioController extends BaseController
 
         return view('templates/main_layout', [
             'title' => 'Actualizar mis datos',
-            'content' => view('back/usuario/actualizarDatos', [
+            'content' => view('back/usuario/actualizar_datos', [
                 'dni' => $userData['dni'] ?? '',
                 'nombre' => $userData['nombre'] ?? '',
                 'apellido' => $userData['apellido'] ?? '',
@@ -142,8 +142,15 @@ class UsuarioController extends BaseController
             'telefono' => $input['telefono']
         ];
 
+        // if ($input['password']) {
+        //     $userData['password_hash'] = password_hash($input['password'], PASSWORD_DEFAULT);
+        // } else {
+        //     $userData['password_hash'] = $this->usuarioModel->getUserPasswordHash($this->session->get('usuario_id'));
+        // }
+
         $userData = [
-            'email' => $input['email']
+            'email' => $input['email'],
+            'password_hash' => $input['password'] ? password_hash($input['password'], PASSWORD_DEFAULT) : $this->usuarioModel->getUserPasswordHash($this->session->get('usuario_id')),
         ];
 
         if ($this->usuarioModel->updateUserWithRelations($this->session->get('usuario_id'), $userData, $personaData, $domicilioData)) {
@@ -239,15 +246,12 @@ class UsuarioController extends BaseController
         }
 
         $userData = $this->usuarioModel->getUserWithAllData($id);
-        if (!$userData) {
-            return redirect()->to('/admin/usuarios');
-        }
+        // if (!$userData) {
+        //     return redirect()->to('/admin/usuarios');
+        // }
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
-                'nombre' => 'required|min_length[3]',
-                'apellido' => 'required|min_length[3]',
-                'email' => 'required|valid_email',
                 'id_rol' => 'required|in_list[1,2]',
                 'activo' => 'required|in_list[0,1]'
             ];
@@ -260,17 +264,17 @@ class UsuarioController extends BaseController
                     'activo' => $input['activo']
                 ];
 
-                // Solo actualizar password si se proporciona uno nuevo
-                if ($input['password']) {
-                    $userData['password_hash'] = password_hash($input['password'], PASSWORD_DEFAULT);
-                }
+                // // Solo actualizar password si se proporciona uno nuevo
+                // if ($input['password']) {
+                //     $userData['password_hash'] = password_hash($input['password'], PASSWORD_DEFAULT);
+                // // }
 
-                $personaData = [
-                    'nombre' => $input['nombre'],
-                    'apellido' => $input['apellido']
-                ];
+                // $personaData = [
+                //     'nombre' => $input['nombre'],
+                //     'apellido' => $input['apellido']
+                // ];
 
-                if ($this->usuarioModel->updateUserWithRelations($id, $userData, $personaData, null)) {
+                if ($this->usuarioModel->updateRolOrStatus($userData, $id)) {
                     $this->session->setFlashdata('msg', 'Usuario actualizado exitosamente');
                     return redirect()->to('/admin/usuarios');
                 } else {

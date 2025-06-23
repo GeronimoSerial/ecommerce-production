@@ -33,12 +33,11 @@ $routes->get('/', 'HomeController::index');
 $routes->get('/comercializacion', 'ComercializacionController::index');
 $routes->get('/terminos', 'TerminosController::index');
 $routes->get('/nosotros', 'NosotrosController::index');
-$routes->get('/contacto', 'ContactoController::index');
-$routes->post('/contacto/enviar', 'ContactoController::enviar');
+
 
 // ==================== RUTAS DEL REGISTRO DE USUARIOS ====================
-$routes->get('registro', 'LoginController::registro');       // Muestra el formulario
-$routes->post('registro', 'UsuarioController::Create'); // Procesa el formulario
+$routes->get('registro', 'LoginController::registro');
+$routes->post('registro', 'UsuarioController::Create');
 
 //==================== RUTAS DEL LOGIN ====================
 $routes->get('/login', 'LoginController');
@@ -53,21 +52,14 @@ $routes->get('/panel/ventas', 'PanelController::ventas');
 $routes->get('/panel/venta/(:num)', 'PanelController::detalleVenta/$1');
 
 
-// $routes->get('/recuperar', function () {
-//     return view('templates/main_layout', [
-//         'title' => 'Recuperar contraseña',
-//         'content' => '<div class="container py-5"><h2>Página de recuperación de contraseña (en construcción)</h2></div>'
-//     ]);
-// });
 
 // ==================== RUTAS DE PRODUCTOS ====================
 $routes->get('categoria/(:segment)', 'ProductosController::porCategoria/$1');
 $routes->get('producto/(:num)', 'ProductosController::detalle/$1');
 $routes->get('productos/buscar', 'ProductosController::buscar');
 $routes->post('productos/buscar', 'ProductosController::buscar');
-$routes->get('buscar', 'ProductosController::buscar'); 
-// Ruta legacy para compatibilidad (redirige a la nueva estructura)
-// $routes->get('productos/(:segment)', 'ProductosController::porCategoria/$1');
+$routes->get('buscar', 'ProductosController::buscar');
+
 
 // ==================== RUTAS DEL CARRITO DE COMPRAS ====================
 $routes->get('/cart', 'CartController::index');
@@ -85,12 +77,14 @@ $routes->get('/checkout/summary', 'CheckoutController::getSummary');
 $routes->get('/checkout/history', 'CheckoutController::getInvoiceHistory');
 $routes->get('/checkout/invoice/(:num)', 'CheckoutController::getInvoiceDetails/$1');
 
-$routes->set404Override(function () {
-    return view('templates/main_layout', [
-        'title' => 'Página no encontrada',
-        'content' => view('errors/cli/error_404')
-    ]);
-});
+// ==================== RUTAS DE MERCADOPAGO ====================
+$routes->get('/mercadopago/create', 'MercadoPagoController::createPreference');
+$routes->post('/mercadopago/webhook', 'MercadoPagoController::webhook');
+$routes->get('/mercadopago/success', 'MercadoPagoController::success');
+$routes->get('/mercadopago/failure', 'MercadoPagoController::failure');
+$routes->get('/mercadopago/pending', 'MercadoPagoController::pending');
+$routes->get('/mercadopago/history', 'MercadoPagoController::getPaymentHistory');
+
 
 // ==================== RUTAS DE ACTUALIZACIÓN DATOS PERSONALES ====================
 $routes->get('actualizar', 'UsuarioController::Read');
@@ -120,12 +114,31 @@ $routes->get('admin/inventario/eliminar/(:num)', 'AdminController::eliminarProdu
 // Reportes y Estadísticas
 $routes->get('admin/reportes', 'AdminController::reportes');
 
-// Rutas del sistema de contacto
+// ===================== RUTAS DE CONTACTO (ADMIN) ====================
 $routes->get('/contacto/mis-contactos', 'ContactoController::misContactos');
 $routes->get('/contacto/detalle/(:num)', 'ContactoController::detalle/$1');
 $routes->get('/contacto/admin', 'ContactoController::admin');
 $routes->post('/contacto/responder/(:num)', 'ContactoController::responder/$1');
 $routes->get('/contacto/marcar-leido/(:num)', 'ContactoController::marcarLeido/$1');
+
+
+// ==================== RUTAS DE CONTACTO (USUARIO) ====================
+$routes->get('/contacto', 'ContactoController::index');
+$routes->post('/contacto/enviar', 'ContactoController::enviar');
+
+// ==================== RUTAS DE UBICACIONES (API GEOREF)====================
+$routes->get('/ubicacion/provincias', 'UbicacionController::provincias');
+$routes->get('/ubicacion/localidades/(:any)', 'UbicacionController::localidades/$1');
+
+
+// ==================== RUTAS 404 ====================
+$routes->set404Override(function () {
+    return view('templates/main_layout', [
+        'title' => 'Página no encontrada',
+        'content' => view('errors/cli/error_404')
+    ]);
+});
+
 
 /*
  * --------------------------------------------------------------------
