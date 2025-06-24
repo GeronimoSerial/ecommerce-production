@@ -31,7 +31,7 @@ $validation = $validation ?? \Config\Services::validation();
                         <h5 class="mb-0"><i class="bi bi-box-seam"></i> Información del Producto</h5>
                     </div>
                     <div class="card-body">
-                        <form action="<?= base_url('admin/inventario/crear') ?>" method="post">
+                        <form action="<?= base_url('admin/inventario/crear') ?>" method="post" enctype="multipart/form-data">
                             <?= csrf_field() ?>
 
                             <div class="mb-3">
@@ -110,10 +110,19 @@ $validation = $validation ?? \Config\Services::validation();
                             </div>
 
                             <div class="mb-4">
-                                <label for="imagen" class="form-label">URL de la Imagen</label>
-                                <input type="url" class="form-control" id="imagen" name="imagen"
-                                    value="<?= old('imagen') ?>" placeholder="https://ejemplo.com/imagen.jpg">
-                                <div class="form-text text-muted">Deja en blanco para usar imagen por defecto</div>
+                                <label for="imagen" class="form-label">Imagen del Producto *</label>
+                                <input type="file" 
+                                    class="form-control <?= ($validation->hasError('imagen')) ? 'is-invalid' : '' ?>" 
+                                    id="imagen" name="imagen" 
+                                    accept="image/jpeg,image/jpg,image/png,image/webp" required>
+                                <?php if ($validation->hasError('imagen')): ?>
+                                    <div class="invalid-feedback">
+                                        <?= $validation->getError('imagen') ?>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="form-text text-muted">
+                                    Formatos permitidos: JPG, JPEG, PNG, WebP. Tamaño máximo: 5MB
+                                </div>
                             </div>
 
                             <div class="d-flex justify-content-between">

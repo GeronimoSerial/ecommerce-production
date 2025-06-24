@@ -34,7 +34,7 @@ $validation = $validation ?? \Config\Services::validation();
                     </div>
                     <div class="card-body">
                         <form action="<?= base_url('admin/inventario/editar/' . $producto['id_producto']) ?>"
-                            method="post">
+                            method="post" enctype="multipart/form-data">
                             <?= csrf_field() ?>
 
                             <div class="mb-3">
@@ -129,11 +129,37 @@ $validation = $validation ?? \Config\Services::validation();
                             </div>
 
                             <div class="mb-4">
-                                <label for="imagen" class="form-label">URL de la Imagen</label>
-                                <input type="text" class="form-control" id="imagen" name="imagen"
-                                    value="<?= old('imagen', $producto['url_imagen']) ?>"
-                                    placeholder="https://ejemplo.com/imagen.jpg">
-                                <div class="form-text text-muted">Deja en blanco para mantener la imagen actual</div>
+                                <label for="imagen" class="form-label">Imagen del Producto</label>
+                                
+                                <!-- Mostrar imagen actual -->
+                                <?php if ($producto['url_imagen'] && $producto['url_imagen'] !== 'default-product.webp'): ?>
+                                    <div class="mb-3">
+                                        <label class="form-label">Imagen Actual:</label>
+                                        <div class="d-flex align-items-center">
+                                            <img src="<?= get_product_image_url($producto['url_imagen']) ?>" 
+                                                 alt="Imagen actual" 
+                                                 class="img-thumbnail me-3" 
+                                                 style="max-width: 100px; max-height: 100px;">
+                                            <div>
+                                                <small class="text-muted d-block"><?= $producto['url_imagen'] ?></small>
+                                                <small class="text-muted">Sube una nueva imagen para reemplazarla</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <input type="file" 
+                                    class="form-control <?= ($validation->hasError('imagen')) ? 'is-invalid' : '' ?>" 
+                                    id="imagen" name="imagen" 
+                                    accept="image/jpeg,image/jpg,image/png,image/webp">
+                                <?php if ($validation->hasError('imagen')): ?>
+                                    <div class="invalid-feedback">
+                                        <?= $validation->getError('imagen') ?>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="form-text text-muted">
+                                    Formatos permitidos: JPG, JPEG, PNG, WebP. Tamaño máximo: 5MB. Deja vacío para mantener la imagen actual.
+                                </div>
                             </div>
 
                             <div class="d-flex justify-content-between">

@@ -72,7 +72,7 @@ $cantActivos = $cantActivos ?? 0
                                         <td><?= $producto['id_producto'] ?></td>
                                         <td>
                                             <?php if (!empty($producto['url_imagen'])): ?>
-                                                <img src="<?= base_url('images/' . $producto['url_imagen']) ?>"
+                                                <img src="<?= get_product_image_url($producto['url_imagen']) ?>"
                                                     alt="<?= $producto['nombre'] ?>" class="img-thumbnail"
                                                     style="width: 50px; height: 50px; object-fit: cover;">
                                             <?php else: ?>

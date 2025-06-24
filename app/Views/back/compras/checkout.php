@@ -53,7 +53,7 @@
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="<?= base_url('images/' . $item['url_imagen']) ?>"
+                                                        <img src="<?= get_product_image_url($item['url_imagen']) ?>"
                                                             alt="<?= $item['nombre'] ?>" class="img-thumbnail me-3"
                                                             style="width: 50px; height: 50px; object-fit: cover;">
                                                         <div>

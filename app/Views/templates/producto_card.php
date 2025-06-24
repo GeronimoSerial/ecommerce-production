@@ -9,12 +9,12 @@ $productoModel = model('ProductoModel');
 $idCategoria = $producto['id_categoria'];
 $categoriaNombre = $productoModel->getNombreCategoria($idCategoria);
 
-$imageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
+$imageUrl = get_product_image_url($producto['url_imagen'] ?? '');
 ?>
 <div class="col-md-6 col-lg-4">
     <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
         <div class="card-img-wrapper mb-3">
-            <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
+            <img src="<?= $imageUrl ?>"
                 alt="<?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?>"
                 class="product-img mx-auto"
                 onerror="this.src='<?= base_url('images/default-product.webp') ?>'">

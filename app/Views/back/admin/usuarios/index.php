@@ -90,11 +90,7 @@ $usuarios = $usuarios ?? [];
                                                         class="btn btn-sm btn-outline-primary" title="Editar">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
-                                                    <a href="<?= base_url('admin/usuarios/eliminar/' . $usuario_id) ?>"
-                                                        class="btn btn-sm btn-outline-danger" title="Eliminar"
-                                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </a>
+
                                                 <?php else: ?>
                                                     <span class="text-muted">No disponible</span>
                                                 <?php endif; ?>
