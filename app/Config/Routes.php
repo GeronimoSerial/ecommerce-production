@@ -44,10 +44,10 @@ $routes->get('/login', 'LoginController');
 $routes->post('/login', 'LoginController::auth');
 $routes->get('/logout', 'LoginController::logout');
 
-// ==================== RUTAS DEL PANEL DE ADMINISTRACIÓN ====================
+// ==================== RUTAS DEL PANEL DE USUARIO ====================
 $routes->get('/panel', 'PanelController::index');
-$routes->get('/panel/mis-facturas', 'PanelController::misFacturas');
-$routes->get('/panel/factura/(:num)', 'PanelController::detalleFactura/$1');
+$routes->get('/panel/mis-facturas', 'FacturaController::facturasUsuario');
+$routes->get('/panel/factura/(:num)', 'FacturaController::detalleFacturaUsuario/$1');
 
 
 

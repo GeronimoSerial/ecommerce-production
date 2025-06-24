@@ -20,16 +20,89 @@ class FacturaController extends BaseController
         $this->session = session();
     }
 
-    private function getStats()
+
+    //============== Usuario ==============
+    public function facturasUsuario()
     {
-        // Obtener estadísticas de ventas
-        $stats = $this->facturaModel->getEstadisticasVentas();
-        return [
-            'totalVentas' => $stats['totalVentas'] ?? 0,
-            'ingresosTotales' => $stats['ingresosTotales'] ?? 0,
-            'ventasHoy' => $stats['ventasHoy'] ?? 0
-        ];
+        $usuarioId = $this->session->get('usuario_id');
+
+        if (!$usuarioId) {
+            return redirect()->to('/login');
+        }
+
+        // Obtener facturas del usuario con información de usuario
+        $facturas = $this->facturaModel->getFacturasByUsuario($usuarioId);
+
+        return view('templates/main_layout', [
+            'title' => 'Mis Facturas',
+            'content' => view('back/usuario/mis_facturas', [
+                'facturas' => $facturas
+            ])
+        ]);
     }
+
+    public function detalleFacturaUsuario($facturaId)
+    {
+        $usuarioId = $this->session->get('usuario_id');
+
+        if (!$usuarioId) {
+            return redirect()->to('/login');
+        }
+
+        // Verificar que la factura pertenece al usuario
+        $factura = $this->facturaModel->getFacturaByIdAndUsuario($facturaId, $usuarioId);
+
+        if (!$factura) {
+            return redirect()->to('/panel/mis-facturas')->with('error', 'Factura no encontrada');
+        }
+
+        // Obtener detalles de la factura con información de productos
+        $detalles = $this->detallesFacturaModel->getDetallesByFacturaId($facturaId);
+
+        // Obtener información del usuario
+        $usuario = $this->usuarioModel->getUserWithAllData($usuarioId);
+
+        // Obtener información del pago de MercadoPago de forma más segura
+        $pago = null;
+        try {
+            $db = \Config\Database::connect();
+            // Buscar pagos aprobados que correspondan a esta factura
+            $pagos = $db->table('pagos')
+                ->where('status', 'approved')
+                ->get()
+                ->getResultArray();
+
+            foreach ($pagos as $pagoItem) {
+                $detail = json_decode($pagoItem['detail'], true);
+                if (isset($detail['external_reference']) && $detail['external_reference'] == $facturaId) {
+                    $pago = array_merge($pagoItem, $detail);
+                    break;
+                }
+            }
+        } catch (\Exception $e) {
+            // Si hay error, simplemente no mostrar información de pago
+            log_message('error', 'Error obteniendo información de pago: ' . $e->getMessage());
+            $pago = null;
+        }
+
+        return view('templates/main_layout', [
+            'title' => 'Detalle de Factura #' . $facturaId,
+            'content' => view('back/usuario/detalle_factura', [
+                'factura' => $factura,
+                'detalles' => $detalles,
+                'usuario' => $usuario,
+                'pago' => $pago
+            ])
+        ]);
+    }
+
+
+
+
+
+
+
+
 
     //============== Administrador ==============
     public function ventas()
@@ -84,4 +157,14 @@ class FacturaController extends BaseController
         ]);
     }
 
+    private function getStats()
+    {
+        // Obtener estadísticas de ventas
+        $stats = $this->facturaModel->getEstadisticasVentas();
+        return [
+            'totalVentas' => $stats['totalVentas'] ?? 0,
+            'ingresosTotales' => $stats['ingresosTotales'] ?? 0,
+            'ventasHoy' => $stats['ventasHoy'] ?? 0
+        ];
+    }
 }

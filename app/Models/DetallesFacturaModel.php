@@ -26,4 +26,5 @@ class DetallesFacturaModel extends Model
             ->get()
             ->getResultArray();
     }
+
 }
