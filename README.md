@@ -1,37 +1,55 @@
-# Taller de Programación - Proyecto E-commerce
+# Ecommerce Suplementos Deportivos
 
-## Descripción
-Proyecto de e-commerce desarrollado como parte del curso de Taller de Programación
+Este proyecto es una plataforma de administración para un sistema de ecommerce, desarrollada en PHP. Permite gestionar productos, usuarios, pedidos y pagos, integrando funcionalidades avanzadas como pasarela de pago con MercadoPago.
 
-## Desarrolladores
-- Serial Geronimo
+## Características principales
 
-## Tecnologías Utilizadas
-- PHP 7.4+
-- CodeIgniter 4
-- MySQL
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap
-
-## Requisitos del Sistema
-- PHP versión 7.4 o superior
-- MySQL 5.7 o superior
-- Servidor web (Apache/Nginx)
-- Composer
-
-
-## Características
+- Gestión de productos, usuarios y pedidos
+- Integración con MercadoPago para pagos online
 - Panel de administración
-- Gestión de productos
-- Gestión de usuarios
-- Carrito de compras
-- Sistema de autenticación
+- Arquitectura modular y escalable
+- Soporte para múltiples métodos de pago
 
-## Estructura del Proyecto
-- `/app` - Código de la aplicación
-- `/public` - Archivos públicos
-- `/assets` - Recursos estáticos (CSS, JS, imágenes)
-- `/uploads` - Archivos subidos por usuarios
+## Requisitos
 
+- PHP >= 7.4
+- Composer
+- Servidor web (Apache, Nginx, etc.)
+- Base de datos MySQL/MariaDB
+
+## Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone <https://github.com/GeronimoSerial/ecommerce>
+   cd admin_ecommerce
+   ```
+2. Instala las dependencias con Composer:
+   ```bash
+   composer install
+   ```
+3. Configura la base de datos en `app/Config/Database.php`.
+4. Importa el archivo `public/tienda.sql` en tu gestor de base de datos.
+5. Configura el entorno y los permisos de la carpeta `writable/`.
+
+## Estructura del proyecto
+
+- `app/` - Código fuente principal (controladores, modelos, vistas, configuración)
+- `public/` - DocumentRoot para el servidor web
+- `system/` - Núcleo del framework
+- `vendor/` - Dependencias instaladas por Composer
+- `tests/` - Pruebas unitarias y de integración
+- `writable/` - Archivos generados y subidos
+
+## Uso
+
+1. Inicia el servidor web apuntando a la carpeta `public/`.
+2. Accede al panel de administración desde tu navegador:
+   ```
+   http://localhost/
+   ```
+3. Configura las credenciales de MercadoPago en `app/Config/MercadoPago.php`.
+
+## Créditos
+
+Desarrollado por [Geronimo Serial](https://geroserial.com).
