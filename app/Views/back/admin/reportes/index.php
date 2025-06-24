@@ -15,7 +15,7 @@ $productosPorCategoria = $productosPorCategoria ?? [];
                     </div>
                     <div>
                         <a href="<?= base_url('admin') ?>" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Volver al Dashboard
+                            <i class="bi bi-arrow-left"></i> Volver
                         </a>
                     </div>
                 </div>

@@ -5,7 +5,6 @@ use App\Models\CartModel;
 use App\Models\ProductoModel;
 use App\Models\FacturaModel;
 use App\Models\DetallesFacturaModel;
-use CodeIgniter\Controller;
 
 class CheckoutController extends BaseController
 {
@@ -33,7 +32,7 @@ class CheckoutController extends BaseController
         $usuarioId = $this->session->get('usuario_id');
 
         if (!$usuarioId) {
-            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para finalizar la compra');
+            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para realizar la compra');
         }
 
         // Obtener productos del carrito
@@ -45,15 +44,13 @@ class CheckoutController extends BaseController
 
         // Calcular totales
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         return view('templates/main_layout', [
             'title' => 'Finalizar Compra',
             'content' => view('back/compras/checkout', [
                 'cartItems' => $cartItems,
                 'subtotal' => $subtotal,
-                'tax' => $tax,
                 'total' => $total,
                 'usuarioId' => $usuarioId
             ])
@@ -90,8 +87,7 @@ class CheckoutController extends BaseController
 
         // Calcular totales
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         // Procesar la compra
         $db = \Config\Database::connect();
@@ -173,15 +169,13 @@ class CheckoutController extends BaseController
 
         $cartItems = $this->cartModel->getCartByUser($usuarioId);
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         return $this->response->setJSON([
             'success' => true,
             'summary' => [
                 'items' => $cartItems,
                 'subtotal' => $subtotal,
-                'tax' => $tax,
                 'total' => $total,
                 'itemCount' => count($cartItems)
             ]
@@ -202,10 +196,11 @@ class CheckoutController extends BaseController
             ]);
         }
 
-        $facturas = $this->facturaModel->where('id_usuario', $usuarioId)
-            ->where('activo', 1)
-            ->orderBy('fecha_factura', 'DESC')
-            ->findAll();
+        // $facturas = $this->facturaModel->where('id_usuario', $usuarioId)
+        //     ->where('activo', 1)
+        //     ->orderBy('fecha_factura', 'DESC')
+        //     ->findAll();
+        $facturas = $this->facturaModel->getFacturasByUsuario($usuarioId);
 
         return $this->response->setJSON([
             'success' => true,

@@ -16,7 +16,7 @@ $ventas = $ventas ?? [];
                     </div>
                     <div>
                         <a href="<?= base_url('admin') ?>" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> Volver al Dashboard
+                            <i class="bi bi-arrow-left"></i> Volver
                         </a>
                     </div>
                 </div>
@@ -35,7 +35,6 @@ $ventas = $ventas ?? [];
                 </div>
             </div>
 
-
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
@@ -45,7 +44,7 @@ $ventas = $ventas ?? [];
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
                         <i class="bi bi-people text-info fs-1"></i>
@@ -53,12 +52,12 @@ $ventas = $ventas ?? [];
                         <p class="text-muted mb-0">Clientes Únicos</p>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body text-center">
-                        <i class="bi bi-graph-up text-primary" style="font-size: 2rem;"></i>
-                        <h4 class="mt-2 mb-1">
+                        <i class="bi bi-graph-up text-primary fs-1"></i>
+                        <h4 class="mt-2 ">
                             <?= $stats['totalVentas'] > 0 ? format_currency(round(($stats['ingresosTotales'] / $stats['totalVentas']), 2)) : 0 ?>
                         </h4>
                         <p class="text-muted mb-0">Promedio por Venta</p>

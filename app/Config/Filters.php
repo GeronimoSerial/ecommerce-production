@@ -21,7 +21,8 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'auth'          => \App\Filters\Auth::class
+        'auth'          => \App\Filters\Auth::class,
+        'authadmin'     => \App\Filters\AuthAdmin::class
     ];
 
     /**
@@ -58,8 +59,9 @@ class Filters extends BaseConfig
      * List of filter aliases that should run on any
      * before or after URI patterns.
      *
-     * Example:
-     * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
+     * Ejemplo:
+     * 'auth' => ['before' => ['panel*', 'cart*', 'checkout*']],
+     * 'authadmin' => ['before' => ['admin*']]
      */
     public array $filters = [];
 }

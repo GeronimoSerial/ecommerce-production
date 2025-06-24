@@ -13,6 +13,9 @@ $usuarios = $usuarios ?? [];
                         <p class="text-muted mb-0">Administra los usuarios del sistema</p>
                     </div>
                     <div>
+                        <a href="<?= base_url('admin') ?>" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
                         <a href="<?= base_url('admin/usuarios/crear') ?>" class="btn btn-primary">
                             <i class="bi bi-person-plus"></i> Nuevo Usuario
                         </a>

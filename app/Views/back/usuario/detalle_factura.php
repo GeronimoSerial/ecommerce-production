@@ -115,7 +115,6 @@ $usuario = $usuario ?? [];
                     <div class="card-body">
                         <?php
                         $subtotal = array_sum(array_column($detalles, 'subtotal'));
-                        $tax = calculate_tax($subtotal);
                         $total = $factura['importe_total'];
                         ?>
 
@@ -123,16 +122,6 @@ $usuario = $usuario ?? [];
                             <span>Subtotal:</span>
                             <span class="fw-bold"><?= format_currency($subtotal) ?></span>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Impuestos (21%):</span>
-                            <span class="fw-bold"><?= format_currency($tax) ?></span>
-                        </div>
-                        <?php if ($factura['descuento'] > 0): ?>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Descuento:</span>
-                                <span class="fw-bold text-danger">-<?= format_currency($factura['descuento']) ?></span>
-                            </div>
-                        <?php endif; ?>
                         <hr>
                         <div class="d-flex justify-content-between mb-3">
                             <span class="h5 mb-0">Total:</span>

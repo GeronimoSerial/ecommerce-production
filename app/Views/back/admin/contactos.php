@@ -6,8 +6,8 @@
                     <i class="bi bi-chat-dots text-primary me-2"></i>
                     Gestión de Contactos
                 </h1>
-                <a href="<?= base_url('panel') ?>" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-2"></i>Volver al Panel
+                <a href="<?= base_url('admin') ?>" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Volver
                 </a>
             </div>
 
@@ -51,7 +51,7 @@
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h4 class="mb-0"><?= $estadisticas['no_leidos'] ?></h4>
-                                    <p class="mb-0">No Leídos</p>
+                                    <p class="mb-0">Nuevos mensajes</p>
                                 </div>
                                 <div class="align-self-center">
                                     <i class="bi bi-envelope fs-1"></i>
@@ -155,7 +155,7 @@
                                             <td>
                                                 <?php if (!$contacto['leido']): ?>
                                                     <span class="badge bg-warning">
-                                                        <i class="bi bi-envelope me-1"></i>No leído
+                                                        <i class="bi bi-envelope me-1"></i>Nuevo mensaje
                                                     </span>
                                                 <?php elseif (!$contacto['respondido']): ?>
                                                     <span class="badge bg-danger">
@@ -173,12 +173,7 @@
                                                         class="btn btn-sm btn-outline-primary" title="Ver detalle">
                                                         <i class="bi bi-eye"></i>
                                                     </a>
-                                                    <?php if (!$contacto['leido']): ?>
-                                                        <button type="button" class="btn btn-sm btn-outline-warning marcar-leido"
-                                                            data-id="<?= $contacto['id_contacto'] ?>" title="Marcar como leído">
-                                                            <i class="bi bi-check"></i>
-                                                        </button>
-                                                    <?php endif; ?>
+                                                    <!--  -->
                                                     <?php if (!$contacto['respondido']): ?>
                                                         <button type="button"
                                                             class="btn btn-sm btn-outline-success responder-contacto"

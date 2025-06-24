@@ -97,13 +97,6 @@ class FacturaController extends BaseController
     }
 
 
-
-
-
-
-
-
-
     //============== Administrador ==============
     public function ventas()
     {

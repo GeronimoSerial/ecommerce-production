@@ -85,8 +85,7 @@ class MercadoPagoController extends BaseController
 
         // Calcular totales
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         // Crear la factura primero
         $facturaData = [

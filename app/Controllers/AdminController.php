@@ -267,23 +267,23 @@ class AdminController extends BaseController
     }
 
     // ==================== REPORTES Y ESTADÍSTICAS ====================
-    public function reportes()
-    {
-        if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
-            return redirect()->to('/login');
-        }
+    // public function reportes()
+    // {
+    //     if (!$this->session->get('logueado') || $this->session->get('id_rol') != 1) {
+    //         return redirect()->to('/login');
+    //     }
 
-        $stats = $this->getDashboardStats();
-        $productosPorCategoria = $this->getProductosPorCategoria();
+    //     $stats = $this->getDashboardStats();
+    //     $productosPorCategoria = $this->getProductosPorCategoria();
 
-        return view('templates/main_layout', [
-            'title' => 'Reportes y Estadísticas',
-            'content' => view('back/admin/reportes/index', [
-                'stats' => $stats,
-                'productosPorCategoria' => $productosPorCategoria,
-            ])
-        ]);
-    }
+    //     return view('templates/main_layout', [
+    //         'title' => 'Reportes y Estadísticas',
+    //         'content' => view('back/admin/reportes/index', [
+    //             'stats' => $stats,
+    //             'productosPorCategoria' => $productosPorCategoria,
+    //         ])
+    //     ]);
+    // }
 
 
     // ==================== MÉTODOS PRIVADOS ====================
