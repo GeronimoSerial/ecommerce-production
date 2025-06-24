@@ -30,3 +30,4 @@ Homestead.json
 /.continue
 .env
 app/config/MercadoPago.php
+scripts/tienda.sql
