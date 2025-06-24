@@ -17,7 +17,7 @@ $usuario = $usuario ?? [];
                         <p class="text-muted mb-0">Detalle completo de la venta</p>
                     </div>
                     <div>
-                        <a href="<?= base_url('panel/ventas') ?>" class="btn btn-outline-secondary me-2">
+                        <a href="<?= base_url('admin/ventas') ?>" class="btn btn-outline-secondary me-2">
                             <i class="bi bi-arrow-left"></i> Volver a Ventas
                         </a>
                         <!--  -->
@@ -39,7 +39,8 @@ $usuario = $usuario ?? [];
                         <div class="row">
                             <div class="col-md-6">
                                 <p><strong>Nombre:</strong> <?= $usuario['nombre'] ?? 'N/A' ?>
-                                    <?= $usuario['apellido'] ?? '' ?></p>
+                                    <?= $usuario['apellido'] ?? '' ?>
+                                </p>
                                 <p><strong>Email:</strong> <?= $usuario['email'] ?? 'N/A' ?></p>
                                 <p><strong>Teléfono:</strong> <?= $usuario['telefono'] ?? 'N/A' ?></p>
                                 <p><strong>ID Usuario:</strong> #<?= $factura['id_usuario'] ?></p>
@@ -196,7 +197,7 @@ $usuario = $usuario ?? [];
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <a href="<?= base_url('panel/ventas') ?>" class="btn btn-sm btn-outline-secondary">
+                                <a href="<?= base_url('admin/ventas') ?>" class="btn btn-sm btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> Volver a Ventas
                                 </a>
                             </div>

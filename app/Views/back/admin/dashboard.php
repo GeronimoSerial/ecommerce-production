@@ -117,7 +117,7 @@ $stats = $stats ?? [];
                                 </a>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <a href="<?= base_url('panel/ventas') ?>" class="text-decoration-none">
+                                <a href="<?= base_url('admin/ventas') ?>" class="text-decoration-none">
                                     <div class="card border-0 bg-light h-100 accesos">
                                         <div class="card-body text-center">
                                             <i class="bi bi-graph-up text-warning" style="font-size: 2rem;"></i>
@@ -206,7 +206,7 @@ $stats = $stats ?? [];
             </div>
         </div>
 
-        
+
 
         <!-- Actividad Reciente -->
         <!-- <div class="row">
@@ -235,7 +235,7 @@ $stats = $stats ?? [];
                     </div>
                 </div>
             </div> -->
-            <!-- <div class="col-md-6">
+        <!-- <div class="col-md-6">
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-info text-white">
                         <h5 class="mb-0"><i class="bi bi-gear"></i> Configuración del Sistema</h5>
@@ -271,9 +271,9 @@ $stats = $stats ?? [];
 </div>
 </div> -->
 
-<style>
-    .accesos:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
-    }
-</style>
+        <style>
+            .accesos:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+            }
+        </style>

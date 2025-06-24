@@ -48,8 +48,7 @@ $routes->get('/logout', 'LoginController::logout');
 $routes->get('/panel', 'PanelController::index');
 $routes->get('/panel/mis-facturas', 'PanelController::misFacturas');
 $routes->get('/panel/factura/(:num)', 'PanelController::detalleFactura/$1');
-$routes->get('/panel/ventas', 'PanelController::ventas');
-$routes->get('/panel/venta/(:num)', 'PanelController::detalleVenta/$1');
+
 
 
 
@@ -130,7 +129,9 @@ $routes->post('/contacto/enviar', 'ContactoController::enviar');
 $routes->get('/ubicacion/provincias', 'UbicacionController::provincias');
 $routes->get('/ubicacion/localidades/(:any)', 'UbicacionController::localidades/$1');
 
-
+// ==================== RUTAS DE VENTAS ====================
+$routes->get('/admin/ventas', 'FacturaController::ventas');
+$routes->get('/admin/venta/(:num)', 'FacturaController::detalleVenta/$1');
 // ==================== RUTAS 404 ====================
 $routes->set404Override(function () {
     return view('templates/main_layout', [

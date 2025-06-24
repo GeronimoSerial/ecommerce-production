@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\DetallesFacturaModel;
 use App\Models\UsuarioModel;
 use App\Models\ProductoModel;
 use App\Models\CategoriaModel;
@@ -16,6 +17,7 @@ class AdminController extends BaseController
     private $categoriaModel;
     private $personaModel;
     private $facturaModel;
+    private $detallesFacturaModel;
     private $contactoModel;
     private $session;
 
@@ -27,6 +29,7 @@ class AdminController extends BaseController
         $this->categoriaModel = new CategoriaModel();
         $this->personaModel = new PersonaModel();
         $this->facturaModel = new FacturaModel();
+        $this->detallesFacturaModel = new DetallesFacturaModel();
         $this->contactoModel = new ContactoModel();
         $this->session = session();
     }
@@ -282,6 +285,7 @@ class AdminController extends BaseController
         ]);
     }
 
+
     // ==================== MÉTODOS PRIVADOS ====================
     private function getDashboardStats()
     {
@@ -297,15 +301,11 @@ class AdminController extends BaseController
         // Productos sin stock
         $sinStock = count($this->productoModel->getProductosSinStock());
 
-
-
-
         // Estadísticas de ventas
-        $totalVentas = $this->facturaModel->where('activo', 1)->countAllResults();
-        $ingresosTotales = $this->facturaModel->where('activo', 1)->selectSum('importe_total')->get()->getRow()->importe_total ?? 0;
-        $ventasHoy = $this->facturaModel->where('activo', 1)
-            ->where('DATE(fecha_factura)', date('Y-m-d'))
-            ->countAllResults();
+        $estadisticasVentas = $this->facturaModel->getEstadisticasVentas();
+        $totalVentas = $estadisticasVentas['totalVentas'];
+        $ingresosTotales = $estadisticasVentas['ingresosTotales'];
+        $ventasHoy = $estadisticasVentas['ventasHoy'];
 
         // Estadísticas de contactos
         $estadisticasContactos = $this->contactoModel->getEstadisticas();
