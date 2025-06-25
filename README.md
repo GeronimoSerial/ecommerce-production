@@ -10,8 +10,6 @@ Este proyecto es una plataforma de administración para un sistema de ecommerce,
 - Arquitectura modular y escalable
 - Soporte para múltiples métodos de pago
 
-## Requisitos
-
 - PHP >= 7.4
 - Composer
 - Servidor web (Apache, Nginx, etc.)
