@@ -87,20 +87,6 @@ class MercadoPagoController extends BaseController
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
         $total = $subtotal;
 
-        // Crear la factura primero
-        $facturaData = [
-            'id_usuario' => $usuarioId,
-            'importe_total' => $total,
-            'descuento' => 0,
-            'activo' => 1
-        ];
-
-        $facturaId = $this->facturaModel->insert($facturaData);
-
-        if (!$facturaId) {
-            return redirect()->to('/checkout')->with('error', 'Error al crear la factura');
-        }
-
         try {
             // Crear items para MercadoPago
             $items = [];
@@ -116,7 +102,6 @@ class MercadoPagoController extends BaseController
             // Crear preferencia
             $preference = [
                 'items' => $items,
-                'external_reference' => (string) $facturaId,
                 'notification_url' => $this->mpConfig->getWebhookUrl(),
                 'back_urls' => $this->mpConfig->getBackUrls(),
                 'auto_return' => $this->mpConfig->autoReturn,
@@ -145,16 +130,18 @@ class MercadoPagoController extends BaseController
             $response = $this->preferenceClient->create($preference);
 
             if (isset($response->id)) {
-                // Guardar información del pago
+                // Guardar información del pago pendiente (sin factura aún)
                 $this->pagoModel->savePayment(
                     $response->id,
                     'pending',
                     [
                         'preference_id' => $response->id,
-                        'external_reference' => $facturaId,
+                        'external_reference' => null, // No hay factura aún
                         'total_amount' => $total,
                         'items_count' => count($cartItems),
-                        'currency' => $this->mpConfig->currency
+                        'currency' => $this->mpConfig->currency,
+                        'user_id' => $usuarioId,
+                        'cart_items' => $cartItems // Guardar items del carrito
                     ]
                 );
 
@@ -226,7 +213,7 @@ class MercadoPagoController extends BaseController
 
                     // Si el pago fue aprobado, procesar la factura
                     if ($status === 'approved') {
-                        $this->processApprovedPayment($externalReference);
+                        $this->processApprovedPayment($paymentId);
                     }
 
                     log_message('info', "Webhook MercadoPago: Pago {$paymentId} actualizado a estado {$status}");
@@ -245,20 +232,40 @@ class MercadoPagoController extends BaseController
     /**
      * Procesa un pago aprobado
      */
-    private function processApprovedPayment($facturaId)
+    private function processApprovedPayment($paymentId)
     {
         $db = \Config\Database::connect();
         $db->transStart();
 
         try {
-            // Obtener la factura
-            $factura = $this->facturaModel->find($facturaId);
-            if (!$factura) {
-                throw new \Exception("Factura {$facturaId} no encontrada");
+            // Obtener información del pago
+            $pago = $this->pagoModel->getByPaymentId($paymentId);
+            if (!$pago) {
+                throw new \Exception("Pago {$paymentId} no encontrado");
             }
 
-            // Obtener productos del carrito
-            $cartItems = $this->cartModel->getCartByUser($factura['id_usuario']);
+            $detail = json_decode($pago['detail'], true);
+            $usuarioId = $detail['user_id'] ?? null;
+            $cartItems = $detail['cart_items'] ?? [];
+            $total = $detail['total_amount'] ?? 0;
+
+            if (!$usuarioId || empty($cartItems)) {
+                throw new \Exception("Información incompleta en el pago {$paymentId}");
+            }
+
+            // Crear la factura
+            $facturaData = [
+                'id_usuario' => $usuarioId,
+                'importe_total' => $total,
+                'descuento' => 0,
+                'activo' => 1
+            ];
+
+            $facturaId = $this->facturaModel->insert($facturaData);
+
+            if (!$facturaId) {
+                throw new \Exception('Error al crear la factura');
+            }
 
             // Crear los detalles de la factura
             foreach ($cartItems as $item) {
@@ -272,24 +279,37 @@ class MercadoPagoController extends BaseController
                     'subtotal' => $subtotalItem
                 ];
 
-                $this->detallesFacturaModel->insert($detalleData);
+                $detalleInserted = $this->detallesFacturaModel->insert($detalleData);
 
-                // Descontar stock
+                if (!$detalleInserted) {
+                    throw new \Exception('Error al crear el detalle de factura');
+                }
+
+                // Descontar stock de cada producto
                 $producto = $this->productoModel->find($item['id_producto']);
-                $nuevoStock = $producto['cantidad'] - $item['cantidad'];
-                $nuevosVendidos = $producto['cantidad_vendidos'] + $item['cantidad'];
+                
+                if ($producto) {
+                    $nuevoStock = $producto['cantidad'] - $item['cantidad'];
+                    $nuevosVendidos = $producto['cantidad_vendidos'] + $item['cantidad'];
 
-                $this->productoModel->update($item['id_producto'], [
-                    'cantidad' => $nuevoStock,
-                    'cantidad_vendidos' => $nuevosVendidos
-                ]);
+                    $this->productoModel->update($item['id_producto'], [
+                        'cantidad' => $nuevoStock,
+                        'cantidad_vendidos' => $nuevosVendidos
+                    ]);
+                } else {
+                    log_message('warning', "Producto {$item['id_producto']} no encontrado para factura {$facturaId}");
+                }
             }
 
-            // Vaciar el carrito
-            $this->cartModel->clearCart($factura['id_usuario']);
+            // Actualizar el pago con la referencia de la factura
+            $detail['external_reference'] = $facturaId;
+            $this->pagoModel->updatePaymentStatus($paymentId, 'approved', $detail);
+
+            // Vaciar el carrito del usuario
+            $this->cartModel->clearCart($usuarioId);
 
             $db->transCommit();
-            log_message('info', "Pago aprobado procesado para factura {$facturaId}");
+            log_message('info', "Pago aprobado procesado para payment_id {$paymentId} - Factura {$facturaId} creada");
 
         } catch (\Exception $e) {
             $db->transRollback();
