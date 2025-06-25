@@ -17,7 +17,7 @@ $usuario = $usuario ?? [];
                         <p class="text-muted mb-0">Detalle completo de la venta</p>
                     </div>
                     <div>
-                        <a href="<?= base_url('panel/ventas') ?>" class="btn btn-outline-secondary me-2">
+                        <a href="<?= base_url('admin/ventas') ?>" class="btn btn-outline-secondary me-2">
                             <i class="bi bi-arrow-left"></i> Volver a Ventas
                         </a>
                         <!--  -->
@@ -39,7 +39,8 @@ $usuario = $usuario ?? [];
                         <div class="row">
                             <div class="col-md-6">
                                 <p><strong>Nombre:</strong> <?= $usuario['nombre'] ?? 'N/A' ?>
-                                    <?= $usuario['apellido'] ?? '' ?></p>
+                                    <?= $usuario['apellido'] ?? '' ?>
+                                </p>
                                 <p><strong>Email:</strong> <?= $usuario['email'] ?? 'N/A' ?></p>
                                 <p><strong>Teléfono:</strong> <?= $usuario['telefono'] ?? 'N/A' ?></p>
                                 <p><strong>ID Usuario:</strong> #<?= $factura['id_usuario'] ?></p>
@@ -136,7 +137,6 @@ $usuario = $usuario ?? [];
                     <div class="card-body">
                         <?php
                         $subtotal = array_sum(array_column($detalles, 'subtotal'));
-                        $tax = calculate_tax($subtotal);
                         $total = $factura['importe_total'];
                         ?>
 
@@ -144,16 +144,6 @@ $usuario = $usuario ?? [];
                             <span>Subtotal:</span>
                             <span class="fw-bold"><?= format_currency($subtotal) ?></span>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Impuestos (21%):</span>
-                            <span class="fw-bold"><?= format_currency($tax) ?></span>
-                        </div>
-                        <?php if ($factura['descuento'] > 0): ?>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Descuento:</span>
-                                <span class="fw-bold text-danger">-<?= format_currency($factura['descuento']) ?></span>
-                            </div>
-                        <?php endif; ?>
                         <hr>
                         <div class="d-flex justify-content-between mb-3">
                             <span class="h5 mb-0">Total:</span>
@@ -196,7 +186,7 @@ $usuario = $usuario ?? [];
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <a href="<?= base_url('panel/ventas') ?>" class="btn btn-sm btn-outline-secondary">
+                                <a href="<?= base_url('admin/ventas') ?>" class="btn btn-sm btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> Volver a Ventas
                                 </a>
                             </div>

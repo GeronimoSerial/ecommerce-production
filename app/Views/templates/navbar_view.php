@@ -34,23 +34,28 @@ $apellido = $session->get('apellido');
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <?php if ($perfil == 1): ?>
-                            <li><a class="dropdown-item" href="<?= base_url('panel') ?>">Panel Admin</a></li>
-                            <li><a class="dropdown-item" href="<?= base_url('panel/ventas') ?>">
-                                <i class="bi bi-graph-up me-2"></i>Gestión de Ventas
-                            </a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('panel') ?>"><i class="bi bi-house me-2"></i>Panel
+                                    Admin</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('admin/ventas') ?>">
+                                    <i class="bi bi-graph-up me-2"></i>Gestión de Ventas
+                                </a></li>
                             <li><a class="dropdown-item" href="<?= base_url('contacto/admin') ?>">
-                                <i class="bi bi-chat-dots me-2"></i>Gestión de Mensajes
-                            </a></li>
+                                    <i class="bi bi-chat-dots me-2"></i>Gestión de Mensajes
+                                </a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('panel/mis-facturas') ?>">
+                                    <i class="bi bi-receipt me-2"></i>Mis Facturas
+                                </a></li>
                         <?php else: ?>
                             <li><a class="dropdown-item" href="<?= base_url('panel') ?>">Mi Perfil</a></li>
                             <li><a class="dropdown-item" href="<?= base_url('panel/mis-facturas') ?>">
-                                <i class="bi bi-receipt me-2"></i>Mis Facturas
-                            </a></li>
+                                    <i class="bi bi-receipt me-2"></i>Mis Facturas
+                                </a></li>
                             <li><a class="dropdown-item" href="<?= base_url('contacto/mis-contactos') ?>">
-                                <i class="bi bi-chat-dots me-2"></i>Mis Mensajes
-                            </a></li>
+                                    <i class="bi bi-chat-dots me-2"></i>Mis Mensajes
+                                </a></li>
                         <?php endif; ?>
-                        <li><a class="dropdown-item" href="<?= base_url('actualizar') ?>">Mis datos personales</a></li>
+                        <li><a class="dropdown-item" href="<?= base_url('actualizar') ?>"><i
+                                    class="bi bi-person me-2"></i>Mis datos personales</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

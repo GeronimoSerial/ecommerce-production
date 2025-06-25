@@ -48,7 +48,7 @@
                                                 <tr data-item-id="<?= $item['id_carrito'] ?>">
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <img src="<?= base_url('images/' . $item['url_imagen']) ?>"
+                                                            <img src="<?= get_product_image_url($item['url_imagen']) ?>"
                                                                 alt="<?= $item['nombre'] ?>" class="cart-item-image me-3">
                                                             <div>
                                                                 <h6 class="mb-1"><?= $item['nombre'] ?></h6>
@@ -123,16 +123,11 @@
                                     <span>Subtotal:</span>
                                     <span class="fw-bold" id="cart-subtotal"><?= format_currency($subtotal) ?></span>
                                 </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Impuestos (21%):</span>
-                                    <span class="fw-bold"
-                                        id="cart-tax"><?= format_currency(calculate_tax($subtotal)) ?></span>
-                                </div>
                                 <hr>
                                 <div class="d-flex justify-content-between mb-3">
                                     <span class="h5 mb-0">Total:</span>
                                     <span class="h5 mb-0 text-primary"
-                                        id="cart-total"><?= format_currency(calculate_total($subtotal)) ?></span>
+                                        id="cart-total"><?= format_currency($subtotal) ?></span>
                                 </div>
                             </div>
                             <?php if ($isLoggedIn): ?>

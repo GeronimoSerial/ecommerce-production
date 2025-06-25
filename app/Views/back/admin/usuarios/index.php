@@ -13,6 +13,9 @@ $usuarios = $usuarios ?? [];
                         <p class="text-muted mb-0">Administra los usuarios del sistema</p>
                     </div>
                     <div>
+                        <a href="<?= base_url('admin') ?>" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
                         <a href="<?= base_url('admin/usuarios/crear') ?>" class="btn btn-primary">
                             <i class="bi bi-person-plus"></i> Nuevo Usuario
                         </a>
@@ -87,11 +90,7 @@ $usuarios = $usuarios ?? [];
                                                         class="btn btn-sm btn-outline-primary" title="Editar">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
-                                                    <a href="<?= base_url('admin/usuarios/eliminar/' . $usuario_id) ?>"
-                                                        class="btn btn-sm btn-outline-danger" title="Eliminar"
-                                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </a>
+
                                                 <?php else: ?>
                                                     <span class="text-muted">No disponible</span>
                                                 <?php endif; ?>

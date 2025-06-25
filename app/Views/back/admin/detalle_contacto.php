@@ -52,7 +52,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label fw-bold text-muted">Fecha de envío:</label>
-                                        <p class="mb-0"><?= date('d/m/Y H:i:s', strtotime($contacto['fecha_envio'])) ?></p>
+                                        <p class="mb-0"><?= date('d/m/Y H:i:s', strtotime($contacto['fecha_envio'])) ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -61,7 +62,7 @@
                                         <div>
                                             <?php if (!$contacto['leido']): ?>
                                                 <span class="badge bg-warning">
-                                                    <i class="bi bi-envelope me-1"></i>No leído
+                                                    <i class="bi bi-envelope me-1"></i>Nuevo mensaje
                                                 </span>
                                             <?php elseif (!$contacto['respondido']): ?>
                                                 <span class="badge bg-danger">
@@ -99,7 +100,9 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label fw-bold text-muted">Fecha de respuesta:</label>
-                                            <p class="mb-0"><?= date('d/m/Y H:i:s', strtotime($contacto['fecha_respuesta'])) ?></p>
+                                            <p class="mb-0">
+                                                <?= date('d/m/Y H:i:s', strtotime($contacto['fecha_respuesta'])) ?>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -123,11 +126,12 @@
                                 </h5>
                             </div>
                             <div class="card-body">
-                                <form action="<?= base_url('contacto/responder/' . $contacto['id_contacto']) ?>" method="POST">
+                                <form action="<?= base_url('contacto/responder/' . $contacto['id_contacto']) ?>"
+                                    method="POST">
                                     <div class="mb-3">
                                         <label for="respuesta" class="form-label fw-bold">Tu respuesta:</label>
-                                        <textarea class="form-control" id="respuesta" name="respuesta" rows="6" 
-                                                  placeholder="Escribe tu respuesta aquí..." required></textarea>
+                                        <textarea class="form-control" id="respuesta" name="respuesta" rows="6"
+                                            placeholder="Escribe tu respuesta aquí..." required></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-send me-2"></i>Enviar Respuesta
@@ -192,18 +196,11 @@
                         </div>
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <?php if (!$contacto['leido']): ?>
-                                    <button type="button" class="btn btn-outline-warning marcar-leido" 
-                                            data-id="<?= $contacto['id_contacto'] ?>">
-                                        <i class="bi bi-check me-2"></i>Marcar como Leído
-                                    </button>
-                                <?php endif; ?>
-                                
-                                <a href="mailto:<?= $contacto['email'] ?>?subject=Re: <?= $contacto['asunto'] ?>" 
-                                   class="btn btn-outline-primary">
+                                <a href="mailto:<?= $contacto['email'] ?>?subject=Re: <?= $contacto['asunto'] ?>"
+                                    class="btn btn-outline-primary">
                                     <i class="bi bi-envelope me-2"></i>Enviar Email
                                 </a>
-                                
+
                                 <a href="<?= base_url('contacto/admin') ?>" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left me-2"></i>Volver a Lista
                                 </a>
@@ -216,28 +213,28 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Marcar como leído
-    document.querySelectorAll('.marcar-leido').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = this.dataset.id;
-            
-            fetch(`<?= base_url('contacto/marcar-leido/') ?>${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.remove();
-                        location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al marcar como leído');
-                });
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Marcar como leído
+        document.querySelectorAll('.marcar-leido').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.dataset.id;
+
+                fetch(`<?= base_url('contacto/marcar-leido/') ?>${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.remove();
+                            location.reload();
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al marcar como leído');
+                    });
+            });
         });
     });
-});
-</script> 
+</script> -->

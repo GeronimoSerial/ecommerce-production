@@ -20,6 +20,9 @@ $cantActivos = $cantActivos ?? 0
                         <p class="text-muted mb-0">Administra los productos del sistema</p>
                     </div>
                     <div>
+                        <a href="<?= base_url('admin') ?>" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
                         <a href="<?= base_url('admin/inventario/crear') ?>" class="btn btn-primary">
                             <i class="bi bi-plus-circle"></i> Nuevo Producto
                         </a>
@@ -69,7 +72,7 @@ $cantActivos = $cantActivos ?? 0
                                         <td><?= $producto['id_producto'] ?></td>
                                         <td>
                                             <?php if (!empty($producto['url_imagen'])): ?>
-                                                <img src="<?= base_url('images/' . $producto['url_imagen']) ?>"
+                                                <img src="<?= get_product_image_url($producto['url_imagen']) ?>"
                                                     alt="<?= $producto['nombre'] ?>" class="img-thumbnail"
                                                     style="width: 50px; height: 50px; object-fit: cover;">
                                             <?php else: ?>
@@ -179,7 +182,7 @@ $cantActivos = $cantActivos ?? 0
                     </div>
                 </div>
             </div>
-         
+
         </div>
 
         <!-- PAGINACIÓN -->

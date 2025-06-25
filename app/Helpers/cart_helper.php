@@ -16,33 +16,6 @@ if (!function_exists('calculate_subtotal')) {
     }
 }
 
-if (!function_exists('calculate_tax')) {
-    /**
-     * Calcula el impuesto sobre un subtotal
-     * @param float $subtotal Subtotal de la compra
-     * @param float $taxRate Tasa de impuesto (por defecto 21%)
-     * @return float
-     */
-    function calculate_tax($subtotal, $taxRate = 0.21)
-    {
-        return round($subtotal * $taxRate, 2);
-    }
-}
-
-if (!function_exists('calculate_total')) {
-    /**
-     * Calcula el total incluyendo impuestos
-     * @param float $subtotal Subtotal de la compra
-     * @param float $taxRate Tasa de impuesto (por defecto 21%)
-     * @return float
-     */
-    function calculate_total($subtotal, $taxRate = 0.21)
-    {
-        $tax = calculate_tax($subtotal, $taxRate);
-        return round($subtotal + $tax, 2);
-    }
-}
-
 if (!function_exists('format_currency')) {
     /**
      * Formatea un número como moneda

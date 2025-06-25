@@ -5,7 +5,6 @@ use App\Models\CartModel;
 use App\Models\ProductoModel;
 use App\Models\FacturaModel;
 use App\Models\DetallesFacturaModel;
-use CodeIgniter\Controller;
 
 class CheckoutController extends BaseController
 {
@@ -33,7 +32,7 @@ class CheckoutController extends BaseController
         $usuarioId = $this->session->get('usuario_id');
 
         if (!$usuarioId) {
-            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para finalizar la compra');
+            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para realizar la compra');
         }
 
         // Obtener productos del carrito
@@ -45,15 +44,13 @@ class CheckoutController extends BaseController
 
         // Calcular totales
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         return view('templates/main_layout', [
             'title' => 'Finalizar Compra',
             'content' => view('back/compras/checkout', [
                 'cartItems' => $cartItems,
                 'subtotal' => $subtotal,
-                'tax' => $tax,
                 'total' => $total,
                 'usuarioId' => $usuarioId
             ])
@@ -90,8 +87,7 @@ class CheckoutController extends BaseController
 
         // Calcular totales
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         // Procesar la compra
         $db = \Config\Database::connect();
@@ -115,7 +111,7 @@ class CheckoutController extends BaseController
             // Crear los detalles de la factura
             foreach ($cartItems as $item) {
                 $subtotalItem = $item['cantidad'] * $item['precio_unitario'];
-                
+
                 $detalleData = [
                     'id_factura' => $facturaId,
                     'id_producto' => $item['id_producto'],
@@ -125,14 +121,14 @@ class CheckoutController extends BaseController
                 ];
 
                 $detalleInserted = $this->detallesFacturaModel->insert($detalleData);
-                
+
                 if (!$detalleInserted) {
                     throw new \Exception('Error al crear el detalle de factura');
                 }
 
                 // Descontar stock de cada producto
                 $producto = $this->productoModel->find($item['id_producto']);
-                
+
                 $nuevoStock = $producto['cantidad'] - $item['cantidad'];
                 $nuevosVendidos = $producto['cantidad_vendidos'] + $item['cantidad'];
 
@@ -173,15 +169,13 @@ class CheckoutController extends BaseController
 
         $cartItems = $this->cartModel->getCartByUser($usuarioId);
         $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
-        $tax = calculate_tax($subtotal);
-        $total = calculate_total($subtotal);
+        $total = $subtotal;
 
         return $this->response->setJSON([
             'success' => true,
             'summary' => [
                 'items' => $cartItems,
                 'subtotal' => $subtotal,
-                'tax' => $tax,
                 'total' => $total,
                 'itemCount' => count($cartItems)
             ]
@@ -202,10 +196,11 @@ class CheckoutController extends BaseController
             ]);
         }
 
-        $facturas = $this->facturaModel->where('id_usuario', $usuarioId)
-                                     ->where('activo', 1)
-                                     ->orderBy('fecha_factura', 'DESC')
-                                     ->findAll();
+        // $facturas = $this->facturaModel->where('id_usuario', $usuarioId)
+        //     ->where('activo', 1)
+        //     ->orderBy('fecha_factura', 'DESC')
+        //     ->findAll();
+        $facturas = $this->facturaModel->getFacturasByUsuario($usuarioId);
 
         return $this->response->setJSON([
             'success' => true,
@@ -228,10 +223,7 @@ class CheckoutController extends BaseController
         }
 
         // Verificar que la factura pertenece al usuario
-        $factura = $this->facturaModel->where('id_factura', $facturaId)
-                                    ->where('id_usuario', $usuarioId)
-                                    ->where('activo', 1)
-                                    ->first();
+        $factura = $this->facturaModel->getFacturaByIdAndUsuario($facturaId, $usuarioId);
 
         if (!$factura) {
             return $this->response->setJSON([
@@ -241,16 +233,10 @@ class CheckoutController extends BaseController
         }
 
         // Obtener detalles de la factura
-        $detalles = $this->detallesFacturaModel->where('id_factura', $facturaId)->findAll();
+        // $detalles = $this->detallesFacturaModel->where('id_factura', $facturaId)->findAll();
 
         // Obtener información de productos
-        $db = \Config\Database::connect();
-        $detallesConProductos = $db->table('detalles_factura df')
-                                  ->select('df.*, p.nombre, p.descripcion, p.url_imagen')
-                                  ->join('productos p', 'p.id_producto = df.id_producto')
-                                  ->where('df.id_factura', $facturaId)
-                                  ->get()
-                                  ->getResultArray();
+        $detallesConProductos = $this->detallesFacturaModel->getDetallesByFacturaId($facturaId);
 
         return $this->response->setJSON([
             'success' => true,

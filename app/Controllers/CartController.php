@@ -36,7 +36,7 @@ class CartController extends BaseController
                 $this->cartModel->transferFromSession($usuarioId, $sessionCart);
                 clear_session_cart();
             }
-            
+
             // Obtener carrito de base de datos
             $cartItems = $this->cartModel->getCartByUser($usuarioId);
             $subtotal = $this->cartModel->getCartSubtotal($usuarioId);
@@ -270,7 +270,7 @@ class CartController extends BaseController
         if (!$usuarioId) {
             // Usuario no logueado - redirigir a login con URL de retorno
             $this->session->set('return_url', '/checkout');
-            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para finalizar la compra');
+            return redirect()->to('/login')->with('info', 'Debes iniciar sesión para realizar la compra');
         }
 
         // Usuario logueado - transferir carrito de sesión si existe

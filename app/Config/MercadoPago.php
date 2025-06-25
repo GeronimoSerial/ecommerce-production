@@ -53,14 +53,6 @@ class MercadoPago extends BaseConfig
     ];
 
     /**
-     * Configuración de impuestos
-     */
-    public $taxes = [
-        'enabled' => true,
-        'percentage' => 21.0 // IVA 
-    ];
-
-    /**
      * Configuración de descuentos
      */
     public $discounts = [

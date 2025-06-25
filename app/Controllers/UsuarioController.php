@@ -55,13 +55,13 @@ class UsuarioController extends BaseController
             'apellido' => 'required|min_length[3]|max_length[50]',
             'dni' => 'required|numeric|min_length[7]|max_length[10]',
             'telefono' => 'required|min_length[6]|max_length[20]',
-            'email' => 'required|valid_email|is_unique[usuarios.email]',
+            'email' => 'required|valid_email|is_unique[usuarios.email]|max_length[100]',
             'password' => 'required|min_length[6]|max_length[32]',
-            'calle' => 'required|min_length[3]',
-            'numero' => 'required',
-            'codigo_postal' => 'required',
-            'localidad' => 'required',
-            'provincia' => 'required',
+            'calle' => 'required|min_length[3]|max_length[100]',
+            'numero' => 'required|numeric|min_length[1]|max_length[10]',
+            'codigo_postal' => 'required|numeric|min_length[2]|max_length[10]',
+            'localidad' => 'required|min_length[3]|max_length[50]',
+            'provincia' => 'required|min_length[3]|max_length[50]',
             'pais' => 'required'
         ];
 
@@ -195,10 +195,10 @@ class UsuarioController extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
-                'nombre' => 'required|min_length[3]',
-                'apellido' => 'required|min_length[3]',
-                'email' => 'required|valid_email|is_unique[usuarios.email]',
-                'password' => 'required|min_length[6]',
+                'nombre' => 'required|min_length[3]|max_length[50]',
+                'apellido' => 'required|min_length[3]|max_length[50]',
+                'email' => 'required|valid_email|is_unique[usuarios.email]|max_length[100]',
+                'password' => 'required|min_length[6]|max_length[32]',
                 'id_rol' => 'required|in_list[1,2]'
             ];
 

@@ -10,8 +10,6 @@ Este proyecto es una plataforma de administración para un sistema de ecommerce,
 - Arquitectura modular y escalable
 - Soporte para múltiples métodos de pago
 
-## Requisitos
-
 - PHP >= 7.4
 - Composer
 - Servidor web (Apache, Nginx, etc.)
@@ -21,8 +19,8 @@ Este proyecto es una plataforma de administración para un sistema de ecommerce,
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/GeronimoSerial/ecommerce
-   cd ecommerce
+   git clone <https://github.com/GeronimoSerial/ecommerce>
+   cd admin_ecommerce
    ```
 2. Instala las dependencias con Composer:
    ```bash
@@ -53,4 +51,3 @@ Este proyecto es una plataforma de administración para un sistema de ecommerce,
 ## Créditos
 
 Desarrollado por [Geronimo Serial](https://geroserial.com).
-

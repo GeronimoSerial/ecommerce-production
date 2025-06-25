@@ -85,16 +85,6 @@ class MercadoPago extends BaseConfig
     ];
 
     /**
-     * Configuración de impuestos
-     * 
-     * Si habilitas los impuestos, se agregarán automáticamente al total
-     */
-    public $taxes = [
-        'enabled' => true,
-        'percentage' => 21.0 // IVA en Argentina
-    ];
-
-    /**
      * Configuración de descuentos
      */
     public $discounts = [

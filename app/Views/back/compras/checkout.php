@@ -53,7 +53,7 @@
                                             <tr>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <img src="<?= base_url('images/' . $item['url_imagen']) ?>"
+                                                        <img src="<?= get_product_image_url($item['url_imagen']) ?>"
                                                             alt="<?= $item['nombre'] ?>" class="img-thumbnail me-3"
                                                             style="width: 50px; height: 50px; object-fit: cover;">
                                                         <div>
@@ -139,10 +139,6 @@
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Subtotal:</span>
                                 <span class="fw-bold"><?= format_currency($subtotal) ?></span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>Impuestos (21%):</span>
-                                <span class="fw-bold"><?= format_currency($tax) ?></span>
                             </div>
                             <hr>
                             <div class="d-flex justify-content-between mb-3">
@@ -281,6 +277,11 @@
         </div>
     </div>
 </div>
+<script>
 
+    var urlFacturas = "<?= base_url('panel/mis-facturas') ?>";
+    var urlHome = "<?= base_url() ?>";
+    var urlCheckoutConfirm = "<?= base_url('checkout/confirm') ?>";
+</script>
 
 <script src="<?= base_url('js/checkout.js') ?>"></script>

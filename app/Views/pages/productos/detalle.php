@@ -1,5 +1,6 @@
 <?php
 $productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
+$imageUrl = get_product_image_url($producto['url_imagen'] ?? '');
 ?>
 
 <!-- Breadcrumb -->
@@ -21,8 +22,7 @@ $productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
             <!-- Imagen del Producto -->
             <div class="col-lg-6">
                 <div class="product-image-container">
-                    <img src="<?= base_url('images/' . ($producto['url_imagen'] ?? 'default-product.jpg')) ?>"
-                        alt="<?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?>"
+                    <img src="<?= $imageUrl ?>" alt="<?= htmlspecialchars($producto['nombre'] ?? 'Producto') ?>"
                         class="img-fluid rounded-4 shadow-sm"
                         onerror="this.src='<?= base_url('images/default-product.webp') ?>'">
 
@@ -187,12 +187,12 @@ $productImageUrl = getSafeImageUrl($producto['url_imagen'] ?? '');
         <div class="container">
             <h2 class="fw-bold text-center mb-5">Productos Relacionados</h2>
             <div class="row g-4">
-                <?php foreach ($productosRelacionados as $relacionado): ?>
-                    <?php $relacionadoImageUrl = getSafeImageUrl($relacionado['url_imagen'] ?? ''); ?>
+                <?php foreach (array_slice($productosRelacionados, 0, 3) as $relacionado): ?>
+                    <?php $relacionadoImageUrl = get_product_image_url($relacionado['url_imagen'] ?? ''); ?>
                     <div class="col-md-6 col-lg-4">
                         <div class="p-4 bg-white rounded-4 shadow-sm hover-card text-center h-100 d-flex flex-column">
                             <div class="card-img-wrapper mb-3">
-                                <img src="<?= base_url('images/' . ($relacionado['url_imagen'] ?? 'default-product.jpg')) ?>"
+                                <img src="<?= $relacionadoImageUrl ?>"
                                     alt="<?= htmlspecialchars($relacionado['nombre'] ?? 'Producto') ?>"
                                     class="product-img mx-auto"
                                     onerror="this.src='<?= base_url('images/default-product.webp') ?>'">

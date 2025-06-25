@@ -306,8 +306,7 @@ function updateCartSummary() {
     }
   });
 
-  const tax = subtotal * 0.21;
-  const total = subtotal + tax;
+  const total = subtotal;
 
   // Función para formatear moneda igual que PHP (punto para miles, coma para decimales)
   const formatCurrency = (num) => {
@@ -315,7 +314,7 @@ function updateCartSummary() {
   };
 
   $("#cart-subtotal").text(formatCurrency(subtotal));
-  $("#cart-tax").text(formatCurrency(tax));
+  // Eliminado: visualización de tax
   $("#cart-total").text(formatCurrency(total));
 }
 

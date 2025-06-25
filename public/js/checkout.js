@@ -60,7 +60,7 @@
             btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Procesando...');
 
             $.ajax({
-                url: "<?= base_url('checkout/confirm') ?>",
+                url: urlCheckoutConfirm,
                 method: 'POST',
                 success: function (response) {
                     // Simular procesamiento
@@ -99,10 +99,10 @@
                             <p class="text-muted">Puedes acceder a tu factura desde tu cuenta de usuario.</p>
                         </div>
                         <div class="modal-footer bg-light border-top">
-                            <a href="<?= base_url('panel/mis-facturas') ?>" class="btn btn-primary">
+                            <a href="${urlFacturas}" class="btn btn-primary">
                                 <i class="fas fa-file-invoice"></i> Ver Mis Facturas
                             </a>
-                            <a href="<?= base_url() ?>" class="btn btn-outline-secondary">
+                            <a href="${urlHome}" class="btn btn-outline-secondary">
                                 <i class="fas fa-home"></i> Volver al Inicio
                             </a>
                         </div>
